@@ -1,0 +1,10 @@
+name: text_parser
+description: A Dart package for parsing text flexibly according to preset or custom regular expression patterns.
+version: 0.0.1
+homepage: https://github.com/kaboc/dart_text_parser
+
+environment:
+  sdk: '>=2.8.1 <3.0.0'
+
+dependencies:
+  meta: ^1.2.4
