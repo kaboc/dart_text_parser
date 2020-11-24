@@ -30,8 +30,11 @@ class TextParser {
 
   /// Parses the provided text according to the matchers specified in
   /// the constructor.
-  Future<List<TextElement>> parse(String text) async {
-    if (_kIsWeb) {
+  ///
+  /// If [useIsolate] is set to `true` or omitted, parsing is executed in
+  /// an isolate except on the web where isolates are not supported,
+  Future<List<TextElement>> parse(String text, {bool useIsolate = true}) async {
+    if (!useIsolate || _kIsWeb) {
       return _Parser.execOnWeb(_matchers, text);
     }
 
