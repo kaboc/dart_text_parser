@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:isolate';
+import 'package:meta/meta.dart';
 
 import 'matcher.dart';
 import 'preset_matchers.dart';

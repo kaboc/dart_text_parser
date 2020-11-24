@@ -2,6 +2,7 @@ part of 'parser.dart';
 
 /// A class that holds the information of an element of text as the result
 /// of parsing.
+@immutable
 abstract class TextElement {
   const TextElement(this.text, this.groups, this.matcherType);
 
@@ -15,6 +16,18 @@ abstract class TextElement {
 
   /// The type of the matcher whose match pattern has matched the `text`.
   final Type matcherType;
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is TextElement &&
+          runtimeType == other.runtimeType &&
+          text == other.text &&
+          matcherType == other.matcherType;
+
+  @override
+  int get hashCode =>
+      runtimeType.hashCode ^ text.hashCode ^ matcherType.hashCode;
 
   @override
   String toString() {
@@ -33,7 +46,7 @@ abstract class TextElement {
 }
 
 class _Element extends TextElement {
-  _Element(
+  const _Element(
     String text, {
     List<String> groups,
     Type matcherType,
