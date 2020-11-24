@@ -9,6 +9,7 @@ part 'element.dart';
 
 const _kIsWeb = identical(0, 0.0);
 const _kDefaultMatchers = [UrlMatcher(), EmailMatcher(), TelMatcher()];
+const _kNamedGroupPrefix = 'ng';
 
 /// A class that parses text according to specified matchers.
 class TextParser {
@@ -54,7 +55,8 @@ class TextParser {
 class _Matchers {
   _Matchers(this.list) {
     _pattern = {
-      for (var i = 0; i < list.length; i++) '(?<ng$i>${list[i].pattern})',
+      for (var i = 0; i < list.length; i++)
+        '(?<$_kNamedGroupPrefix$i>${list[i].pattern})',
     }.join('|');
 
     final groupCounts = list
@@ -126,7 +128,7 @@ class _Parser {
       }
 
       for (var i = 0; i < matchers.list.length; i++) {
-        final v = match.namedGroup('ng$i');
+        final v = match.namedGroup('$_kNamedGroupPrefix$i');
         if (v != null) {
           list.add(
             _Element(
