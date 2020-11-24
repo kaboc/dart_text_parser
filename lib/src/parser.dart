@@ -22,6 +22,8 @@ class TextParser {
 
   _Matchers _matchers;
 
+  List<TextMatcher> get matchers => List.unmodifiable(_matchers.list);
+
   /// A setter for updating the list of matchers
   set matchers(List<TextMatcher> matchers) =>
       _matchers = _Matchers(matchers ?? _kDefaultMatchers);
