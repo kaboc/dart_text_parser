@@ -35,7 +35,7 @@ class TextParser {
   /// an isolate except on the web where isolates are not supported,
   Future<List<TextElement>> parse(String text, {bool useIsolate = true}) async {
     if (!useIsolate || _kIsWeb) {
-      return _Parser.execOnWeb(_matchers, text);
+      return _Parser.exec(_matchers, text);
     }
 
     final completer = Completer<List<TextElement>>();
@@ -51,7 +51,7 @@ class TextParser {
       receivePort.close();
     });
 
-    await Isolate.spawn(_Parser.exec, receivePort.sendPort);
+    await Isolate.spawn(_Parser.execInIsolate, receivePort.sendPort);
 
     return completer.future;
   }
@@ -84,7 +84,14 @@ class _Matchers {
 }
 
 class _Parser {
-  static void exec(SendPort sendPort) {
+  static Future<List<TextElement>> exec(_Matchers matchers, String text) async {
+    // Avoids blocking the UI (for use in Flutter).
+    // https://github.com/flutter/flutter/blob/978a2e7bf6a2ed287130af8dbd94cef019fb7bef/packages/flutter/lib/src/foundation/_isolates_web.dart#L9-L12
+    await null;
+    return _parse(matchers, text);
+  }
+
+  static void execInIsolate(SendPort sendPort) {
     final receivePort = ReceivePort();
     sendPort.send(receivePort.sendPort);
 
@@ -99,16 +106,6 @@ class _Parser {
         receivePort.close();
       }
     });
-  }
-
-  static Future<List<TextElement>> execOnWeb(
-    _Matchers matchers,
-    String text,
-  ) async {
-    // Avoids blocking the UI (for use in Flutter).
-    // https://github.com/flutter/flutter/blob/978a2e7bf6a2ed287130af8dbd94cef019fb7bef/packages/flutter/lib/src/foundation/_isolates_web.dart#L9-L12
-    await null;
-    return _parse(matchers, text);
   }
 
   static List<TextElement> _parse(_Matchers matchers, String text) {
