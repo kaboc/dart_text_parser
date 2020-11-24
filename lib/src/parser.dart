@@ -13,7 +13,7 @@ const _kNamedGroupPrefix = 'ng';
 
 /// A class that parses text according to specified matchers.
 class TextParser {
-  /// Creates a TextParser that parses text according to specified matchers.
+  /// Creates a [TextParser] that parses text according to specified matchers.
   ///
   /// [matchers] is a list of [TextMatcher]s to be used for parsing.
   TextParser({List<TextMatcher> matchers}) {
@@ -28,7 +28,7 @@ class TextParser {
   set matchers(List<TextMatcher> matchers) =>
       _matchers = _Matchers(matchers ?? _kDefaultMatchers);
 
-  /// Parses the provided text according to the matchers specified in
+  /// Parses the provided [text] according to the matchers specified in
   /// the constructor.
   ///
   /// If [useIsolate] is set to `true` or omitted, parsing is executed in

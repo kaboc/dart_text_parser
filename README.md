@@ -84,18 +84,18 @@ matcherType: TextMatcher, text: fghij, groups: []
 Each `TextElement` in a parse result has the property of `groups`. It is an array of strings
 that have matched the smaller pattern inside each set of parentheses `( )`.
 
-In the example above, there are two sets of parentheses in the above example: `(.+?)` in
-`\[(.+?)\]` and `\((.+?)\)`. They match `foo` and `bar` respectively, so they are stored
-in the array in that order.
+To give the above code as an example, there are two sets of parentheses in the above example;
+`(.+?)` in `\[(.+?)\]` and `\((.+?)\)`. They match `foo` and `bar` respectively, so they are
+added to the array in that order.
 
 Tip:
 
-If `(?:pattern)` is used instead of `(pattern)`, the string that matches the pattern is
-excluded from groups.
+If you want certain parentheses to be not captured as a group, add `?:` after the starting
+parenthesis, like `(?:pattern)`.
 
 ## Limitations
 
-- Parsing is executed in the main thread on the web, although it is done in an isolate on
-other platforms. `dart:isolate` does not support the web unfortunately.
+- Parsing is not executed in an isolate but in the main thread on the web, which `dart:isolate`
+does not support.
 - It may take seconds to parse a very long string with complicated matchers as this package
 uses RegExp.

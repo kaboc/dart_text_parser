@@ -2,7 +2,7 @@ import 'matcher.dart';
 
 /// A sub class of [TextMatcher] for parsing URLs.
 class UrlMatcher extends TextMatcher {
-  /// Creates a UrlMatcher.
+  /// Creates a [UrlMatcher] for parsing URLs.
   ///
   /// The preset pattern is overwritten if a custom pattern is provided.
   const UrlMatcher([String pattern])
@@ -17,7 +17,7 @@ class UrlMatcher extends TextMatcher {
 
 /// A sub class of [TextMatcher] for parsing email addresses.
 class EmailMatcher extends TextMatcher {
-  /// Creates an EmailMatcher.
+  /// Creates an [EmailMatcher] for parsing email addresses.
   ///
   /// The preset pattern is overwritten if a custom pattern is provided.
   const EmailMatcher([String pattern])
@@ -28,7 +28,7 @@ class EmailMatcher extends TextMatcher {
 
 /// A sub class of [TextMatcher] for parsing phone numbers.
 class TelMatcher extends TextMatcher {
-  /// Creates a TelMatcher.
+  /// Creates a [TelMatcher] for parsing phone numbers.
   ///
   /// The preset pattern is overwritten if a custom pattern is provided.
   const TelMatcher([String pattern])

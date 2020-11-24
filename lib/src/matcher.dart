@@ -13,7 +13,7 @@ abstract class TextMatcher {
           'The pattern string must not be null nor empty.',
         );
 
-  /// The regular expression string to be used for parsing.
+  /// The regular expression string to specify the rule for parsing.
   final String pattern;
 
   @override

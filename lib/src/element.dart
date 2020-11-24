@@ -6,15 +6,15 @@ part of 'parser.dart';
 abstract class TextElement {
   const TextElement(this.text, this.groups, this.matcherType);
 
-  /// The string that has matched the pattern in one of the matchers specified
-  /// in [TextParser], or that has not matched any pattern.
+  /// The string that has matched the pattern in one of the matchers
+  /// specified in [TextParser], or that has not matched any pattern.
   final String text;
 
   /// Pieces of the string matching the smaller pattern enclosed in each
   /// parentheses in a match pattern.
   final List<String> groups;
 
-  /// The type of the matcher whose match pattern has matched the `text`.
+  /// The type of the matcher whose match pattern has matched the [text].
   final Type matcherType;
 
   @override
