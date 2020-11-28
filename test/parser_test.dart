@@ -45,13 +45,13 @@ void main() {
     });
 
     test('groups are caught correctly', () async {
-      parser.matchers = const [_MdLinkMatcher()];
-      final elements = await parser.parse('abc [foo](bar) def');
-      expect(elements[1].groups, equals(['foo', 'bar']));
+      parser.matchers = const [_MyTelMatcher()];
+      final elements = await parser.parse('abc012(3456)7890def');
+      expect(elements[1].groups, equals(['012', '3456', '7890']));
     });
   });
 }
 
-class _MdLinkMatcher extends TextMatcher {
-  const _MdLinkMatcher() : super(r'(?<=\s)\[(.+?)\]\((.+?)\)(?=\s)');
+class _MyTelMatcher extends TextMatcher {
+  const _MyTelMatcher() : super(r'(\d{3})\((\d{4})\)(\d{4})');
 }
