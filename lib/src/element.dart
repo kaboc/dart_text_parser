@@ -1,4 +1,4 @@
-part of 'parser.dart';
+import 'package:meta/meta.dart';
 
 /// A class that holds the information of an element of text as the result
 /// of parsing.
@@ -43,16 +43,4 @@ abstract class TextElement {
         ?.replaceAll('\n', r'\n')
         ?.replaceAll('\t', r'\t');
   }
-}
-
-class _Element extends TextElement {
-  const _Element(
-    String text, {
-    List<String> groups,
-    Type matcherType,
-  }) : super(
-          text,
-          groups ?? const [],
-          matcherType ?? TextMatcher,
-        );
 }
