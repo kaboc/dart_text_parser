@@ -1,13 +1,16 @@
 # text_parser
 
+[![Pub Version](https://img.shields.io/pub/v/text_parser)](https://pub.dev/packages/text_parser)
+
 A Dart package for parsing text flexibly according to preset or custom regular expression patterns.
 
 ## Usage
 
 ### Using preset matchers (URL / email address / phone number)
 
-If `matchers` is omitted in `TextParser`, the three preset matchers (`UrlMatcher`, `EmailMatcher`
-and `TelMatcher`) are used automatically.
+If [matchers][TextParser_matchers] is omitted in [TextParser][TextParser], the three preset
+matchers ([UrlMatcher][UrlMatcher], [EmailMatcher][EmailMatcher] and [TelMatcher][TelMatcher])
+are used automatically.
 
 The default regular expression pattern of each of them is not very strict.
 If it is unsuitable for your use case, overwrite the pattern by yourself, referring to the
@@ -39,7 +42,7 @@ matcherType: TelMatcher, text: +1-012-3456-7890, groups: []
 ### Overwriting the pattern of a preset matcher
 
 If you want to parse only URLs and phone numbers, but treat only a sequence of eleven numbers
-after `tel:` as a phone number:
+after "tel:" as a phone number:
 
 ```dart
 final parser = TextParser(
@@ -55,7 +58,7 @@ in text, the first matcher is used for parsing the element.
 
 ### Using a custom matcher
 
-You can create a custom matcher easily by extending `TextMatcher`.
+You can create a custom matcher easily by extending [TextMatcher][TextMatcher].
 The following is a matcher for links of the Markdown format like `[text](link_such_as_url_or_path)`.
 
 ```dart
@@ -81,21 +84,31 @@ matcherType: TextMatcher, text: fghij, groups: []
 
 #### Groups
 
-Each `TextElement` in a parse result has the property of `groups`. It is an array of strings
-that have matched the smaller pattern inside each set of parentheses `( )`.
+Each [TextElement][TextElement] in a parse result has the property of
+[groups][TextElement_groups]. It is an array of strings that have matched the smaller pattern
+inside every set of parentheses `( )`.
 
 To give the above code as an example, there are two sets of parentheses in the above example;
-`(.+?)` in `\[(.+?)\]` and `\((.+?)\)`. They match `foo` and `bar` respectively, so they are
+`(.+?)` in `\[(.+?)\]` and `\((.+?)\)`. They match "foo" and "bar" respectively, so they are
 added to the array in that order.
 
 Tip:
 
 If you want certain parentheses to be not captured as a group, add `?:` after the starting
-parenthesis, like `(?:pattern)`.
+parenthesis, like `(?:pattern)` instead of `(pattern)`.
 
 ## Limitations
 
-- Parsing is not executed in an isolate but in the main thread on the web, which `dart:isolate`
-does not support.
-- It may take seconds to parse a very long string with complicated matchers as this package
-uses RegExp.
+- Parsing is not executed in an isolate but in the main thread on the web, which
+[dart:isolate][isolate] does not support.
+- It may take seconds to parse a very long string with multiple complex match patterns.
+
+[TextParser]: https://pub.dev/documentation/text_parser/latest/text_parser/TextParser-class.html
+[TextParser_matchers]: https://pub.dev/documentation/text_parser/latest/text_parser/TextParser/matchers.html
+[TextMatcher]: https://pub.dev/documentation/text_parser/latest/text_parser/TextMatcher-class.html
+[UrlMatcher]: https://pub.dev/documentation/text_parser/latest/text_parser/UrlMatcher-class.html
+[EmailMatcher]: https://pub.dev/documentation/text_parser/latest/text_parser/EmailMatcher-class.html
+[TelMatcher]: https://pub.dev/documentation/text_parser/latest/text_parser/TelMatcher-class.html
+[TextElement]: https://pub.dev/documentation/text_parser/latest/text_parser/TextElement-class.html
+[TextElement_groups]: https://pub.dev/documentation/text_parser/latest/text_parser/TextElement/groups.html
+[isolate]: https://api.dartlang.org/stable/dart-isolate/dart-isolate-library.html

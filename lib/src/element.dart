@@ -1,7 +1,7 @@
 import 'package:meta/meta.dart';
 
-/// A class that holds the information of an element of text as the result
-/// of parsing.
+/// A class that holds the information of a string element existing
+/// as a result of parsing.
 @immutable
 abstract class TextElement {
   const TextElement(this.text, this.groups, this.matcherType);
@@ -10,8 +10,8 @@ abstract class TextElement {
   /// specified in [TextParser], or that has not matched any pattern.
   final String text;
 
-  /// Pieces of the string matching the smaller pattern enclosed in each
-  /// parentheses in a match pattern.
+  /// An array of the strings that have matched each smaller pattern
+  /// enclosed with parentheses in a match pattern.
   final List<String> groups;
 
   /// The type of the matcher whose match pattern has matched the [text].

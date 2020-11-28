@@ -1,6 +1,6 @@
 import 'matcher.dart';
 
-/// A sub class of [TextMatcher] for parsing URLs.
+/// A variant of [TextMatcher] for parsing URLs.
 class UrlMatcher extends TextMatcher {
   /// Creates a [UrlMatcher] for parsing URLs.
   ///
@@ -15,7 +15,7 @@ class UrlMatcher extends TextMatcher {
         );
 }
 
-/// A sub class of [TextMatcher] for parsing email addresses.
+/// A variant of [TextMatcher] for parsing email addresses.
 class EmailMatcher extends TextMatcher {
   /// Creates an [EmailMatcher] for parsing email addresses.
   ///
@@ -26,7 +26,7 @@ class EmailMatcher extends TextMatcher {
         );
 }
 
-/// A sub class of [TextMatcher] for parsing phone numbers.
+/// A variant of [TextMatcher] for parsing phone numbers.
 class TelMatcher extends TextMatcher {
   /// Creates a [TelMatcher] for parsing phone numbers.
   ///

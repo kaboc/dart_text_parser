@@ -4,13 +4,13 @@ import 'package:meta/meta.dart';
 /// patterns for parsing.
 ///
 /// As a result of parsing, each [TextElement] holds a sub class type of
-/// this class to show by which matcher the element was parsed.
+/// this class to show which matcher the element was parsed by.
 @immutable
 abstract class TextMatcher {
   const TextMatcher(this.pattern)
       : assert(
           pattern != null && pattern.length > 0,
-          'The pattern string must not be null nor empty.',
+          '`pattern` must not be null nor empty.',
         );
 
   /// The regular expression string to specify the rule for parsing.
