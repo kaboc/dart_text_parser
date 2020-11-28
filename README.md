@@ -103,6 +103,30 @@ parenthesis, like `(?:pattern)` instead of `(pattern)`.
 [dart:isolate][isolate] does not support.
 - It may take seconds to parse a very long string with multiple complex match patterns.
 
+## Troubleshooting
+
+### Positive lookbehind sometimes does not work.
+
+e.g.
+- Text to be parsed
+    - `'123abc456'`
+- Match pattern 1
+    - `r'\d+'`
+        - Any sequence of numeric values
+- Match pattern 2
+    - `r'(?<=\d)[a-z]+'`
+        - Alphabets after a number
+
+In the above example, you may expect the first match to be "123" and the next match to be
+"abc", but the second match is actually "456".
+
+This is due to the mechanism of this package that excludes already searched parts of text
+in later search iterations; "123" is found in the first iteration, and then the next
+iteration is targeted at "abc456", which does not match `(?<=\d)`.
+
+An easy solution is to have the positive lookbehind see `^` in addition to `\d`, like
+`(?<=\d|^)`.
+
 [TextParser]: https://pub.dev/documentation/text_parser/latest/text_parser/TextParser-class.html
 [TextParser_matchers]: https://pub.dev/documentation/text_parser/latest/text_parser/TextParser/matchers.html
 [TextMatcher]: https://pub.dev/documentation/text_parser/latest/text_parser/TextMatcher-class.html
