@@ -15,11 +15,11 @@ class TextParser {
   /// Creates a [TextParser] that parses text according to specified matchers.
   ///
   /// [matchers] is a list of [TextMatcher]s to be used for parsing.
-  TextParser({List<TextMatcher> matchers}) {
-    _parser = Parser()..update(matchers ?? _kDefaultMatchers);
+  TextParser({List<TextMatcher> matchers = _kDefaultMatchers}) {
+    _parser = Parser(matchers: matchers);
   }
 
-  Parser _parser;
+  late final Parser _parser;
 
   /// The list of matchers.
   List<TextMatcher> get matchers => _parser.matchers;

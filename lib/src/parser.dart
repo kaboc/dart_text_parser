@@ -4,15 +4,17 @@ import 'matcher.dart';
 const _kNamedGroupPrefix = 'ng';
 
 class Parser {
-  List<TextMatcher> _matchers;
-  String _pattern;
+  Parser({required List<TextMatcher> matchers}) {
+    update(matchers);
+  }
+
+  late List<TextMatcher> _matchers;
+  late String _pattern;
   final List<List<int>> _groupRanges = [];
 
   List<TextMatcher> get matchers => List.unmodifiable(_matchers);
 
   void update(List<TextMatcher> matchers) {
-    assert(matchers != null);
-
     _matchers = matchers;
 
     // Using a concatenated pattern showed better performance than
@@ -23,7 +25,7 @@ class Parser {
     }.join('|');
 
     final groupCounts = matchers
-        .map((v) => RegExp('${v.pattern}|.*').firstMatch('')?.groupCount)
+        .map((v) => RegExp('${v.pattern}|.*').firstMatch('')?.groupCount ?? 0)
         .toList();
 
     _groupRanges.clear();
@@ -76,11 +78,7 @@ class Parser {
 class _Element extends TextElement {
   const _Element(
     String text, {
-    List<String> groups,
-    Type matcherType,
-  }) : super(
-          text,
-          groups ?? const [],
-          matcherType ?? TextMatcher,
-        );
+    List<String?> groups = const [],
+    Type matcherType = TextMatcher,
+  }) : super(text, groups, matcherType);
 }

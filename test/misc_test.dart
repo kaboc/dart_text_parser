@@ -51,11 +51,7 @@ void main() {
 class _Element extends TextElement {
   const _Element(
     String text, {
-    List<String> groups,
-    Type matcherType,
-  }) : super(
-          text,
-          groups ?? const [],
-          matcherType ?? TextMatcher,
-        );
+    List<String?> groups = const [],
+    Type matcherType = TextMatcher,
+  }) : super(text, groups, matcherType);
 }
