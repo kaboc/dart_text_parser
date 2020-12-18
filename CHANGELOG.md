@@ -1,3 +1,7 @@
+## 0.1.1-nullsafety.0 - 18 December 2020
+
+- Update README.
+
 ## 0.1.0-nullsafety.0 - 18 December 2020
 
 - Migrate to null safety.
