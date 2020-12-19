@@ -16,7 +16,7 @@ class TextParser {
   ///
   /// [matchers] is a list of [TextMatcher]s to be used for parsing.
   TextParser({List<TextMatcher> matchers}) {
-    _parser = Parser()..update(matchers ?? _kDefaultMatchers);
+    _parser = Parser(matchers: matchers ?? _kDefaultMatchers);
   }
 
   Parser _parser;

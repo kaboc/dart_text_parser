@@ -1,9 +1,15 @@
+import 'package:meta/meta.dart';
+
 import 'element.dart';
 import 'matcher.dart';
 
 const _kNamedGroupPrefix = 'ng';
 
 class Parser {
+  Parser({@required List<TextMatcher> matchers}) {
+    update(matchers);
+  }
+
   List<TextMatcher> _matchers;
   String _pattern;
   final List<List<int>> _groupRanges = [];
@@ -23,7 +29,7 @@ class Parser {
     }.join('|');
 
     final groupCounts = matchers
-        .map((v) => RegExp('${v.pattern}|.*').firstMatch('')?.groupCount)
+        .map((v) => RegExp('${v.pattern}|.*').firstMatch('')?.groupCount ?? 0)
         .toList();
 
     _groupRanges.clear();
