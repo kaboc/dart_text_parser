@@ -1,6 +1,7 @@
 # text_parser
 
 [![Pub Version](https://img.shields.io/pub/v/text_parser)](https://pub.dev/packages/text_parser)
+[![Dart CI](https://github.com/kaboc/dart_text_parser/workflows/Dart%20CI/badge.svg)](https://github.com/kaboc/dart_text_parser/actions)
 
 A Dart package for parsing text flexibly according to preset or custom regular expression patterns.
 
@@ -124,8 +125,7 @@ This is due to the mechanism of this package that excludes already searched part
 in later search iterations; "123" is found in the first iteration, and then the next
 iteration is targeted at "abc456", which does not match `(?<=\d)`.
 
-An easy solution is to have the positive lookbehind see `^` in addition to `\d`, like
-`(?<=\d|^)`.
+An easy solution is to add `^` to the positive lookbehind condition, like `(?<=\d|^)`.
 
 [TextParser]: https://pub.dev/documentation/text_parser/latest/text_parser/TextParser-class.html
 [TextParser_matchers]: https://pub.dev/documentation/text_parser/latest/text_parser/TextParser/matchers.html
