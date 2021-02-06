@@ -9,7 +9,7 @@ class UrlMatcher extends TextMatcher {
       : super(
           pattern ??
               r'(?:https?:)?(?://)?'
-                  r'[\w\-]{2,256}(?:\.[\w\-]{2,256}){0,4}\.[a-zA-Z]{2,10}'
+                  r'(?:[\w\-]{1,256}\.){1,5}[a-zA-Z]{2,10}'
                   r'(?::\d{1,5})?'
                   r"(?:[/?#](?:(?:[\w\-.~%!#$&'()*+,/:;=?@\[\]]+/?)*[^\s.])?)?",
         );
@@ -22,7 +22,7 @@ class EmailMatcher extends TextMatcher {
   /// The preset pattern is overwritten if a custom pattern is provided.
   const EmailMatcher([String pattern])
       : super(
-          pattern ?? r'[\w\-.+]+@(?:[\w\-]{2,256}\.)+[a-zA-Z]{2,10}',
+          pattern ?? r'[\w\-.+]+@(?:[\w\-]{1,256}\.){1,5}[a-zA-Z]{2,10}',
         );
 }
 
