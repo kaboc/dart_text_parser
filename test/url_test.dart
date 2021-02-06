@@ -83,6 +83,7 @@ void main() {
       'https://example.com/#abc?a=1&b=%E3%83%86%E3%82%B9%E3%83%88',
       'https://www.example.com/',
       'https://aaa-bbb.example.com/~ccc/ddd/eee',
+      'https://1.2.aaa:10/',
     ];
     final input = urls.join(' ');
     final matches = regExp.allMatches(input).toList();
