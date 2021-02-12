@@ -72,6 +72,20 @@ void main() {
     expect(found, equals(url));
   });
 
+  test('matches URL with localhost or an IP address', () async {
+    const urls = [
+      'http://localhost/',
+      'https://127.0.0.1/',
+      '192.168.0.1',
+    ];
+    final input = urls.join(' ');
+    final matches = regExp.allMatches(input).toList();
+    for (var i = 0; i < urls.length; i++) {
+      final found = input.substring(matches[i].start, matches[i].end);
+      expect(found, equals(urls[i]));
+    }
+  });
+
   test('matches commonly used formats', () async {
     const urls = [
       'https://example.com:8080/',
