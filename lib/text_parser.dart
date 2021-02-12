@@ -28,9 +28,19 @@ class TextParser {
   /// Parses the provided [text] according to the matchers specified in
   /// the constructor.
   ///
+  /// The result contains all the elements in text including the ones
+  /// not matching any pattern provided by matchers unless [onlyMatches]
+  /// is set to `true` explicitly.
+  ///
   /// If [useIsolate] is set to `true` or omitted, parsing is executed in
   /// an isolate except on the web which dart:isolate does not support,
-  Future<List<TextElement>> parse(String text, {bool useIsolate = true}) async {
-    return useIsolate ? exec(_parser, text) : execFuture(_parser, text);
+  Future<List<TextElement>> parse(
+    String text, {
+    bool onlyMatches = false,
+    bool useIsolate = true,
+  }) async {
+    return useIsolate
+        ? exec(_parser, text, onlyMatches)
+        : execFuture(_parser, text, onlyMatches);
   }
 }
