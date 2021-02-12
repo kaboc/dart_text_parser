@@ -21,16 +21,17 @@ description in a later section of this document.
 import 'package:text_parser/text_parser.dart';
 
 Future<void> main() async {
+  const text = 'abc https://example.com/sample.jpg. def\n'
+      'foo@example.com +1-012-3456-7890';
+
   final parser = TextParser();
-  final elements = await parser.parse(
-    'abc https://example.com/sample.jpg. def\n'
-    'foo@example.com +1-012-3456-7890',
-  );
+  final elements = await parser.parse(text);
   elements.forEach(print);
 }
 ```
 
 Output:
+
 ```
 matcherType: TextMatcher, text: abc , groups: []
 matcherType: UrlMatcher, text: https://example.com/sample.jpg, groups: []
@@ -96,6 +97,7 @@ elements.forEach(print);
 ```
 
 Output:
+
 ```
 matcherType: TextMatcher, text: abcde, groups: []
 matcherType: MdLinkMatcher, text: [foo](bar), groups: [foo, bar]
@@ -108,9 +110,9 @@ Each [TextElement][TextElement] in a parse result has the property of
 [groups][TextElement_groups]. It is an array of strings that have matched the smaller pattern
 inside every set of parentheses `( )`.
 
-To give the above code as an example, there are two sets of parentheses in the above example;
-`(.+?)` in `\[(.+?)\]` and `\((.+?)\)`. They match "foo" and "bar" respectively, so they are
-added to the array in that order.
+To give the above code as an example, there are two sets of parentheses; `(.+?)` in `\[(.+?)\]`
+and `\((.+?)\)`. They match "foo" and "bar" respectively, so they are added to the array in
+that order.
 
 Tip:
 
@@ -119,9 +121,9 @@ parenthesis, like `(?:pattern)` instead of `(pattern)`.
 
 ## Limitations
 
+- It may take seconds to parse a very long string with multiple complex match patterns.
 - Parsing is not executed in an isolate but in the main thread on the web, which
 [dart:isolate][isolate] does not support.
-- It may take seconds to parse a very long string with multiple complex match patterns.
 
 ## Troubleshooting
 

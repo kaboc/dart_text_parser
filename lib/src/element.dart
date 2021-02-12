@@ -15,6 +15,7 @@ abstract class TextElement {
   final List<String> groups;
 
   /// The type of the matcher whose match pattern has matched the [text].
+  /// If the type is [TextMatcher], it means no patterns have matched it.
   final Type matcherType;
 
   @override

@@ -3,8 +3,8 @@ import 'package:meta/meta.dart';
 /// A base class of matchers used to provide [TextParser] with match
 /// patterns for parsing.
 ///
-/// As a result of parsing, each [TextElement] holds a sub class type of
-/// this class to show which matcher the element was parsed by.
+/// As a result of parsing, each [TextElement] holds the type of this class
+/// or its subclass to indicate which matcher the element was parsed by.
 @immutable
 abstract class TextMatcher {
   const TextMatcher(this.pattern)

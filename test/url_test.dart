@@ -88,15 +88,15 @@ void main() {
 
   test('matches commonly used formats', () async {
     const urls = [
-      'https://example.com:8080/',
+      'http://example.com:8080/',
       'https://example.com?a=1',
-      'https://example.com/?a=1',
-      'https://example.com#abc',
+      'https://example.com:10000/?a=1',
+      'http://example.com#abc',
       'https://example.com/#abc',
       'https://example.com/#abc?a=1',
       'https://example.com/#abc?a=1&b=%E3%83%86%E3%82%B9%E3%83%88',
       'https://www.example.com/',
-      'https://aaa-bbb.example.com/~ccc/ddd/eee',
+      'http://aaa-bbb.example.com/~ccc/ddd/eee',
       'https://1.2.aaa:10/',
     ];
     final input = urls.join(' ');
