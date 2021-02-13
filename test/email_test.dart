@@ -18,6 +18,12 @@ void main() {
     expect(matches.length, equals(1));
   });
 
+  test('single letter is allowed for host and non top level domains', () async {
+    const address = 'foo@1.2.aaa';
+    final matches = regExp.allMatches(address);
+    expect(matches.length, equals(1));
+  });
+
   test('local part does not allow symbols other than _-.+', () async {
     const addresses = [
       'foo@bar@example.com',
