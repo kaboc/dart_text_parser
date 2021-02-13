@@ -6,9 +6,11 @@ class UrlMatcher extends TextMatcher {
   ///
   /// The preset pattern is overwritten if a custom pattern is provided.
   const UrlMatcher([
-    String pattern = r'(?:https?:)?(?://)?'
+    String pattern = r'(?:https?:)?(?://)?(?:'
         r'(?:[\w\-]{1,256}\.){1,5}[a-zA-Z]{2,10}'
-        r'(?::\d{1,5})?'
+        r'|\d{1,3}(?:\.\d{1,3}){3}'
+        r'|localhost'
+        r')(?::\d{1,5})?'
         r"(?:[/?#](?:(?:[\w\-.~%!#$&'()*+,/:;=?@\[\]]+/?)*[^\s.])?)?",
   ]) : super(pattern);
 }
