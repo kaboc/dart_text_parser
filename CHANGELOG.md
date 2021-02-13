@@ -1,3 +1,10 @@
+## 0.1.1-nullsafety.1 - 13 February 2021
+
+- Add `onlyMatches` parameter to `parse()`. 
+- Fix `UrlMatcher` and `EmailMatcher`.
+- Improve `UrlMatcher`.
+- Minor improvements.
+
 ## 0.1.1-nullsafety.0 - 18 December 2020
 
 - Update README.
