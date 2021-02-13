@@ -36,7 +36,7 @@ class Parser {
     }
   }
 
-  List<TextElement> parse(String text) {
+  List<TextElement> parse(String text, bool onlyMatches) {
     final regExp = RegExp(_pattern);
     final list = <TextElement>[];
     var target = text;
@@ -44,14 +44,18 @@ class Parser {
     do {
       final match = regExp.firstMatch(target);
       if (match == null) {
-        list.add(_Element(target));
+        if (!onlyMatches) {
+          list.add(_Element(target));
+        }
         target = '';
         break;
       }
 
       if (match.start > 0) {
         final v = target.substring(0, match.start);
-        list.add(_Element(v));
+        if (!onlyMatches) {
+          list.add(_Element(v));
+        }
       }
 
       for (var i = 0; i < _matchers.length; i++) {

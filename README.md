@@ -39,6 +39,25 @@ matcherType: TextMatcher, text:  , groups: []
 matcherType: TelMatcher, text: +1-012-3456-7890, groups: []
 ```
 
+### Obtaining only matching text elements
+
+By default, the result of [parse()][parse] contains both matching and non-matching elements
+as seen in the above example. If you want only matching elements, set `onlyMatches` to `true`
+when calling `parse()`.
+
+```dart
+final elements = await parser.parse(text, onlyMatches: true);
+elements.forEach(print);
+```
+
+Output:
+
+```
+matcherType: UrlMatcher, text: https://example.com/sample.jpg, groups: []
+matcherType: EmailMatcher, text: foo@example.com, groups: []
+matcherType: TelMatcher, text: +1-012-3456-7890, groups: []
+```
+
 ### Overwriting the pattern of a preset matcher
 
 If you want to parse only URLs and phone numbers, but treat only a sequence of eleven numbers
@@ -132,6 +151,7 @@ An easy solution is to add `^` to the positive lookbehind condition, like `(?<=\
 [UrlMatcher]: https://pub.dev/documentation/text_parser/latest/text_parser/UrlMatcher-class.html
 [EmailMatcher]: https://pub.dev/documentation/text_parser/latest/text_parser/EmailMatcher-class.html
 [TelMatcher]: https://pub.dev/documentation/text_parser/latest/text_parser/TelMatcher-class.html
+[parse]: https://pub.dev/documentation/text_parser/latest/text_parser/TextParser/parse.html
 [TextElement]: https://pub.dev/documentation/text_parser/latest/text_parser/TextElement-class.html
 [TextElement_groups]: https://pub.dev/documentation/text_parser/latest/text_parser/TextElement/groups.html
 [isolate]: https://api.dartlang.org/stable/dart-isolate/dart-isolate-library.html

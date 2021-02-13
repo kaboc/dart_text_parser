@@ -6,17 +6,31 @@ Future<void> main() async {
       '01111111111 tel:02222222222'
       'abcde[foo](bar)fghij';
 
+  // Uses preset matchers
   final parser = TextParser();
   var elements = await parser.parse(text);
   elements.forEach(print);
 
   print('-' * 20);
 
+  // Extracts phone number elements from the parsed result
+  final telNumbers = elements.where((elm) => elm.matcherType == TelMatcher);
+  telNumbers.forEach(print);
+
+  print('-' * 20);
+
+  // Replaces already set matchers with new ones
   parser.matchers = const [
     TelMatcher(r'(?<=tel:)\d{11}'),
     MdLinkMatcher(),
   ];
   elements = await parser.parse(text);
+  elements.forEach(print);
+
+  print('-' * 20);
+
+  // Obtains only matching elements
+  elements = await parser.parse(text, onlyMatches: true);
   elements.forEach(print);
 }
 
