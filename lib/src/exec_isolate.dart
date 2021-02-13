@@ -27,7 +27,7 @@ void execInIsolate(SendPort sendPort) {
   final receivePort = ReceivePort();
   sendPort.send(receivePort.sendPort);
 
-  late Parser parser;
+  late final Parser parser;
   receivePort.listen((dynamic message) {
     if (message is Parser) {
       parser = message;
