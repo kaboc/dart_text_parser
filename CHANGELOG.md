@@ -1,3 +1,10 @@
+## 0.0.4 - 13 February 2021
+
+- Add `onlyMatches` parameter to `parse()`. 
+- Fix `UrlMatcher` and `EmailMatcher`.
+- Improve `UrlMatcher`.
+- Minor improvements.
+
 ## 0.0.3 - 19 December 2020
 
 - Minor internal improvements.
