@@ -14,7 +14,9 @@ const _kDefaultMatchers = [UrlMatcher(), EmailMatcher(), TelMatcher()];
 class TextParser {
   /// Creates a [TextParser] that parses text according to specified matchers.
   ///
-  /// [matchers] is a list of [TextMatcher]s to be used for parsing.
+  /// [matchers] is a list of [TextMatcher]s to be used for parsing. If it
+  /// is omitted, the three preset matchers (`UrlMatcher`, `EmailMatcher`
+  /// and `TelMatcher`) are used.
   TextParser({List<TextMatcher> matchers = _kDefaultMatchers}) {
     _parser = Parser(matchers: matchers);
   }
@@ -32,8 +34,9 @@ class TextParser {
   /// not matching any pattern provided by matchers unless [onlyMatches]
   /// is set to `true` explicitly.
   ///
-  /// If [useIsolate] is set to `true` or omitted, parsing is executed in
-  /// an isolate except on the web which dart:isolate does not support,
+  /// Parsing is executed in an isolate by default except on the web,
+  /// which dart:isolate does not support. If you prefer to use the main
+  /// thread, set [useIsolate] to 'false'.
   Future<List<TextElement>> parse(
     String text, {
     bool onlyMatches = false,
