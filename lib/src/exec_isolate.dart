@@ -4,6 +4,14 @@ import 'dart:isolate';
 import 'element.dart';
 import 'parser.dart';
 
+class _Message {
+  const _Message(this.parser, this.text, this.onlyMatches);
+
+  final Parser parser;
+  final String text;
+  final bool onlyMatches;
+}
+
 Future<List<TextElement>> exec(
   Parser parser,
   String text,
@@ -12,15 +20,13 @@ Future<List<TextElement>> exec(
   final completer = Completer<List<TextElement>>();
   final receivePort = ReceivePort();
 
-  receivePort.listen((dynamic message) {
+  receivePort.listen((Object? message) {
     if (message is SendPort) {
-      message.send(parser);
-      message.send(onlyMatches);
-      message.send(text);
-      return;
+      message.send(_Message(parser, text, onlyMatches));
+    } else if (message is List<TextElement>) {
+      completer.complete(message);
+      receivePort.close();
     }
-    completer.complete(message as List<TextElement>);
-    receivePort.close();
   });
 
   await Isolate.spawn(execInIsolate, receivePort.sendPort);
@@ -32,17 +38,9 @@ void execInIsolate(SendPort sendPort) {
   final receivePort = ReceivePort();
   sendPort.send(receivePort.sendPort);
 
-  late final Parser parser;
-  late final bool onlyMatches;
-  receivePort.listen((dynamic message) {
-    if (message is Parser) {
-      parser = message;
-    }
-    if (message is bool) {
-      onlyMatches = message;
-    }
-    if (message is String) {
-      final list = parser.parse(message, onlyMatches);
+  receivePort.listen((Object? message) {
+    if (message is _Message) {
+      final list = message.parser.parse(message.text, message.onlyMatches);
       sendPort.send(list);
       receivePort.close();
     }
