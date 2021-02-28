@@ -49,6 +49,28 @@ void main() {
       final elements = await parser.parse('abc012(3456)7890def');
       expect(elements[1].groups, equals(['012', '3456', '7890']));
     });
+
+    test('parsing in main thread and in isolate give same result', () async {
+      const text = 'https://example.com/ foo@example.com012-3456-7890';
+
+      final elements1 = await parser.parse(text, useIsolate: true);
+      final elements2 = await parser.parse(text, useIsolate: false);
+
+      expect(elements1[0].text, equals('https://example.com/'));
+      expect(elements1[0].matcherType, equals(UrlMatcher));
+      expect(elements1[1].text, equals(' '));
+      expect(elements1[1].matcherType, equals(TextMatcher));
+      expect(elements1[2].text, equals('foo@example.com'));
+      expect(elements1[2].matcherType, equals(EmailMatcher));
+      expect(elements1[3].text, equals('012-3456-7890'));
+      expect(elements1[3].matcherType, equals(TelMatcher));
+
+      expect(elements1.length, equals(elements2.length));
+
+      for (var i = 0; i < elements1.length; i++) {
+        expect(elements1[i], equals(elements2[i]));
+      }
+    });
   });
 }
 
