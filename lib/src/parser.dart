@@ -1,3 +1,5 @@
+import 'package:meta/meta.dart';
+
 import 'element.dart';
 import 'matcher.dart';
 

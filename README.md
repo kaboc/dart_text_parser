@@ -1,6 +1,7 @@
 # text_parser
 
 [![Pub Version](https://img.shields.io/pub/v/text_parser)](https://pub.dev/packages/text_parser)
+[![Dart CI](https://github.com/kaboc/dart_text_parser/workflows/Dart%20CI/badge.svg)](https://github.com/kaboc/dart_text_parser/actions)
 
 A Dart package for parsing text flexibly according to preset or custom regular expression patterns.
 
