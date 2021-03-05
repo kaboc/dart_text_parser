@@ -1,19 +1,22 @@
-## 0.0.5
+## 0.1.2
 
 - Simplify messaging between main thread and isolate.
 - Add test to check parsing in isolate.
 
-## 0.0.4
+## 0.1.1-nullsafety.1
 
 - Add `onlyMatches` parameter to `parse()`. 
 - Fix `UrlMatcher` and `EmailMatcher`.
 - Improve `UrlMatcher`.
 - Minor improvements.
 
-## 0.0.3
+## 0.1.1-nullsafety.0
 
-- Minor internal improvements.
 - Update README.
+
+## 0.1.0-nullsafety.0
+
+- Migrate to null safety.
 
 ## 0.0.2
 

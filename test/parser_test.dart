@@ -3,7 +3,7 @@ import 'package:test/test.dart';
 import 'package:text_parser/text_parser.dart';
 
 void main() {
-  TextParser parser;
+  late TextParser parser;
   setUp(() {
     parser = TextParser();
   });

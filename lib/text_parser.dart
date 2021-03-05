@@ -17,11 +17,11 @@ class TextParser {
   /// [matchers] is a list of [TextMatcher]s to be used for parsing. If it
   /// is omitted, the three preset matchers (`UrlMatcher`, `EmailMatcher`
   /// and `TelMatcher`) are used.
-  TextParser({List<TextMatcher> matchers}) {
-    _parser = Parser(matchers: matchers ?? _kDefaultMatchers);
+  TextParser({List<TextMatcher> matchers = _kDefaultMatchers}) {
+    _parser = Parser(matchers: matchers);
   }
 
-  Parser _parser;
+  late final Parser _parser;
 
   /// The list of matchers.
   List<TextMatcher> get matchers => _parser.matchers;

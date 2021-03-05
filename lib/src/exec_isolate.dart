@@ -20,7 +20,7 @@ Future<List<TextElement>> exec(
   final completer = Completer<List<TextElement>>();
   final receivePort = ReceivePort();
 
-  receivePort.listen((dynamic message) {
+  receivePort.listen((Object? message) {
     if (message is SendPort) {
       message.send(_Message(parser, text, onlyMatches));
     } else if (message is List<TextElement>) {
@@ -38,7 +38,7 @@ void execInIsolate(SendPort sendPort) {
   final receivePort = ReceivePort();
   sendPort.send(receivePort.sendPort);
 
-  receivePort.listen((dynamic message) {
+  receivePort.listen((Object? message) {
     if (message is _Message) {
       final list = message.parser.parse(message.text, message.onlyMatches);
       sendPort.send(list);

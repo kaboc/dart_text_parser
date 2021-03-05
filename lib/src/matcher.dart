@@ -9,7 +9,7 @@ import 'package:meta/meta.dart';
 abstract class TextMatcher {
   const TextMatcher(this.pattern)
       : assert(
-          pattern != null && pattern.length > 0,
+          pattern.length > 0,
           '`pattern` must not be null nor empty.',
         );
 
