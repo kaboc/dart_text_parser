@@ -1,5 +1,11 @@
+## 0.2.0
+
+- Add `multiLine`, `caseSensitive`, `unicode` and `dotAll` to `TextParser`.
+- Improve documentation and example.
+
 ## 0.1.2
 
+- Stable null safety release.
 - Simplify messaging between main thread and isolate.
 - Add test to check parsing in isolate.
 
