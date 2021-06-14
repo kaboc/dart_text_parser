@@ -11,12 +11,10 @@ jobs:
   dart-ci:
     runs-on: ubuntu-latest
 
-    container:
-      image: google/dart:latest
-
     steps:
       - uses: actions/checkout@v2
+      - uses: dart-lang/setup-dart@v1
       - run: dart pub get
-      - run: dart format --output none --summary none  --set-exit-if-changed .
-      - run: dart analyze --fatal-warnings --fatal-infos .
-      - run: dart pub run test
+      - run: dart format --output=none --set-exit-if-changed .
+      - run: dart analyze
+      - run: dart test
