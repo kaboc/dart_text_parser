@@ -72,8 +72,95 @@ void main() {
       }
     });
   });
+
+  group('options', () {
+    test('dotAll', () async {
+      const text = 'aaa // bbb\nccc';
+
+      var elements = await TextParser(
+        matchers: [const _LineCommentMatcher1()],
+      ).parse(text, onlyMatches: true);
+      expect(elements[0].text, equals('// bbb'));
+
+      elements = await TextParser(
+        matchers: [const _LineCommentMatcher1()],
+        dotAll: true,
+      ).parse(text, onlyMatches: true);
+      expect(elements[0].text, equals('// bbb\nccc'));
+    });
+
+    test('multiline', () async {
+      const text = 'aaa // bbb\nccc';
+
+      var elements = await TextParser(
+        matchers: [const _LineCommentMatcher1()],
+        dotAll: true,
+        multiLine: true,
+      ).parse(text, onlyMatches: true);
+      expect(elements[0].text, equals('// bbb\nccc'));
+
+      elements = await TextParser(
+        matchers: [const _LineCommentMatcher2()],
+        dotAll: true,
+      ).parse(text, onlyMatches: true);
+      expect(elements[0].text, equals('// bbb\nccc'));
+
+      elements = await TextParser(
+        matchers: [const _LineCommentMatcher2()],
+        dotAll: true,
+        multiLine: true,
+      ).parse(text, onlyMatches: true);
+      expect(elements[0].text, equals('// bbb'));
+    });
+
+    test('caseSensitive', () async {
+      const text = 'aaa // BBB\ncCc';
+
+      var elements = await TextParser(matchers: [const _AlphabetsMatcher()])
+          .parse(text, onlyMatches: true);
+      expect(elements.map((v) => v.text).toList(), equals(['aaa', 'c', 'c']));
+
+      elements = await TextParser(
+        matchers: [const _AlphabetsMatcher()],
+        caseSensitive: false,
+      ).parse(text, onlyMatches: true);
+      expect(
+        elements.map((v) => v.text).toList(),
+        equals(['aaa', 'BBB', 'cCc']),
+      );
+    });
+
+    test('unicode', () async {
+      const text = 'abc123def';
+
+      var elements = await TextParser(matchers: [const _UnicodeMatcher()])
+          .parse(text, onlyMatches: true);
+      expect(elements, isEmpty);
+
+      elements =
+          await TextParser(matchers: [const _UnicodeMatcher()], unicode: true)
+              .parse(text, onlyMatches: true);
+      expect(elements[0].text, equals('123'));
+    });
+  });
 }
 
 class _MyTelMatcher extends TextMatcher {
   const _MyTelMatcher() : super(r'(\d{3})\((\d{4})\)(\d{4})');
+}
+
+class _LineCommentMatcher1 extends TextMatcher {
+  const _LineCommentMatcher1() : super(r'//.*');
+}
+
+class _LineCommentMatcher2 extends TextMatcher {
+  const _LineCommentMatcher2() : super(r'//.*?$');
+}
+
+class _AlphabetsMatcher extends TextMatcher {
+  const _AlphabetsMatcher() : super(r'[a-z]+');
+}
+
+class _UnicodeMatcher extends TextMatcher {
+  const _UnicodeMatcher() : super(r'\p{N}+');
 }

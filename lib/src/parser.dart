@@ -4,9 +4,20 @@ import 'matcher.dart';
 const _kNamedGroupPrefix = 'ng';
 
 class Parser {
-  Parser({required List<TextMatcher> matchers}) {
+  Parser({
+    required List<TextMatcher> matchers,
+    required this.multiLine,
+    required this.caseSensitive,
+    required this.unicode,
+    required this.dotAll,
+  }) {
     update(matchers);
   }
+
+  final bool multiLine;
+  final bool caseSensitive;
+  final bool unicode;
+  final bool dotAll;
 
   late List<TextMatcher> _matchers;
   late String _pattern;
@@ -24,9 +35,16 @@ class Parser {
         '(?<$_kNamedGroupPrefix$i>${matchers[i].pattern})',
     }.join('|');
 
-    final groupCounts = matchers
-        .map((v) => RegExp('${v.pattern}|.*').firstMatch('')?.groupCount ?? 0)
-        .toList();
+    final groupCounts = matchers.map((v) {
+      final regExp = RegExp(
+        '${v.pattern}|.*',
+        multiLine: multiLine,
+        caseSensitive: caseSensitive,
+        unicode: unicode,
+        dotAll: dotAll,
+      );
+      return regExp.firstMatch('')?.groupCount ?? 0;
+    }).toList();
 
     _groupRanges.clear();
     for (var i = 0; i < matchers.length; i++) {
@@ -37,7 +55,14 @@ class Parser {
   }
 
   List<TextElement> parse(String text, bool onlyMatches) {
-    final regExp = RegExp(_pattern);
+    final regExp = RegExp(
+      _pattern,
+      multiLine: multiLine,
+      caseSensitive: caseSensitive,
+      unicode: unicode,
+      dotAll: dotAll,
+    );
+
     final list = <TextElement>[];
     var target = text;
 

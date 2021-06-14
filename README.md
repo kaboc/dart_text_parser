@@ -119,6 +119,18 @@ Tip:
 If you want certain parentheses to be not captured as a group, add `?:` after the starting
 parenthesis, like `(?:pattern)` instead of `(pattern)`.
 
+### RegExp options
+
+How a regular expression is treated can be configured in the `TextParser` constructor.
+
+- multiLine
+- caseSensitive
+- unicode
+- dotAll
+
+These options are passed to [RegExp][RegExp] internally, so refer to its
+[document][RegExp_constructor] for information.
+
 ## Limitations
 
 - It may take seconds to parse a very long string with multiple complex match patterns.
@@ -158,3 +170,5 @@ An easy solution is to add `^` to the positive lookbehind condition, like `(?<=\
 [TextElement]: https://pub.dev/documentation/text_parser/latest/text_parser/TextElement-class.html
 [TextElement_groups]: https://pub.dev/documentation/text_parser/latest/text_parser/TextElement/groups.html
 [isolate]: https://api.dartlang.org/stable/dart-isolate/dart-isolate-library.html
+[RegExp]: https://api.dart.dev/stable/dart-core/RegExp-class.html
+[RegExp_constructor]: https://api.dart.dev/stable/dart-core/RegExp/RegExp.html
