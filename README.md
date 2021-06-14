@@ -88,9 +88,9 @@ of the href value and link text.
 class ATagMatcher extends TextMatcher {
   const ATagMatcher()
       : super(
-          r'\<a\s+(?:.+)?href="(.+?)"\s?(?:.+)?\>'
-          r'(?:\s+)?(.+?)(?:\s+)?\'
-          r'</a\>',
+          r'\<a\s(?:.+?\s)*?href="(.+?)".*?\>'
+          r'\s*(.+?)\s*'
+          r'\</a\>',
         );
 }
 ```
