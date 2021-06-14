@@ -49,6 +49,7 @@ class TextParser {
 
   /// The list of matchers.
   List<TextMatcher> get matchers => _parser.matchers;
+
   set matchers(List<TextMatcher> matchers) => _parser.update(matchers);
 
   /// Parses the provided [text] according to the matchers specified in
@@ -59,8 +60,10 @@ class TextParser {
   /// is set to `true` explicitly.
   ///
   /// Parsing is executed in an isolate by default except on the web,
-  /// which dart:isolate does not support. If you prefer to use the main
-  /// thread, set [useIsolate] to 'false'.
+  /// which dart:isolate does not support. It is for preventing the
+  /// impact of heavy computation on other processes, but it instead
+  /// adds some overhead and result in longer execution time. If you
+  /// prefer to use the main thread, set [useIsolate] to 'false'.
   Future<List<TextElement>> parse(
     String text, {
     bool onlyMatches = false,

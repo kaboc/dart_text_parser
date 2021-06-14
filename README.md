@@ -79,32 +79,44 @@ in text, the first matcher is used for parsing the element.
 
 ### Using a custom matcher
 
-You can create a custom matcher easily by extending [TextMatcher][TextMatcher].
-The following is a matcher for links of the Markdown format like `[text](link_such_as_url_or_path)`.
+You can create a custom matcher by extending [TextMatcher][TextMatcher].
+
+The following is an example of a custom matcher that parses the HTML `<a>` tags into groups
+of the href value and link text.
 
 ```dart
-class MdLinkMatcher extends TextMatcher {
-  const MdLinkMatcher() : super(r'\[(.+?)\]\((.+?)\)');
+class ATagMatcher extends TextMatcher {
+  const ATagMatcher()
+      : super(
+          r'\<a\s+(?:.+)?href="(.+?)"\s?(?:.+)?\>'
+          r'(?:\s+)?(.+?)(?:\s+)?\'
+          r'</a\>',
+        );
 }
+```
 
-...
+```dart
+const text = '''
+<a class="bar" href="https://example.com/">
+  Content inside tags
+</a>
+''';
 
 final parser = TextParser(
-  matchers: const [MdLinkMatcher()],
+  matchers: const [ATagMatcher()],
+  dotAll: true,
 );
-final elements = await parser.parse('abcde[foo](bar)fghij');
-elements.forEach(print);
+final elements = await parser.parse(text, onlyMatches: true);
+print(elements[0].groups);
 ```
 
 Output:
 
 ```
-matcherType: TextMatcher, text: abcde, groups: []
-matcherType: MdLinkMatcher, text: [foo](bar), groups: [foo, bar]
-matcherType: TextMatcher, text: fghij, groups: []
+[https://example.com/, Content inside tags]
 ```
 
-#### Groups
+### Groups
 
 Each [TextElement][TextElement] in a parse result has the property of
 [groups][TextElement_groups]. It is an array of strings that have matched the smaller pattern
@@ -159,6 +171,8 @@ in later search iterations; "123" is found in the first iteration, and then the 
 iteration is targeted at "abc456", which does not match `(?<=\d)`.
 
 An easy solution is to add `^` to the positive lookbehind condition, like `(?<=\d|^)`.
+
+**Note: Safari has no support for lookbehind assertion.** 
 
 [TextParser]: https://pub.dev/documentation/text_parser/latest/text_parser/TextParser-class.html
 [TextParser_matchers]: https://pub.dev/documentation/text_parser/latest/text_parser/TextParser/matchers.html
