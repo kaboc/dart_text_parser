@@ -8,11 +8,11 @@ void main() {
     parser = TextParser();
   });
 
-  test('matchers can be updated via matchers setter', () async {
-    expect(parser.matchers.length, equals(3));
+  test('matchers can be updated via matchers setter', () {
+    expect(parser.matchers, hasLength(3));
 
     parser.matchers = const [EmailMatcher()];
-    expect(parser.matchers.length, equals(1));
+    expect(parser.matchers, hasLength(1));
     expect(parser.matchers[0], equals(const EmailMatcher()));
   });
 
@@ -23,7 +23,7 @@ void main() {
         'foo@example.com 911',
       );
 
-      expect(elements.length, equals(6));
+      expect(elements, hasLength(6));
       expect(elements[0].text, equals('abc '));
       expect(elements[0].groups, equals(<String>[]));
       expect(elements[0].matcherType, equals(TextMatcher));
@@ -65,7 +65,7 @@ void main() {
       expect(elements1[3].text, equals('012-3456-7890'));
       expect(elements1[3].matcherType, equals(TelMatcher));
 
-      expect(elements1.length, equals(elements2.length));
+      expect(elements1, hasLength(elements2.length));
 
       for (var i = 0; i < elements1.length; i++) {
         expect(elements1[i], equals(elements2[i]));

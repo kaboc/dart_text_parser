@@ -6,19 +6,19 @@ void main() {
   final pattern = const TelMatcher().pattern;
   final regExp = RegExp(pattern);
 
-  test('matches phone number despite no letters around it', () async {
+  test('matches phone number despite no letters around it', () {
     const input = '012-3456-7890';
     final matches = regExp.allMatches(input);
-    expect(matches.length, equals(1));
+    expect(matches, hasLength(1));
   });
 
-  test('matches 2-5 digits often used for emergency numbers', () async {
+  test('matches 2-5 digits often used for emergency numbers', () {
     const input = '1/11/111/1111/11111/111111';
     final matches = regExp.allMatches(input);
-    expect(matches.length, equals(4));
+    expect(matches, hasLength(4));
   });
 
-  test('matches only numerics if enclosed with non-numerics', () async {
+  test('matches only numerics if enclosed with non-numerics', () {
     const number = '123';
     const input = 'abc123def';
     final matches = regExp.allMatches(input).toList();
@@ -26,7 +26,7 @@ void main() {
     expect(found, equals(number));
   });
 
-  test('country code is not caught if no space after it', () async {
+  test('country code is not caught if no space after it', () {
     const number = '101234567890';
     const input = '+$number';
     final matches = regExp.allMatches(input).toList();
@@ -34,7 +34,7 @@ void main() {
     expect(found, equals(number));
   });
 
-  test('+0 is not regarded as part of country code', () async {
+  test('+0 is not regarded as part of country code', () {
     const code = '01';
 
     const number1 = '01234567890';
@@ -50,7 +50,7 @@ void main() {
     expect(found2, equals('$code-$number2'));
   });
 
-  test('matches commonly used formats', () async {
+  test('matches commonly used formats', () {
     const numbers = [
       '012-3456-7890',
       '012 3456 7890',
@@ -97,10 +97,10 @@ void main() {
     }
   });
 
-  test('no group', () async {
+  test('no group', () {
     const address = '012-3456-7890';
     final matches = regExp.allMatches(address).toList();
-    expect(matches.length, equals(1));
+    expect(matches, hasLength(1));
     expect(matches[0].groupCount, equals(0));
   });
 }
