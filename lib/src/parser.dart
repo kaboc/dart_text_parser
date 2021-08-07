@@ -73,7 +73,6 @@ class Parser {
         if (!onlyMatches) {
           list.add(_Element(target, offset: prevOffset));
         }
-        target = '';
         break;
       }
 

@@ -1,5 +1,3 @@
-# text_parser
-
 [![Pub Version](https://img.shields.io/pub/v/text_parser)](https://pub.dev/packages/text_parser)
 [![Dart CI](https://github.com/kaboc/dart_text_parser/workflows/Dart%20CI/badge.svg)](https://github.com/kaboc/dart_text_parser/actions)
 
@@ -15,7 +13,7 @@ are used automatically.
 
 The default regular expression pattern of each of them is not very strict.
 If it is unsuitable for your use case, overwrite the pattern by yourself, referring to the
-description in a later section of this document.
+relevant section later in this document.
 
 ```dart
 import 'package:text_parser/text_parser.dart';
@@ -41,7 +39,7 @@ matcherType: TextMatcher, offset: 55, text:  , groups: []
 matcherType: TelMatcher, offset: 56, text: +1-012-3456-7890, groups: []
 ```
 
-### Obtaining only matching text elements
+### Extracting only matching text elements
 
 By default, the result of [parse()][parse] contains both matching and non-matching elements
 as seen in the above example. If you want only matching elements, set `onlyMatches` to `true`
@@ -97,7 +95,7 @@ class ATagMatcher extends TextMatcher {
 
 ```dart
 const text = '''
-<a class="bar" href="https://example.com/">
+<a class="foo" href="https://example.com/">
   Content inside tags
 </a>
 ''';

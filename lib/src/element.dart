@@ -1,7 +1,6 @@
 import 'package:meta/meta.dart';
 
-/// A class that holds the information of a string element existing
-/// as a result of parsing.
+/// A class that holds the information of a parsed element.
 @immutable
 abstract class TextElement {
   const TextElement(this.text, this.groups, this.matcherType, this.offset);
