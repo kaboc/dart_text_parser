@@ -1,3 +1,9 @@
+## 0.3.0
+
+- Add `offset` to `TextElement`.
+- Refactor tests.
+- Update dev dependency.
+
 ## 0.2.0
 
 - Add `multiLine`, `caseSensitive`, `unicode` and `dotAll` to `TextParser`.
