@@ -65,12 +65,13 @@ class Parser {
 
     final list = <TextElement>[];
     var target = text;
+    var prevOffset = 0;
 
     do {
       final match = regExp.firstMatch(target);
       if (match == null) {
         if (!onlyMatches) {
-          list.add(_Element(target));
+          list.add(_Element(target, offset: prevOffset));
         }
         target = '';
         break;
@@ -79,7 +80,7 @@ class Parser {
       if (match.start > 0) {
         final v = target.substring(0, match.start);
         if (!onlyMatches) {
-          list.add(_Element(v));
+          list.add(_Element(v, offset: prevOffset));
         }
       }
 
@@ -91,6 +92,7 @@ class Parser {
               v,
               groups: match.groups(_groupRanges[i]),
               matcherType: _matchers[i].runtimeType,
+              offset: prevOffset + match.start,
             ),
           );
           break;
@@ -98,6 +100,7 @@ class Parser {
       }
 
       target = target.substring(match.end);
+      prevOffset += match.end;
     } while (target.isNotEmpty);
 
     return list;
@@ -109,5 +112,6 @@ class _Element extends TextElement {
     String text, {
     List<String?> groups = const [],
     Type matcherType = TextMatcher,
-  }) : super(text, groups, matcherType);
+    int offset = 0,
+  }) : super(text, groups, matcherType, offset);
 }

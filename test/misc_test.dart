@@ -52,5 +52,6 @@ class _Element extends TextElement {
     String text, {
     List<String?> groups = const [],
     Type matcherType = TextMatcher,
-  }) : super(text, groups, matcherType);
+    int offset = 0,
+  }) : super(text, groups, matcherType, offset);
 }

@@ -4,7 +4,7 @@ import 'package:meta/meta.dart';
 /// as a result of parsing.
 @immutable
 abstract class TextElement {
-  const TextElement(this.text, this.groups, this.matcherType);
+  const TextElement(this.text, this.groups, this.matcherType, this.offset);
 
   /// The string that has matched the pattern in one of the matchers
   /// specified in [TextParser], or that has not matched any pattern.
@@ -18,22 +18,30 @@ abstract class TextElement {
   /// If the type is [TextMatcher], it means no patterns have matched it.
   final Type matcherType;
 
+  /// The offset where the [text] starts in the source text.
+  final int offset;
+
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
       other is TextElement &&
           runtimeType == other.runtimeType &&
           text == other.text &&
-          matcherType == other.matcherType;
+          matcherType == other.matcherType &&
+          offset == other.offset;
 
   @override
   int get hashCode =>
-      runtimeType.hashCode ^ text.hashCode ^ matcherType.hashCode;
+      runtimeType.hashCode ^
+      text.hashCode ^
+      matcherType.hashCode ^
+      offset.hashCode;
 
   @override
   String toString() {
     final g = groups.map((v) => _convert(v)).join(', ');
     return 'matcherType: $matcherType, '
+        'offset: $offset, '
         'text: ${_convert(text)}, '
         'groups: [$g]';
   }

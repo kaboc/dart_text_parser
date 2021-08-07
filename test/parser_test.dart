@@ -50,6 +50,30 @@ void main() {
       expect(elements[1].groups, equals(['012', '3456', '7890']));
     });
 
+    test('offsets are set correctly when onlyMatches is false', () async {
+      const text =
+          'abc https://example.com/sample.jpg. def\nfoo@example.com 911';
+      final elements = await parser.parse(text);
+      expect(elements, hasLength(6));
+
+      var result = '';
+      for (final elm in elements) {
+        result += text.substring(elm.offset, elm.offset + elm.text.length);
+      }
+      expect(result, equals(text));
+    });
+
+    test('offsets are set correctly when onlyMatches is true', () async {
+      const text =
+          'abc https://example.com/sample.jpg. def\nfoo@example.com 911';
+      final elements = await parser.parse(text, onlyMatches: true);
+      expect(elements, hasLength(3));
+
+      for (final elm in elements) {
+        expect(elm.offset, equals(text.indexOf(elm.text)));
+      }
+    });
+
     test('parsing in main thread and in isolate give same result', () async {
       const text = 'https://example.com/ foo@example.com012-3456-7890';
 

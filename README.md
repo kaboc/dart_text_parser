@@ -33,12 +33,12 @@ Future<void> main() async {
 Output:
 
 ```
-matcherType: TextMatcher, text: abc , groups: []
-matcherType: UrlMatcher, text: https://example.com/sample.jpg, groups: []
-matcherType: TextMatcher, text: . def\n, groups: []
-matcherType: EmailMatcher, text: foo@example.com, groups: []
-matcherType: TextMatcher, text:  , groups: []
-matcherType: TelMatcher, text: +1-012-3456-7890, groups: []
+matcherType: TextMatcher, offset: 0, text: abc , groups: []
+matcherType: UrlMatcher, offset: 4, text: https://example.com/sample.jpg, groups: []
+matcherType: TextMatcher, offset: 34, text: . def\n, groups: []
+matcherType: EmailMatcher, offset: 40, text: foo@example.com, groups: []
+matcherType: TextMatcher, offset: 55, text:  , groups: []
+matcherType: TelMatcher, offset: 56, text: +1-012-3456-7890, groups: []
 ```
 
 ### Obtaining only matching text elements
@@ -55,9 +55,9 @@ elements.forEach(print);
 Output:
 
 ```
-matcherType: UrlMatcher, text: https://example.com/sample.jpg, groups: []
-matcherType: EmailMatcher, text: foo@example.com, groups: []
-matcherType: TelMatcher, text: +1-012-3456-7890, groups: []
+matcherType: UrlMatcher, offset: 4, text: https://example.com/sample.jpg, groups: []
+matcherType: EmailMatcher, offset: 40, text: foo@example.com, groups: []
+matcherType: TelMatcher, offset: 56, text: +1-012-3456-7890, groups: []
 ```
 
 ### Overwriting the pattern of a preset matcher
