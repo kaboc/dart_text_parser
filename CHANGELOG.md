@@ -1,3 +1,8 @@
+## 0.3.1
+
+- Fix `TextElement`'s toString() to return better string with the type name and parentheses.
+- Improve README slightly.
+
 ## 0.3.0
 
 - Add `offset` to `TextElement`.

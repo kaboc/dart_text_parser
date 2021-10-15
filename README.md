@@ -149,26 +149,25 @@ These options are passed to [RegExp][RegExp] internally, so refer to its
 
 ## Troubleshooting
 
-### Positive lookbehind sometimes does not work.
+### Why is this text not parsed as expected?
 
-e.g.
-- Text to be parsed
-    - `'123abc456'`
-- Match pattern 1
+e.g. `'123abc456'` is parsed with two matchers.
+
+- RegExp pattern in matcher 1
     - `r'\d+'`
         - Any sequence of numeric values
-- Match pattern 2
+- RegExp pattern in matcher 2
     - `r'(?<=\d)[a-z]+'`
         - Alphabets after a number
 
-In the above example, you may expect the first match to be "123" and the next match to be
-"abc", but the second match is actually "456".
+In this example, you may expect the first match to be "123" and the next match to be "abc",
+but the second match is actually "456".
 
 This is due to the mechanism of this package that excludes already searched parts of text
 in later search iterations; "123" is found in the first iteration, and then the next
 iteration is targeted at "abc456", which does not match `(?<=\d)`.
 
-An easy solution is to add `^` to the positive lookbehind condition, like `(?<=\d|^)`.
+An easy solution is to use `^` together with the positive lookbehind, like `(?<=\d|^)`.
 
 **Note: Safari has no support for lookbehind assertion.** 
 
