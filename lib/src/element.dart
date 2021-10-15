@@ -39,10 +39,12 @@ abstract class TextElement {
   @override
   String toString() {
     final g = groups.map((v) => _convert(v)).join(', ');
-    return 'matcherType: $matcherType, '
+    return 'TextElement('
+        'matcherType: $matcherType, '
         'offset: $offset, '
         'text: ${_convert(text)}, '
-        'groups: [$g]';
+        'groups: [$g]'
+        ')';
   }
 
   String? _convert(String? text) {
