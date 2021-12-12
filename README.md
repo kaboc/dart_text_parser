@@ -31,12 +31,12 @@ Future<void> main() async {
 Output:
 
 ```
-matcherType: TextMatcher, offset: 0, text: abc , groups: []
-matcherType: UrlMatcher, offset: 4, text: https://example.com/sample.jpg, groups: []
-matcherType: TextMatcher, offset: 34, text: . def\n, groups: []
-matcherType: EmailMatcher, offset: 40, text: foo@example.com, groups: []
-matcherType: TextMatcher, offset: 55, text:  , groups: []
-matcherType: TelMatcher, offset: 56, text: +1-012-3456-7890, groups: []
+TextElement(matcherType: TextMatcher, offset: 0, text: abc , groups: [])
+TextElement(matcherType: UrlMatcher, offset: 4, text: https://example.com/sample.jpg, groups: [])
+TextElement(matcherType: TextMatcher, offset: 34, text: . def\n, groups: [])
+TextElement(matcherType: EmailMatcher, offset: 40, text: foo@example.com, groups: [])
+TextElement(matcherType: TextMatcher, offset: 55, text:  , groups: [])
+TextElement(matcherType: TelMatcher, offset: 56, text: +1-012-3456-7890, groups: [])
 ```
 
 ### Extracting only matching text elements
@@ -53,9 +53,9 @@ elements.forEach(print);
 Output:
 
 ```
-matcherType: UrlMatcher, offset: 4, text: https://example.com/sample.jpg, groups: []
-matcherType: EmailMatcher, offset: 40, text: foo@example.com, groups: []
-matcherType: TelMatcher, offset: 56, text: +1-012-3456-7890, groups: []
+TextElement(matcherType: UrlMatcher, offset: 4, text: https://example.com/sample.jpg, groups: [])
+TextElement(matcherType: EmailMatcher, offset: 40, text: foo@example.com, groups: [])
+TextElement(matcherType: TelMatcher, offset: 56, text: +1-012-3456-7890, groups: [])
 ```
 
 ### Overwriting the pattern of a preset matcher
