@@ -1,3 +1,9 @@
+## 0.3.2
+
+- Simpler handling of isolate.
+- Update README.
+- Update dependencies.
+
 ## 0.3.1
 
 - Fix `TextElement`'s toString() to return better string with the type name and parentheses.
