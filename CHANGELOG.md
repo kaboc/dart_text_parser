@@ -1,3 +1,8 @@
+## 0.3.3
+
+- Add PatternMatcher.
+- Fix assertion error message of TextMatcher.
+
 ## 0.3.2
 
 - Simpler handling of isolate.
