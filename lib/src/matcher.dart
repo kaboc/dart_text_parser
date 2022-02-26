@@ -29,3 +29,21 @@ abstract class TextMatcher {
   @override
   String toString() => '$runtimeType(pattern: $pattern)';
 }
+
+/// A variant of [TextMatcher] that takes a regular expression pattern
+/// as a parameter.
+///
+/// {@template text_parser_pattern_matcher}
+/// This is convenient when you want to prepare a matcher with some
+/// pattern without writing a new matcher class extending [TextMatcher].
+///
+/// ```dart
+/// const boldMatcher = PatternMatcher(r'\*\*(.+)\*\*');
+/// ```
+/// {@endtemplate}
+class PatternMatcher extends TextMatcher {
+  /// Creates a [PatternMatcher] with some regular expression pattern.
+  ///
+  /// {@macro text_parser_pattern_matcher}
+  const PatternMatcher(String pattern) : super(pattern);
+}

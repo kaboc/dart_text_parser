@@ -77,7 +77,10 @@ in text, the first matcher is used for parsing the element.
 
 ### Using a custom matcher
 
-You can create a custom matcher by extending [TextMatcher][TextMatcher].
+You can create a custom matcher either by extending [TextMatcher][TextMatcher] or
+by using [PatternMatcher][PatternMatcher].
+
+#### Extending TextMatcher
 
 The following is an example of a custom matcher that parses the HTML `<a>` tags into groups
 of the href value and link text.
@@ -112,6 +115,17 @@ Output:
 
 ```
 [https://example.com/, Content inside tags]
+```
+
+#### PatternMatcher
+
+This is convenient when you want to prepare a matcher with some regular expression pattern
+without writing a new matcher class extending [TextMatcher].
+
+```dart
+final parser = TextParser(
+  matchers: const [PatternMatcher(r'\*\*(.+)\*\*')],
+);
 ```
 
 ### Groups
@@ -177,6 +191,7 @@ An easy solution is to use `^` together with the positive lookbehind, like `(?<=
 [UrlMatcher]: https://pub.dev/documentation/text_parser/latest/text_parser/UrlMatcher-class.html
 [EmailMatcher]: https://pub.dev/documentation/text_parser/latest/text_parser/EmailMatcher-class.html
 [TelMatcher]: https://pub.dev/documentation/text_parser/latest/text_parser/TelMatcher-class.html
+[PatternMatcher]: https://pub.dev/documentation/text_parser/latest/text_parser/PatternMatcher-class.html
 [parse]: https://pub.dev/documentation/text_parser/latest/text_parser/TextParser/parse.html
 [TextElement]: https://pub.dev/documentation/text_parser/latest/text_parser/TextElement-class.html
 [TextElement_groups]: https://pub.dev/documentation/text_parser/latest/text_parser/TextElement/groups.html
