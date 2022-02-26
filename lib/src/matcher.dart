@@ -8,10 +8,7 @@ import 'package:meta/meta.dart';
 @immutable
 abstract class TextMatcher {
   const TextMatcher(this.pattern)
-      : assert(
-          pattern.length > 0,
-          '`pattern` must not be null nor empty.',
-        );
+      : assert(pattern.length > 0, '`pattern` must not be empty.');
 
   /// The regular expression string to specify the rule for parsing.
   final String pattern;
