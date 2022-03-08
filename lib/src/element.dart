@@ -1,5 +1,7 @@
 import 'package:meta/meta.dart';
 
+import '../text_parser.dart';
+
 /// A class that holds the information of a parsed element.
 @immutable
 abstract class TextElement {
@@ -38,7 +40,8 @@ abstract class TextElement {
 
   @override
   String toString() {
-    final g = groups.map((v) => _convert(v)).join(', ');
+    final g = groups.map(_convert).join(', ');
+
     return 'TextElement('
         'matcherType: $matcherType, '
         'offset: $offset, '

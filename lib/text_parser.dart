@@ -70,7 +70,7 @@ class TextParser {
     bool useIsolate = true,
   }) async {
     return useIsolate
-        ? exec(_parser, text, onlyMatches)
-        : execFuture(_parser, text, onlyMatches);
+        ? exec(parser: _parser, text: text, onlyMatches: onlyMatches)
+        : execFuture(parser: _parser, text: text, onlyMatches: onlyMatches);
   }
 }

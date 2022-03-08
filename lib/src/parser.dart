@@ -54,7 +54,7 @@ class Parser {
     }
   }
 
-  List<TextElement> parse(String text, bool onlyMatches) {
+  List<TextElement> parse(String text, {required bool onlyMatches}) {
     final regExp = RegExp(
       _pattern,
       multiLine: multiLine,

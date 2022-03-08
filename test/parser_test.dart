@@ -58,6 +58,7 @@ void main() {
 
       var result = '';
       for (final elm in elements) {
+        // ignore: use_string_buffers
         result += text.substring(elm.offset, elm.offset + elm.text.length);
       }
       expect(result, equals(text));
@@ -77,6 +78,7 @@ void main() {
     test('parsing in main thread and in isolate give same result', () async {
       const text = 'https://example.com/ foo@example.com012-3456-7890';
 
+      // ignore: avoid_redundant_argument_values
       final elements1 = await parser.parse(text, useIsolate: true);
       final elements2 = await parser.parse(text, useIsolate: false);
 

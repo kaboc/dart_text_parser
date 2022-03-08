@@ -1,5 +1,7 @@
 import 'package:meta/meta.dart';
 
+import '../text_parser.dart';
+
 /// A base class of matchers used to provide [TextParser] with match
 /// patterns for parsing.
 ///

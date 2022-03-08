@@ -7,3 +7,6 @@ environment:
 dependencies:
   text_parser:
     path: ../
+
+dev_dependencies:
+  lints: ^1.0.1
