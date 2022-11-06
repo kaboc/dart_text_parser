@@ -14,7 +14,13 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - uses: dart-lang/setup-dart@v1
-      - run: dart pub get
-      - run: dart format --output=none --set-exit-if-changed .
-      - run: dart analyze
-      - run: dart test
+        with:
+          sdk: stable
+      - name: Install dependencies
+        run: dart pub get
+      - name: Check format
+        run: dart format --output=none --set-exit-if-changed .
+      - name: Analyze
+        run: dart analyze
+      - name: Run tests
+        run: dart test

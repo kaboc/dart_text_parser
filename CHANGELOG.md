@@ -1,7 +1,13 @@
+## 0.4.0
+
+- Bump minimum Dart SDK version to 2.17.
+- Update lint rules.
+- Improve documentation.
+
 ## 0.3.3
 
-- Add PatternMatcher.
-- Fix assertion error message of TextMatcher.
+- Add `PatternMatcher`.
+- Fix assertion error message of `TextMatcher`.
 
 ## 0.3.2
 
