@@ -75,15 +75,22 @@ final parser = TextParser(
 If the match patterns of multiple matchers have matched the same string at the same position
 in text, the first matcher is used for parsing the element.
 
-### Using a custom matcher
+### Using a custom pattern
 
-You can create a custom matcher either by extending [TextMatcher][TextMatcher] or
-by using [PatternMatcher][PatternMatcher].
+You can create a matcher with a custom pattern either with [PatternMatcher][PatternMatcher]
+or by extending [TextMatcher][TextMatcher].
+
+#### PatternMatcher
+
+```dart
+const boldMatcher = PatternMatcher(r'\*\*(.+)\*\*');
+final parser = TextParser(matchers: [boldMatcher]);
+```
 
 #### Extending TextMatcher
 
-The following is an example of a custom matcher that parses the HTML `<a>` tags into groups
-of the href value and link text.
+Below is an example of a matcher that parses the HTML `<a>` tags into a set of the href
+value and the link text.
 
 ```dart
 class ATagMatcher extends TextMatcher {
@@ -117,17 +124,6 @@ Output:
 [https://example.com/, Content inside tags]
 ```
 
-#### PatternMatcher
-
-This is convenient when you want to prepare a matcher with some regular expression pattern
-without writing a new matcher class extending [TextMatcher].
-
-```dart
-final parser = TextParser(
-  matchers: const [PatternMatcher(r'\*\*(.+)\*\*')],
-);
-```
-
 ### Groups
 
 Each [TextElement][TextElement] in a parse result has the property of
@@ -140,7 +136,7 @@ that order.
 
 Tip:
 
-If you want certain parentheses to be not captured as a group, add `?:` after the starting
+If you want certain parentheses to be not captured as a group, add `?:` after the opening
 parenthesis, like `(?:pattern)` instead of `(pattern)`.
 
 ### RegExp options
@@ -157,9 +153,11 @@ These options are passed to [RegExp][RegExp] internally, so refer to its
 
 ## Limitations
 
-- It may take seconds to parse a very long string with multiple complex match patterns.
-- Parsing is not executed in an isolate but in the main thread on the web, which
-[dart:isolate][isolate] does not support.
+- This package uses regular expressions. The speed of parsing is subject to the
+  performance of `RegExp` in Dart. It will take more time to parse longer text with
+  multiple complex match patterns.
+- On the web, parsing is always executed in the main thread because Flutter Web does
+  not support [dart:isolate][isolate].
 
 ## Troubleshooting
 
