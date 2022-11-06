@@ -23,7 +23,7 @@ abstract class TextMatcher {
           pattern == other.pattern;
 
   @override
-  int get hashCode => runtimeType.hashCode ^ pattern.hashCode;
+  int get hashCode => Object.hash(runtimeType, pattern);
 
   @override
   String toString() => '$runtimeType(pattern: $pattern)';

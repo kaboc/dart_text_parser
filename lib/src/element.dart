@@ -32,11 +32,12 @@ abstract class TextElement {
           offset == other.offset;
 
   @override
-  int get hashCode =>
-      runtimeType.hashCode ^
-      text.hashCode ^
-      matcherType.hashCode ^
-      offset.hashCode;
+  int get hashCode => Object.hashAll([
+        runtimeType,
+        text,
+        matcherType,
+        hashCode,
+      ]);
 
   @override
   String toString() {
