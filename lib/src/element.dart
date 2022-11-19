@@ -36,7 +36,7 @@ abstract class TextElement {
         runtimeType,
         text,
         matcherType,
-        hashCode,
+        offset,
       ]);
 
   @override
