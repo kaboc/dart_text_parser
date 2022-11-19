@@ -47,7 +47,21 @@ void main() {
     test('groups are caught correctly', () async {
       parser.matchers = const [_MyTelMatcher()];
       final elements = await parser.parse('abc012(3456)7890def');
+      expect(elements[0].text, equals('abc'));
+      expect(elements[1].text, equals('012(3456)7890'));
       expect(elements[1].groups, equals(['012', '3456', '7890']));
+      expect(elements[2].text, equals('def'));
+    });
+
+    test('named groups are caught correctly', () async {
+      parser.matchers = const [
+        PatternMatcher(r'(?<year>\d{4})-(?<month>\d{1,2})-(?<day>\d{1,2})'),
+      ];
+      final elements = await parser.parse('abc2022-01-23def');
+      expect(elements[0].text, equals('abc'));
+      expect(elements[1].text, equals('2022-01-23'));
+      expect(elements[1].groups, equals(['2022', '01', '23']));
+      expect(elements[2].text, equals('def'));
     });
 
     test('offsets are set correctly when onlyMatches is false', () async {

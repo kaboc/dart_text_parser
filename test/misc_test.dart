@@ -10,6 +10,12 @@ void main() {
       expect(matcher.pattern, equals(pattern));
     });
 
+    test('PatternMatcher', () {
+      const matcher = PatternMatcher('abc');
+      expect(matcher, isA<TextMatcher>());
+      expect(matcher.toString(), equals('PatternMatcher(pattern: abc)'));
+    });
+
     test('matcher objects with same type and pattern are equal', () {
       const matcher1 = UrlMatcher();
       const matcher2 = UrlMatcher();
