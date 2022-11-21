@@ -1,5 +1,6 @@
 [![Pub Version](https://img.shields.io/pub/v/text_parser)](https://pub.dev/packages/text_parser)
 [![Dart CI](https://github.com/kaboc/dart_text_parser/workflows/Dart%20CI/badge.svg)](https://github.com/kaboc/dart_text_parser/actions)
+[![codecov](https://codecov.io/gh/kaboc/dart_text_parser/branch/main/graph/badge.svg?token=YTDF6ZVV3N)](https://codecov.io/gh/kaboc/dart_text_parser)
 
 A Dart package for parsing text flexibly according to preset or custom regular expression patterns.
 
@@ -115,7 +116,7 @@ final parser = TextParser(
   dotAll: true,
 );
 final elements = await parser.parse(text, onlyMatches: true);
-print(elements[0].groups);
+print(elements.first.groups);
 ```
 
 Output:

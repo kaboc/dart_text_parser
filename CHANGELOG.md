@@ -1,3 +1,10 @@
+## 0.4.1
+
+- Fix and improve `==` operator and `hashCode` of `TextElement`.
+- Add tests for named groups and `PatternMatcher`.
+- Describe named groups in README.
+- Update lint rules and fix new warnings.
+
 ## 0.4.0
 
 - Bump minimum Dart SDK version to 2.17.
