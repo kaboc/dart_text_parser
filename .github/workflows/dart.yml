@@ -13,7 +13,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-      - uses: dart-lang/setup-dart@v1
+      - uses: dart-lang/setup-dart@v1.3
         with:
           sdk: stable
       - name: Install dependencies
@@ -23,4 +23,11 @@ jobs:
       - name: Analyze
         run: dart analyze
       - name: Run tests
-        run: dart test
+        run: |
+          dart test --coverage=coverage
+          dart pub global activate coverage
+          dart pub global run coverage:format_coverage --report-on=lib --lcov -i coverage/test -o coverage/lcov.info
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v2
+        with:
+          file: coverage/lcov.info
