@@ -44,5 +44,5 @@ class PatternMatcher extends TextMatcher {
   /// Creates a [PatternMatcher] with some regular expression pattern.
   ///
   /// {@macro text_parser_pattern_matcher}
-  const PatternMatcher(String pattern) : super(pattern);
+  const PatternMatcher(super.pattern);
 }
