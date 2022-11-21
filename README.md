@@ -139,6 +139,24 @@ Tip:
 If you want certain parentheses to be not captured as a group, add `?:` after the opening
 parenthesis, like `(?:pattern)` instead of `(pattern)`.
 
+#### Named groups
+
+Named groups are captured too, but their names are lost in the result.
+
+```dart
+final parser = TextParser(
+  matchers: const [PatternMatcher(r'(?<year>\d{4})-(?<month>\d{2})')]
+);
+final elements = await parser.parse('2022-11');
+print(elements.first.groups);
+```
+
+Output:
+
+```
+[2022, 11]
+```
+
 ### RegExp options
 
 How a regular expression is treated can be configured in the `TextParser` constructor.
