@@ -28,6 +28,7 @@ abstract class TextElement {
       other is TextElement &&
           runtimeType == other.runtimeType &&
           text == other.text &&
+          groups.equals(other.groups) &&
           matcherType == other.matcherType &&
           offset == other.offset;
 
@@ -35,6 +36,7 @@ abstract class TextElement {
   int get hashCode => Object.hashAll([
         runtimeType,
         text,
+        groups,
         matcherType,
         offset,
       ]);
@@ -56,5 +58,21 @@ abstract class TextElement {
         ?.replaceAll('\r', r'\r')
         .replaceAll('\n', r'\n')
         .replaceAll('\t', r'\t');
+  }
+}
+
+extension on List<String?> {
+  bool equals(List<String?> other) {
+    if (length != other.length) {
+      return false;
+    }
+
+    for (var i = 0; i < length; i++) {
+      if (this[i] != other[i]) {
+        return false;
+      }
+    }
+
+    return true;
   }
 }

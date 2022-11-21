@@ -37,18 +37,64 @@ void main() {
   });
 
   group('element', () {
-    test('element objects with same text and matcherType are equal', () {
-      const element1 = _Element('text', matcherType: UrlMatcher);
-      const element2 = _Element('text', matcherType: UrlMatcher);
+    test('element objects with same values in all properties are equal', () {
+      const element1 = _Element(
+        'text',
+        groups: ['te', 'xt'],
+        matcherType: UrlMatcher,
+        offset: 10,
+      );
+      const element2 = _Element(
+        'text',
+        groups: ['te', 'xt'],
+        matcherType: UrlMatcher,
+        offset: 10,
+      );
       expect(element1, equals(element2));
     });
 
-    test('elements with different text or matcherType are not equal', () {
-      const element1 = _Element('text', matcherType: UrlMatcher);
-      const element2 = _Element('text1', matcherType: UrlMatcher);
-      const element3 = _Element('text', matcherType: EmailMatcher);
+    test('elements with different value in any property are not equal', () {
+      const element1 = _Element(
+        'text',
+        groups: ['te', 'xt'],
+        matcherType: UrlMatcher,
+        offset: 10,
+      );
+      const element2 = _Element(
+        'texu',
+        groups: ['te', 'xt'],
+        matcherType: UrlMatcher,
+        offset: 10,
+      );
+      const element3 = _Element(
+        'text',
+        groups: ['te', 'xu'],
+        matcherType: UrlMatcher,
+        offset: 10,
+      );
+      const element4 = _Element(
+        'text',
+        groups: ['xt', 'te'],
+        matcherType: UrlMatcher,
+        offset: 10,
+      );
+      const element5 = _Element(
+        'text',
+        groups: ['te', 'xt'],
+        matcherType: EmailMatcher,
+        offset: 10,
+      );
+      const element6 = _Element(
+        'text',
+        groups: ['te', 'xt'],
+        matcherType: UrlMatcher,
+        offset: 11,
+      );
       expect(element1, isNot(equals(element2)));
       expect(element1, isNot(equals(element3)));
+      expect(element1, isNot(equals(element4)));
+      expect(element1, isNot(equals(element5)));
+      expect(element1, isNot(equals(element6)));
     });
   });
 }
