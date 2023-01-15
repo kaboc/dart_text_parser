@@ -8,7 +8,7 @@ export 'src/element.dart';
 export 'src/matcher.dart';
 export 'src/preset_matchers.dart';
 
-const _kDefaultMatchers = [UrlMatcher(), EmailMatcher(), TelMatcher()];
+const _kDefaultMatchers = [EmailMatcher(), UrlMatcher(), TelMatcher()];
 
 /// A class that parses text according to specified matchers.
 class TextParser {
