@@ -3,7 +3,7 @@ import 'package:text_parser/text_parser.dart';
 Future<void> main() async {
   const text = '''
     abc https://example.com/sample.jpg. def
-    foo@example.com 911 +1-012-3456-7890
+    john.doe@example.com 911 +1-012-3456-7890
     01111111111 tel:02222222222
     <a class="bar" href="https://example.com/">
       Content inside tags

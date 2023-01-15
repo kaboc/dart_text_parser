@@ -17,10 +17,13 @@ void main() {
   });
 
   group('parse', () {
-    test('parses text correctly', () async {
+    test('parsed correctly with default matchers', () async {
       final elements = await parser.parse(
+        // "john.doe" in the email address is parsed as URL
+        // mistakenly if UrlMatcher is specified before
+        // EmailMatcher in the list of default matchers.
         'abc https://example.com/sample.jpg. def\n'
-        'foo@example.com 911',
+        'john.doe@example.com 911',
       );
 
       expect(elements, hasLength(6));
@@ -33,7 +36,7 @@ void main() {
       expect(elements[2].text, equals('. def\n'));
       expect(elements[2].groups, equals(<String>[]));
       expect(elements[2].matcherType, equals(TextMatcher));
-      expect(elements[3].text, equals('foo@example.com'));
+      expect(elements[3].text, equals('john.doe@example.com'));
       expect(elements[3].groups, equals(<String>[]));
       expect(elements[3].matcherType, equals(EmailMatcher));
       expect(elements[4].text, equals(' '));

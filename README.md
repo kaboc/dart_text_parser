@@ -21,7 +21,7 @@ import 'package:text_parser/text_parser.dart';
 
 Future<void> main() async {
   const text = 'abc https://example.com/sample.jpg. def\n'
-      'foo@example.com +1-012-3456-7890';
+      'john.doe@example.com +1-012-3456-7890';
 
   final parser = TextParser();
   final elements = await parser.parse(text);
@@ -35,9 +35,9 @@ Output:
 TextElement(matcherType: TextMatcher, offset: 0, text: abc , groups: [])
 TextElement(matcherType: UrlMatcher, offset: 4, text: https://example.com/sample.jpg, groups: [])
 TextElement(matcherType: TextMatcher, offset: 34, text: . def\n, groups: [])
-TextElement(matcherType: EmailMatcher, offset: 40, text: foo@example.com, groups: [])
-TextElement(matcherType: TextMatcher, offset: 55, text:  , groups: [])
-TextElement(matcherType: TelMatcher, offset: 56, text: +1-012-3456-7890, groups: [])
+TextElement(matcherType: EmailMatcher, offset: 40, text: john.doe@example.com, groups: [])
+TextElement(matcherType: TextMatcher, offset: 60, text:  , groups: [])
+TextElement(matcherType: TelMatcher, offset: 61, text: +1-012-3456-7890, groups: [])
 ```
 
 ### Extracting only matching text elements
