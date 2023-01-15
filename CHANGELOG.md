@@ -1,3 +1,8 @@
+## 0.4.2
+
+- Fix issue in default matchers where email address starting with URL-like text was parsed as URL. (#6)
+- Improve tests.
+
 ## 0.4.1
 
 - Fix and improve `==` operator and `hashCode` of `TextElement`.
