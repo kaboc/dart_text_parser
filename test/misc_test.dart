@@ -120,7 +120,7 @@ void main() {
         matcherType: UrlMatcher,
         offset: 10,
       );
-      final expected = 'TextElement(matcherType: UrlMatcher, '
+      const expected = 'TextElement(matcherType: UrlMatcher, '
           r'offset: 10, text: te\r\n\txt, groups: [te, xt])';
       expect(element.toString(), equals(expected));
     });
