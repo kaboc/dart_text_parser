@@ -103,3 +103,23 @@ extension on List<String?> {
     return true;
   }
 }
+
+/// Extensions on a collection of [TextElement].
+extension TextElementsExtension on Iterable<TextElement> {
+  /// Returns a new lazy [Iterable] with all [TextElement]s
+  /// that have type [T] as `matcherType`.
+  Iterable<TextElement> whereMatcherType<T extends TextMatcher>() {
+    return where((element) => element.matcherType == T);
+  }
+
+  /// Corrects the offset of [TextElement]s and returns a new
+  /// lazy [Iterable] with the elements.
+  Iterable<TextElement> reassignOffsets() {
+    var offset = 0;
+    return map((elm) {
+      final newElm = elm.copyWith(offset: offset);
+      offset += elm.text.length;
+      return newElm;
+    });
+  }
+}

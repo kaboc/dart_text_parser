@@ -17,9 +17,9 @@ Future<void> main() async {
 
   print('-' * 20);
 
-  // Extracts phone number elements from the parsed result
-  final telNumbers = elements.where((elm) => elm.matcherType == TelMatcher);
-  telNumbers.forEach(print);
+  // Extracts only phone number elements as an Iterable
+  final telElements = elements.whereMatcherType<TelMatcher>();
+  telElements.forEach(print);
 
   print('-' * 20);
 

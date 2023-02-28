@@ -40,7 +40,7 @@ TextElement(matcherType: TextMatcher, offset: 60, text:  , groups: [])
 TextElement(matcherType: TelMatcher, offset: 61, text: +1-012-3456-7890, groups: [])
 ```
 
-### Extracting only matching text elements
+#### Extracting only matching text elements
 
 By default, the result of [parse()][parse] contains both matching and non-matching elements
 as seen in the above example. If you want only matching elements, set `onlyMatches` to `true`
@@ -57,6 +57,18 @@ Output:
 TextElement(matcherType: UrlMatcher, offset: 4, text: https://example.com/sample.jpg, groups: [])
 TextElement(matcherType: EmailMatcher, offset: 40, text: foo@example.com, groups: [])
 TextElement(matcherType: TelMatcher, offset: 56, text: +1-012-3456-7890, groups: [])
+```
+
+#### Extracting text elements of a particular matcher type
+
+```dart
+final telElements = elements.whereMatcherType<TelMatcher>().toList();
+```
+
+Or use a classic way:
+
+```dart
+final telElements = elements.map((elm) => elm.matcherType == TelMatcher).toList();
 ```
 
 ### Overwriting the pattern of a preset matcher
