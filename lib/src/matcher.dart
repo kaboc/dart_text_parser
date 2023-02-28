@@ -9,8 +9,7 @@ import '../text_parser.dart';
 /// or its subclass to indicate which matcher the element was parsed by.
 @immutable
 abstract class TextMatcher {
-  const TextMatcher(this.pattern)
-      : assert(pattern.length > 0, '`pattern` must not be empty.');
+  const TextMatcher(this.pattern);
 
   /// The regular expression string to specify the rule for parsing.
   final String pattern;

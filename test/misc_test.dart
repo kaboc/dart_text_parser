@@ -16,13 +16,6 @@ void main() {
       expect(matcher.toString(), equals('PatternMatcher(pattern: abc)'));
     });
 
-    test('Creating matcher with empty pattern throws', () {
-      expect(
-        () => PatternMatcher(''),
-        throwsA(isA<AssertionError>()),
-      );
-    });
-
     test('matchers with same type and pattern are equal', () {
       const matcher1 = UrlMatcher();
       const matcher2 = UrlMatcher();
