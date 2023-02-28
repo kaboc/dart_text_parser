@@ -3,7 +3,7 @@ import 'package:test/test.dart';
 import 'package:text_parser/text_parser.dart';
 
 void main() {
-  group('matcher', () {
+  group('equality of matchers', () {
     test('default pattern can be overwritten', () {
       const pattern = 'pattern';
       const matcher = UrlMatcher(pattern);
@@ -39,7 +39,7 @@ void main() {
     });
   });
 
-  group('element', () {
+  group('equality of elements', () {
     test('element objects with same values in all properties are equal', () {
       const element1 = TextElement(
         'text',
@@ -111,18 +111,6 @@ void main() {
       const element2 = TextElementWithDifferentName('text');
       expect(element1, isNot(equals(element2)));
       expect(element1.hashCode, isNot(equals(element2.hashCode)));
-    });
-
-    test('toString() of TextElement returns correct string', () {
-      const element = TextElement(
-        'te\r\n\txt',
-        groups: ['te', 'xt'],
-        matcherType: UrlMatcher,
-        offset: 10,
-      );
-      const expected = 'TextElement(matcherType: UrlMatcher, '
-          r'offset: 10, text: te\r\n\txt, groups: [te, xt])';
-      expect(element.toString(), equals(expected));
     });
   });
 }
