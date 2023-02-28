@@ -71,7 +71,7 @@ class Parser {
       final match = regExp.firstMatch(target);
       if (match == null) {
         if (!onlyMatches) {
-          list.add(_Element(target, offset: prevOffset));
+          list.add(TextElement(target, offset: prevOffset));
         }
         break;
       }
@@ -79,7 +79,7 @@ class Parser {
       if (match.start > 0) {
         final v = target.substring(0, match.start);
         if (!onlyMatches) {
-          list.add(_Element(v, offset: prevOffset));
+          list.add(TextElement(v, offset: prevOffset));
         }
       }
 
@@ -87,7 +87,7 @@ class Parser {
         final v = match.namedGroup('$_kNamedGroupPrefix$i');
         if (v != null) {
           list.add(
-            _Element(
+            TextElement(
               v,
               groups: match.groups(_groupRanges[i]),
               matcherType: _matchers[i].runtimeType,
@@ -104,13 +104,4 @@ class Parser {
 
     return list;
   }
-}
-
-class _Element extends TextElement {
-  const _Element(
-    String text, {
-    List<String?> groups = const [],
-    Type matcherType = TextMatcher,
-    int offset = 0,
-  }) : super(text, groups, matcherType, offset);
 }

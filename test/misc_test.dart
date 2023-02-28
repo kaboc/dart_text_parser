@@ -41,13 +41,13 @@ void main() {
 
   group('element', () {
     test('element objects with same values in all properties are equal', () {
-      const element1 = _Element(
+      const element1 = TextElement(
         'text',
         groups: ['te', 'xt'],
         matcherType: UrlMatcher,
         offset: 10,
       );
-      const element2 = _Element(
+      const element2 = TextElement(
         'text',
         groups: ['te', 'xt'],
         matcherType: UrlMatcher,
@@ -58,37 +58,37 @@ void main() {
     });
 
     test('elements with different value in any property are not equal', () {
-      const element1 = _Element(
+      const element1 = TextElement(
         'text',
         groups: ['te', 'xt'],
         matcherType: UrlMatcher,
         offset: 10,
       );
-      const element2 = _Element(
+      const element2 = TextElement(
         'texu',
         groups: ['te', 'xt'],
         matcherType: UrlMatcher,
         offset: 10,
       );
-      const element3 = _Element(
+      const element3 = TextElement(
         'text',
         groups: ['te', 'xu'],
         matcherType: UrlMatcher,
         offset: 10,
       );
-      const element4 = _Element(
+      const element4 = TextElement(
         'text',
         groups: ['xt', 'te'],
         matcherType: UrlMatcher,
         offset: 10,
       );
-      const element5 = _Element(
+      const element5 = TextElement(
         'text',
         groups: ['te', 'xt'],
         matcherType: EmailMatcher,
         offset: 10,
       );
-      const element6 = _Element(
+      const element6 = TextElement(
         'text',
         groups: ['te', 'xt'],
         matcherType: UrlMatcher,
@@ -107,14 +107,14 @@ void main() {
     });
 
     test('elements with same value but different types are not equal', () {
-      const element1 = _Element('text');
-      const element2 = _Element2('text');
+      const element1 = TextElement('text');
+      const element2 = TextElementWithDifferentName('text');
       expect(element1, isNot(equals(element2)));
       expect(element1.hashCode, isNot(equals(element2.hashCode)));
     });
 
     test('toString() of TextElement returns correct string', () {
-      const element = _Element(
+      const element = TextElement(
         'te\r\n\txt',
         groups: ['te', 'xt'],
         matcherType: UrlMatcher,
@@ -127,15 +127,6 @@ void main() {
   });
 }
 
-class _Element extends TextElement {
-  const _Element(
-    String text, {
-    List<String?> groups = const [],
-    Type matcherType = TextMatcher,
-    int offset = 0,
-  }) : super(text, groups, matcherType, offset);
-}
-
-class _Element2 extends _Element {
-  const _Element2(super.text);
+class TextElementWithDifferentName extends TextElement {
+  const TextElementWithDifferentName(super.text);
 }
