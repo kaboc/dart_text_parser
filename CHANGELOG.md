@@ -1,3 +1,8 @@
+## 1.0.1
+
+- Downgrade meta to avoid dependency conflict with flutter_test.
+- Add tests for new methods added in 1.0.0.
+
 ## 1.0.0
 
 - Raise minimum Dart SDK version to 2.18.0.
