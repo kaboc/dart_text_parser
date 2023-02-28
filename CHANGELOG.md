@@ -1,3 +1,11 @@
+## 1.0.0
+
+- Raise minimum Dart SDK version to 2.18.0.
+- Remove assertion of empty match pattern from `TextMatcher`.
+- Change `TextElement` to a concrete class.
+- Add `copyWith()` to `TextElement`.
+- Add `TextElementsExtension` with `whereMatcher<T>()` and `reassignOffsets()` methods.
+
 ## 0.4.2
 
 - Fix issue in default matchers where email address starting with URL-like text was parsed as URL. (#6)

@@ -42,8 +42,9 @@ TextElement(matcherType: TelMatcher, offset: 61, text: +1-012-3456-7890, groups:
 
 #### Extracting only matching text elements
 
-By default, the result of [parse()][parse] contains both matching and non-matching elements
-as seen in the above example. If you want only matching elements, set `onlyMatches` to `true`
+By default, the result of [parse()][parse] contains all elements including the ones that
+have [TextMatcher][TextMatcher] as `matcherType`, which are elements of a string that
+did not match any match pattern. If you want to exclude them, set `onlyMatches` to `true`
 when calling `parse()`.
 
 ```dart
@@ -96,11 +97,13 @@ or by extending [TextMatcher][TextMatcher].
 #### PatternMatcher
 
 ```dart
-const boldMatcher = PatternMatcher(r'\*\*(.+)\*\*');
+const boldMatcher = PatternMatcher(r'\*\*(.+?)\*\*');
 final parser = TextParser(matchers: [boldMatcher]);
 ```
 
-#### Extending TextMatcher
+#### Custom matcher class
+
+It is also possible to create a matcher class by extending [TextMatcher][TextMatcher].
 
 Below is an example of a matcher that parses the HTML `<a>` tags into a set of the href
 value and the link text.
@@ -158,16 +161,16 @@ Named groups are captured too, but their names are lost in the result.
 
 ```dart
 final parser = TextParser(
-  matchers: const [PatternMatcher(r'(?<year>\d{4})-(?<month>\d{2})')]
+  matchers: const [PatternMatcher(r'(?<year>\d{4})-(?<month>\d{2})')],
 );
 final elements = await parser.parse('2022-11');
-print(elements.first.groups);
+print(elements.first);
 ```
 
 Output:
 
 ```
-[2022, 11]
+TextElement(matcherType: PatternMatcher, offset: 0, text: 2022-11, groups: [2022, 11])
 ```
 
 ### RegExp options

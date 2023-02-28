@@ -36,7 +36,7 @@ abstract class TextMatcher {
 /// pattern without writing a new matcher class extending [TextMatcher].
 ///
 /// ```dart
-/// const boldMatcher = PatternMatcher(r'\*\*(.+)\*\*');
+/// const boldMatcher = PatternMatcher(r'\*\*(.+?)\*\*');
 /// ```
 /// {@endtemplate}
 class PatternMatcher extends TextMatcher {
