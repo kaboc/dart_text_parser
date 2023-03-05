@@ -112,6 +112,12 @@ extension TextElementsExtension on Iterable<TextElement> {
     return where((element) => element.matcherType == T);
   }
 
+  /// Whether the iterable contains one or more [TextElement]s
+  /// that have type [T] as `matcherType`.
+  bool containsMatcherType<T extends TextMatcher>() {
+    return any((element) => element.matcherType == T);
+  }
+
   /// Corrects the offsets of [TextElement]s and returns a new
   /// lazy [Iterable] with the elements.
   ///

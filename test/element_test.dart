@@ -65,6 +65,17 @@ void main() {
       );
     });
 
+    test('containsMatcherType()', () {
+      const elements = [
+        TextElement('text1', matcherType: UrlMatcher),
+        TextElement('text2', matcherType: EmailMatcher),
+        TextElement('text3', matcherType: UrlMatcher),
+      ];
+      expect(elements.containsMatcherType<EmailMatcher>(), isTrue);
+      expect(elements.containsMatcherType<TextMatcher>(), isFalse);
+      expect(elements.containsMatcherType<TelMatcher>(), isFalse);
+    });
+
     test('reassignOffsets() without startingOffset', () {
       const elements = [
         TextElement('01234'),
