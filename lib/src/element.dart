@@ -112,10 +112,13 @@ extension TextElementsExtension on Iterable<TextElement> {
     return where((element) => element.matcherType == T);
   }
 
-  /// Corrects the offset of [TextElement]s and returns a new
+  /// Corrects the offsets of [TextElement]s and returns a new
   /// lazy [Iterable] with the elements.
-  Iterable<TextElement> reassignOffsets() {
-    var offset = 0;
+  ///
+  /// The offset of the first element is zero, or a different
+  /// number if specified with [startingOffset].
+  Iterable<TextElement> reassignOffsets({int startingOffset = 0}) {
+    var offset = startingOffset;
     return map((elm) {
       final newElm = elm.copyWith(offset: offset);
       offset += elm.text.length;

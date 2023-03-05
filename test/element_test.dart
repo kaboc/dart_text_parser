@@ -65,7 +65,7 @@ void main() {
       );
     });
 
-    test('reassignOffsets()', () {
+    test('reassignOffsets() without startingOffset', () {
       const elements = [
         TextElement('01234'),
         TextElement('5'),
@@ -76,6 +76,19 @@ void main() {
 
       expect(elements.map((e) => e.offset), [0, 0, 0, 0]);
       expect(newElements.map((e) => e.offset), [0, 5, 6, 9]);
+    });
+
+    test('reassignOffsets() with startingOffset', () {
+      const elements = [
+        TextElement('01234'),
+        TextElement('5'),
+        TextElement('678'),
+        TextElement('9012'),
+      ];
+      final newElements = elements.reassignOffsets(startingOffset: 10);
+
+      expect(elements.map((e) => e.offset), [0, 0, 0, 0]);
+      expect(newElements.map((e) => e.offset), [10, 15, 16, 19]);
     });
   });
 }
