@@ -41,14 +41,6 @@ Future<void> main() async {
   parser = TextParser(matchers: const [ATagMatcher()], dotAll: true);
   elements = await parser.parse(text, onlyMatches: true);
   elements.forEach(print);
-
-  print('-' * 20);
-
-  parser = TextParser(
-    matchers: const [PatternMatcher(r'(?<year>\d{4})-(?<month>\d{2})')],
-  );
-  elements = await parser.parse('2022-11');
-  print(elements.first);
 }
 
 class ATagMatcher extends TextMatcher {

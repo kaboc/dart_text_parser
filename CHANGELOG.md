@@ -1,3 +1,9 @@
+## 1.1.0
+
+- Add `startingOffset` argument to `reassignOffsets()`.
+- Add `containsMatcherType<T>()` to `TextElementsExtension`.
+- Minor refactoring.
+
 ## 1.0.1
 
 - Downgrade meta to avoid dependency conflict with flutter_test.
