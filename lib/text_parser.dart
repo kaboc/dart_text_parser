@@ -35,17 +35,15 @@ class TextParser {
     bool caseSensitive = true,
     bool unicode = false,
     bool dotAll = false,
-  }) {
-    _parser = Parser(
-      matchers: matchers,
-      multiLine: multiLine,
-      caseSensitive: caseSensitive,
-      unicode: unicode,
-      dotAll: dotAll,
-    );
-  }
+  }) : _parser = Parser(
+          matchers: matchers,
+          multiLine: multiLine,
+          caseSensitive: caseSensitive,
+          unicode: unicode,
+          dotAll: dotAll,
+        );
 
-  late final Parser _parser;
+  final Parser _parser;
 
   /// The list of matchers.
   List<TextMatcher> get matchers => _parser.matchers;
