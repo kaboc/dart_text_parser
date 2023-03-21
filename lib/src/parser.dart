@@ -1,7 +1,7 @@
 import 'element.dart';
 import 'matcher.dart';
 
-const _kNamedGroupPrefix = 'ng';
+const _kMatcherGroupPrefix = '__mg__';
 
 class Parser {
   Parser({
@@ -20,38 +20,41 @@ class Parser {
   final bool dotAll;
 
   late List<TextMatcher> _matchers;
+  final List<String> _matcherGroupNames = [];
+  final List<List<int>> _matcherGroupRanges = [];
   late String _pattern;
-  final List<List<int>> _groupRanges = [];
 
   List<TextMatcher> get matchers => List.unmodifiable(_matchers);
 
   void update(List<TextMatcher> matchers) {
     _matchers = matchers;
+    _matcherGroupNames.clear();
+    _matcherGroupRanges.clear();
 
-    // Using a concatenated pattern showed better performance than
-    // iterating each pattern.
-    _pattern = {
-      for (var i = 0; i < matchers.length; i++)
-        '(?<$_kNamedGroupPrefix$i>${matchers[i].pattern})',
-    }.join('|');
+    var groupIndexStart = 2;
+    for (var i = 0; i < matchers.length; i++) {
+      _matcherGroupNames.add('$_kMatcherGroupPrefix$i');
 
-    final groupCounts = matchers.map((v) {
       final regExp = RegExp(
-        '${v.pattern}|.*',
+        '${matchers[i].pattern}|.*',
         multiLine: multiLine,
         caseSensitive: caseSensitive,
         unicode: unicode,
         dotAll: dotAll,
       );
-      return regExp.firstMatch('')?.groupCount ?? 0;
-    }).toList();
+      final groupCount = regExp.firstMatch('')?.groupCount ?? 0;
 
-    _groupRanges.clear();
-    for (var i = 0; i < matchers.length; i++) {
-      final start = i + groupCounts.sublist(0, i).fold<int>(1, (a, b) => a + b);
-      final range = List.generate(groupCounts[i], (i) => start + i + 1);
-      _groupRanges.add(range);
+      _matcherGroupRanges.add([
+        for (var i = 0; i < groupCount; i++) groupIndexStart + i,
+      ]);
+
+      groupIndexStart += groupCount + 1;
     }
+
+    _pattern = {
+      for (var i = 0; i < matchers.length; i++)
+        '(?<${_matcherGroupNames[i]}>${matchers[i].pattern})',
+    }.join('|');
   }
 
   List<TextElement> parse(String text, {required bool onlyMatches}) {
@@ -62,45 +65,39 @@ class Parser {
       unicode: unicode,
       dotAll: dotAll,
     );
+    final matches = regExp.allMatches(text);
 
     final list = <TextElement>[];
-    var target = text;
-    var prevOffset = 0;
+    var offset = 0;
 
-    do {
-      final match = regExp.firstMatch(target);
-      if (match == null) {
-        if (!onlyMatches) {
-          list.add(TextElement(target, offset: prevOffset));
-        }
-        break;
+    for (final match in matches) {
+      if (!onlyMatches && match.start > offset) {
+        final substring = text.substring(offset, match.start);
+        list.add(TextElement(substring, offset: offset));
       }
 
-      if (match.start > 0) {
-        final v = target.substring(0, match.start);
-        if (!onlyMatches) {
-          list.add(TextElement(v, offset: prevOffset));
-        }
+      final substring = text.substring(match.start, match.end);
+      final matcherIndex = _matcherGroupNames
+          .indexWhere((name) => match.namedGroup(name) == substring);
+
+      if (matcherIndex > -1) {
+        list.add(
+          TextElement(
+            substring,
+            offset: match.start,
+            matcherType: matchers[matcherIndex].runtimeType,
+            groups: match.groups(_matcherGroupRanges[matcherIndex]),
+          ),
+        );
       }
 
-      for (var i = 0; i < _matchers.length; i++) {
-        final v = match.namedGroup('$_kNamedGroupPrefix$i');
-        if (v != null) {
-          list.add(
-            TextElement(
-              v,
-              groups: match.groups(_groupRanges[i]),
-              matcherType: _matchers[i].runtimeType,
-              offset: prevOffset + match.start,
-            ),
-          );
-          break;
-        }
-      }
+      offset = match.end;
+    }
 
-      target = target.substring(match.end);
-      prevOffset += match.end;
-    } while (target.isNotEmpty);
+    if (!onlyMatches && offset < text.length) {
+      final substring = text.substring(offset);
+      list.add(TextElement(substring, offset: offset));
+    }
 
     return list;
   }
