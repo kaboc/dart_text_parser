@@ -141,6 +141,29 @@ void main() {
       }
     });
 
+    test(
+      'lookbehind assertion matches string right next to previous match.',
+      () async {
+        const text = 'abc123def';
+        final elements = await TextParser(
+          matchers: const [
+            _AlphabetsMatcher(),
+            PatternMatcher(r'(?<=[a-z])\d+'),
+          ],
+        ).parse(text);
+
+        expect(elements[0].text, equals('abc'));
+        expect(elements[0].matcherType, equals(_AlphabetsMatcher));
+        expect(elements[0].offset, equals(0));
+        expect(elements[1].text, equals('123'));
+        expect(elements[1].matcherType, equals(PatternMatcher));
+        expect(elements[1].offset, equals(3));
+        expect(elements[2].text, equals('def'));
+        expect(elements[2].matcherType, equals(_AlphabetsMatcher));
+        expect(elements[2].offset, equals(6));
+      },
+    );
+
     test('parsing in main thread and in isolate give same result', () async {
       const text = 'https://example.com/ foo@example.com012-3456-7890';
 
