@@ -8,12 +8,14 @@ void main() {
     parser = TextParser();
   });
 
-  test('matchers can be updated via matchers setter', () {
-    expect(parser.matchers, hasLength(3));
+  group('matcher', () {
+    test('matchers can be updated via matchers setter', () {
+      expect(parser.matchers, hasLength(3));
 
-    parser.matchers = const [EmailMatcher()];
-    expect(parser.matchers, hasLength(1));
-    expect(parser.matchers[0], equals(const EmailMatcher()));
+      parser.matchers = const [EmailMatcher()];
+      expect(parser.matchers, hasLength(1));
+      expect(parser.matchers[0], equals(const EmailMatcher()));
+    });
   });
 
   group('parse', () {
@@ -28,32 +30,50 @@ void main() {
 
       expect(elements, hasLength(6));
       expect(elements[0].text, equals('abc '));
-      expect(elements[0].groups, equals(<String>[]));
+      expect(elements[0].offset, equals(0));
+      expect(elements[0].groups, isEmpty);
       expect(elements[0].matcherType, equals(TextMatcher));
       expect(elements[1].text, equals('https://example.com/sample.jpg'));
-      expect(elements[1].groups, equals(<String>[]));
+      expect(elements[1].offset, equals(4));
+      expect(elements[1].groups, isEmpty);
       expect(elements[1].matcherType, equals(UrlMatcher));
       expect(elements[2].text, equals('. def\n'));
-      expect(elements[2].groups, equals(<String>[]));
+      expect(elements[2].offset, equals(34));
+      expect(elements[2].groups, isEmpty);
       expect(elements[2].matcherType, equals(TextMatcher));
       expect(elements[3].text, equals('john.doe@example.com'));
-      expect(elements[3].groups, equals(<String>[]));
+      expect(elements[3].offset, equals(40));
+      expect(elements[3].groups, isEmpty);
       expect(elements[3].matcherType, equals(EmailMatcher));
       expect(elements[4].text, equals(' '));
-      expect(elements[4].groups, equals(<String>[]));
+      expect(elements[4].offset, equals(60));
+      expect(elements[4].groups, isEmpty);
       expect(elements[4].matcherType, equals(TextMatcher));
       expect(elements[5].text, equals('911'));
-      expect(elements[5].groups, equals(<String>[]));
+      expect(elements[5].offset, equals(61));
+      expect(elements[5].groups, isEmpty);
       expect(elements[5].matcherType, equals(TelMatcher));
     });
 
+    test('parsed into a single element if there is no match', () async {
+      final elements = await parser.parse('abcde');
+
+      expect(elements, hasLength(1));
+      expect(elements[0].text, equals('abcde'));
+      expect(elements[0].offset, equals(0));
+      expect(elements[0].groups, isEmpty);
+      expect(elements[0].matcherType, equals(TextMatcher));
+    });
+
     test('groups are caught correctly', () async {
-      parser.matchers = const [_MyTelMatcher()];
+      parser.matchers = const [_GroupingTelMatcher()];
       final elements = await parser.parse('abc012(3456)7890def');
       expect(elements[0].text, equals('abc'));
+      expect(elements[0].groups, isEmpty);
       expect(elements[1].text, equals('012(3456)7890'));
       expect(elements[1].groups, equals(['012', '3456', '7890']));
       expect(elements[2].text, equals('def'));
+      expect(elements[2].groups, isEmpty);
     });
 
     test('named groups are caught correctly', () async {
@@ -62,10 +82,39 @@ void main() {
       ];
       final elements = await parser.parse('abc2022-01-23def');
       expect(elements[0].text, equals('abc'));
+      expect(elements[0].groups, isEmpty);
       expect(elements[1].text, equals('2022-01-23'));
       expect(elements[1].groups, equals(['2022', '01', '23']));
       expect(elements[2].text, equals('def'));
+      expect(elements[2].groups, isEmpty);
     });
+
+    test(
+      'complex patterns with no group, unnamed and named groups work correctly',
+      () async {
+        parser.matchers = const [
+          _GroupingTelMatcher(),
+          UrlMatcher('(https?)://([a-z]+.[a-z]+)/'),
+          // This matcher uses both unnamed and named groups.
+          PatternMatcher(r'(?<year>\d{4})-(\d{1,2})-(?<day>\d{1,2})'),
+        ];
+        final elements = await parser.parse(
+          'abc012(3456)7890def https://example.com/ 2022-01-23',
+        );
+        expect(elements[0].text, equals('abc'));
+        expect(elements[0].groups, isEmpty);
+        expect(elements[1].text, equals('012(3456)7890'));
+        expect(elements[1].groups, equals(['012', '3456', '7890']));
+        expect(elements[2].text, equals('def '));
+        expect(elements[2].groups, isEmpty);
+        expect(elements[3].text, equals('https://example.com/'));
+        expect(elements[3].groups, equals(['https', 'example.com']));
+        expect(elements[4].text, equals(' '));
+        expect(elements[4].groups, isEmpty);
+        expect(elements[5].text, equals('2022-01-23'));
+        expect(elements[5].groups, equals(['2022', '01', '23']));
+      },
+    );
 
     test('offsets are set correctly when onlyMatches is false', () async {
       const text =
@@ -188,8 +237,8 @@ void main() {
   });
 }
 
-class _MyTelMatcher extends TextMatcher {
-  const _MyTelMatcher() : super(r'(\d{3})\((\d{4})\)(\d{4})');
+class _GroupingTelMatcher extends TextMatcher {
+  const _GroupingTelMatcher() : super(r'(\d{3})\((\d{4})\)(\d{4})');
 }
 
 class _LineCommentMatcher1 extends TextMatcher {
