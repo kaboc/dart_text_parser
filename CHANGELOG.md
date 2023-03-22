@@ -1,3 +1,10 @@
+## 1.2.0-dev.1
+
+- Refactor the parser entirely. (#8)
+    - This resolves the issue that required a workaround when lookbehind assertion was used.
+- Add assertions to check matchers and patterns are not empty.
+- Add and improve tests.
+
 ## 1.1.0
 
 - Add `startingOffset` argument to `reassignOffsets()`.

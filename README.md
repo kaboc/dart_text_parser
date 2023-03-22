@@ -157,20 +157,24 @@ parenthesis, like `(?:pattern)` instead of `(pattern)`.
 
 #### Named groups
 
-Named groups are captured too, but their names are lost in the result.
+Named groups are captured too, but their names are lost in the resulting `groups` list.
+Therefore, it does not affect the result which of unnamed or named groups are used.
+
+Below is an example where a single match pattern contains capturing of both unnamed and
+named groups. 
 
 ```dart
 final parser = TextParser(
-  matchers: const [PatternMatcher(r'(?<year>\d{4})-(?<month>\d{2})')],
+  matchers: const [PatternMatcher(r'(?<year>\d{4})-(\d{2})-(?<day>\d{2})')],
 );
-final elements = await parser.parse('2022-11');
+final elements = await parser.parse('2020-01-23');
 print(elements.first);
 ```
 
 Output:
 
 ```
-TextElement(matcherType: PatternMatcher, offset: 0, text: 2022-11, groups: [2022, 11])
+TextElement(matcherType: PatternMatcher, offset: 0, text: 2020-01-23, groups: [2020, 01, 23])
 ```
 
 ### RegExp options
