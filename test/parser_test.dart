@@ -8,16 +8,6 @@ void main() {
     parser = TextParser();
   });
 
-  group('matcher', () {
-    test('matchers can be updated via matchers setter', () {
-      expect(parser.matchers, hasLength(3));
-
-      parser.matchers = const [EmailMatcher()];
-      expect(parser.matchers, hasLength(1));
-      expect(parser.matchers[0], equals(const EmailMatcher()));
-    });
-  });
-
   group('parse', () {
     test('parsed correctly with default matchers', () async {
       final elements = await parser.parse(

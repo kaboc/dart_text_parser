@@ -27,12 +27,22 @@ class Parser {
   List<TextMatcher> get matchers => List.unmodifiable(_matchers);
 
   void update(List<TextMatcher> matchers) {
+    assert(
+      matchers.isNotEmpty,
+      'At least one matcher must not specified.',
+    );
+
     _matchers = matchers;
     _matcherGroupNames.clear();
     _matcherGroupRanges.clear();
 
     var groupIndexStart = 2;
     for (var i = 0; i < matchers.length; i++) {
+      assert(
+        matchers[i].pattern.isNotEmpty,
+        'All matchers must have a non-empty pattern.',
+      );
+
       _matcherGroupNames.add('$_kMatcherGroupPrefix$i');
 
       final regExp = RegExp(
