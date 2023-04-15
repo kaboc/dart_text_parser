@@ -48,6 +48,17 @@ void main() {
     expect(found, equals(url));
   });
 
+  test('backslashes are excluded', () {
+    const url = r'https://example.com/foo\\bar.jpg\\';
+    final matches = regExp.allMatches(url).toList();
+    expect(matches, hasLength(2));
+
+    final found1 = url.substring(matches[0].start, matches[0].end);
+    final found2 = url.substring(matches[1].start, matches[1].end);
+    expect(found1, equals('https://example.com/foo'));
+    expect(found2, equals('bar.jpg'));
+  });
+
   test('matches URL without http:// or https://', () {
     const url = 'example.com';
     const input = '111 $url 222';
