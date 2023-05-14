@@ -1,3 +1,12 @@
+## 1.2.0-dev.2
+
+- **Breaking**
+    - `UrlMatcher` now matches only URLs starting with http(s). (#10)
+        - This also affects the behaviour of TextParser with the default matchers.
+- Add `UrlLikeMatcher` that matches URL-like strings not starting with http(s).
+    - This behaves the same way as `UrlMatcher` used to before this version.
+- Fix `UrlMatcher` to exclude backslashes.
+
 ## 1.2.0-dev.1
 
 - Refactor the parser entirely. (#8)
