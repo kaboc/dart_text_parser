@@ -6,22 +6,33 @@ void main() {
   final pattern = const UrlMatcher().pattern;
   final regExp = RegExp(pattern);
 
-  test('matches URL even despite no letters around it', () {
+  test('matches URL with no letters around it', () {
     const url = 'https://example.com/';
-    final matches = regExp.allMatches(url);
+    final matches = regExp.allMatches(url).toList();
     expect(matches, hasLength(1));
+
+    final found = url.substring(matches[0].start, matches[0].end);
+    expect(found, equals(url));
   });
 
   test('supports both http and https', () {
-    final matches = regExp.allMatches(
-      'http://example.com/ https://example.com/',
-    );
-    expect(matches, hasLength(2));
+    const urls = [
+      'http://example.com/',
+      'https://example.com/',
+    ];
+    final input = urls.join(' ');
+    final matches = regExp.allMatches(input).toList();
+    expect(matches, hasLength(urls.length));
+
+    for (var i = 0; i < urls.length; i++) {
+      final found = input.substring(matches[i].start, matches[i].end);
+      expect(found, equals(urls[i]));
+    }
   });
 
   test('result does not contain strings before URL', () {
     const url = 'https://example.com/';
-    const input = '123$url';
+    const input = 'abc$url';
     final matches = regExp.allMatches(input).toList();
     final found = input.substring(matches[0].start, matches[0].end);
     expect(found, equals(url));
@@ -83,6 +94,8 @@ void main() {
     ];
     final input = urls.join(' ');
     final matches = regExp.allMatches(input).toList();
+    expect(matches, hasLength(urls.length));
+
     for (var i = 0; i < urls.length; i++) {
       final found = input.substring(matches[i].start, matches[i].end);
       expect(found, equals(urls[i]));
@@ -104,6 +117,8 @@ void main() {
     ];
     final input = urls.join(' ');
     final matches = regExp.allMatches(input).toList();
+    expect(matches, hasLength(urls.length));
+
     for (var i = 0; i < urls.length; i++) {
       final found = input.substring(matches[i].start, matches[i].end);
       expect(found, equals(urls[i]));
