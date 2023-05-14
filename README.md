@@ -8,9 +8,8 @@ A Dart package for parsing text flexibly according to preset or custom regular e
 
 ### Using preset matchers (URL / email address / phone number)
 
-If [matchers][TextParser_matchers] is omitted in [TextParser][TextParser], the three preset
-matchers ([UrlMatcher][UrlMatcher], [EmailMatcher][EmailMatcher] and [TelMatcher][TelMatcher])
-are used automatically.
+If [matchers][TextParser_matchers] is omitted in [TextParser], the three preset matchers
+([UrlMatcher], [EmailMatcher] and [TelMatcher]) are used as the default matchers.
 
 The default regular expression pattern of each of them is not very strict.
 If it is unsuitable for your use case, overwrite the pattern by yourself, referring to the
@@ -39,6 +38,9 @@ TextElement(matcherType: EmailMatcher, offset: 40, text: john.doe@example.com, g
 TextElement(matcherType: TextMatcher, offset: 60, text:  , groups: [])
 TextElement(matcherType: TelMatcher, offset: 61, text: +1-012-3456-7890, groups: [])
 ```
+
+If you want to parse URLs that don't start with "http" (e.g. `example.com`, `//example.com`,
+etc. as well as `https://example.com`), use [UrlLikeMatcher] instead of `UrlMatcher`.
 
 #### Extracting only matching text elements
 
@@ -201,6 +203,7 @@ These options are passed to [RegExp][RegExp] internally, so refer to its
 [TextParser_matchers]: https://pub.dev/documentation/text_parser/latest/text_parser/TextParser/matchers.html
 [TextMatcher]: https://pub.dev/documentation/text_parser/latest/text_parser/TextMatcher-class.html
 [UrlMatcher]: https://pub.dev/documentation/text_parser/latest/text_parser/UrlMatcher-class.html
+[UrlLikeMatcher]: https://pub.dev/documentation/text_parser/latest/text_parser/UrlLikeMatcher-class.html
 [EmailMatcher]: https://pub.dev/documentation/text_parser/latest/text_parser/EmailMatcher-class.html
 [TelMatcher]: https://pub.dev/documentation/text_parser/latest/text_parser/TelMatcher-class.html
 [PatternMatcher]: https://pub.dev/documentation/text_parser/latest/text_parser/PatternMatcher-class.html
