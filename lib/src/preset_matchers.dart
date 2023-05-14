@@ -1,17 +1,33 @@
 import 'matcher.dart';
 
-/// A variant of [TextMatcher] for parsing URLs.
+const _kUrlPattern = r'(?:'
+    r'(?:[\w\-]{1,256}\.){1,5}[a-zA-Z]{2,10}'
+    r'|\d{1,3}(?:\.\d{1,3}){3}'
+    r'|localhost'
+    r')'
+    r'(?::\d{1,5})?'
+    r"(?:[/?#](?:(?:[\w\-.~%!#$&'()*+,/:;=?@\[\]]+/?)*[^\s.\\])?)?";
+
+/// A variant of [TextMatcher] for parsing URLs that start with http(s).
 class UrlMatcher extends TextMatcher {
-  /// Creates a [UrlMatcher] for parsing URLs.
+  /// Creates a [UrlMatcher] for parsing URLs that start with http(s).
   ///
   /// The preset pattern is overwritten if a custom pattern is provided.
   const UrlMatcher([
-    super.pattern = r'(?:https?:)?(?://)?(?:'
-        r'(?:[\w\-]{1,256}\.){1,5}[a-zA-Z]{2,10}'
-        r'|\d{1,3}(?:\.\d{1,3}){3}'
-        r'|localhost'
-        r')(?::\d{1,5})?'
-        r"(?:[/?#](?:(?:[\w\-.~%!#$&'()*+,/:;=?@\[\]]+/?)*[^\s.\\])?)?",
+    super.pattern = 'https?://$_kUrlPattern',
+  ]);
+}
+
+/// A variant of [TextMatcher] for parsing URL-like strings.
+///
+/// The difference from [UrlMatcher] is that [UrlLikeMatcher]
+/// also matches URL-like strings not starting with http(s).
+class UrlLikeMatcher extends TextMatcher {
+  /// Creates a [UrlLikeMatcher] for parsing URLs.
+  ///
+  /// The preset pattern is overwritten if a custom pattern is provided.
+  const UrlLikeMatcher([
+    super.pattern = '(?:https?:)?(?://)?$_kUrlPattern',
   ]);
 }
 

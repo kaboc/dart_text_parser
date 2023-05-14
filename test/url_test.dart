@@ -51,43 +51,35 @@ void main() {
   test('backslashes are excluded', () {
     const url = r'https://example.com/foo\\bar.jpg\\';
     final matches = regExp.allMatches(url).toList();
-    expect(matches, hasLength(2));
-
-    final found1 = url.substring(matches[0].start, matches[0].end);
-    final found2 = url.substring(matches[1].start, matches[1].end);
-    expect(found1, equals('https://example.com/foo'));
-    expect(found2, equals('bar.jpg'));
+    expect(matches, hasLength(1));
+    final found = url.substring(matches[0].start, matches[0].end);
+    expect(found, equals('https://example.com/foo'));
   });
 
-  test('matches URL without http:// or https://', () {
+  test('does not match URL without http:// or https://', () {
     const url = 'example.com';
     const input = '111 $url 222';
     final matches = regExp.allMatches(input).toList();
-    final found = input.substring(matches[0].start, matches[0].end);
-    expect(found, equals(url));
+    expect(matches, isEmpty);
   });
 
-  test('matches URL starting with //', () {
+  test('does not match URL starting with //', () {
     const url = '//example.com';
     const input = '111 $url 222';
     final matches = regExp.allMatches(input).toList();
-    final found = input.substring(matches[0].start, matches[0].end);
-    expect(found, equals(url));
+    expect(matches, isEmpty);
   });
 
   test('scheme is excluded if it is misspelled', () {
-    const url = '//example.com';
-    const input = 'ttps:$url';
-    final matches = regExp.allMatches(input).toList();
-    final found = input.substring(matches[0].start, matches[0].end);
-    expect(found, equals(url));
+    const url = 'ttps://example.com';
+    final matches = regExp.allMatches(url).toList();
+    expect(matches, isEmpty);
   });
 
   test('matches URL with localhost or an IP address', () {
     const urls = [
       'http://localhost/',
       'https://127.0.0.1/',
-      '192.168.0.1',
     ];
     final input = urls.join(' ');
     final matches = regExp.allMatches(input).toList();
