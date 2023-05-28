@@ -1,11 +1,26 @@
+## 2.0.0
+
+- **Breaking**:
+    - `UrlMatcher` now matches only URLs starting with http(s). (#10)
+    - `matchers` is no longer optional. (#12)
+- Non-breaking:
+    - Refactor the parser entirely. (#8)
+        - This resolves the issue that required a workaround when lookbehind assertion was used.
+    - Fix `UrlMatcher` to exclude backslashes.
+    - Add `UrlLikeMatcher` that matches URL-like strings not starting with http(s). (#10)
+        - This behaves the same way as `UrlMatcher` used to before this version.
+    - Add assertions to check matchers and patterns are not empty.
+    - Add and improve tests.
+
 ## 1.2.0-dev.2
 
-- **Breaking**
+- **Breaking**:
     - `UrlMatcher` now matches only URLs starting with http(s). (#10)
         - This also affects the behaviour of TextParser with the default matchers.
-- Add `UrlLikeMatcher` that matches URL-like strings not starting with http(s).
-    - This behaves the same way as `UrlMatcher` used to before this version.
-- Fix `UrlMatcher` to exclude backslashes.
+- Non-breaking:
+    - Fix `UrlMatcher` to exclude backslashes.
+    - Add `UrlLikeMatcher` that matches URL-like strings not starting with http(s). (#10)
+        - This behaves the same way as `UrlMatcher` used to before this version.
 
 ## 1.2.0-dev.1
 

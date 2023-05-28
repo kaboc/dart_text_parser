@@ -6,7 +6,7 @@ A Dart package for parsing text flexibly according to preset or custom regular e
 
 ## Usage
 
-### Using preset matchers (URL / email address / phone number)
+### Using the preset matchers (URL / email address / phone number)
 
 The package has the following preset matchers.
 
@@ -88,7 +88,21 @@ Or use a classic way:
 final telElements = elements.map((elm) => elm.matcherType == TelMatcher).toList();
 ```
 
-### Overwriting the pattern of a preset matcher
+#### Conflict between matchers
+
+If multiple matchers have matched the string at the same position in text, the first one
+in those matchers takes precedence.
+
+```dart
+final parser = TextParser(matchers: const[UrlLikeMatcher(), EmailMatcher()]);
+final elements = await parser.parse('foo.bar@example.com');
+```
+
+In this example, `UrlLikeMatcher` matches `foo.bar` and `EmailMatcher` matches
+`foo.bar@example.com`, but `UrlLikeMatcher` is used because it is written before
+`EmailMatcher` in the matchers list.
+
+### Overwriting the pattern of an existing matcher
 
 If you want to parse only URLs and phone numbers, but treat only a sequence of eleven numbers
 after "tel:" as a phone number:
@@ -101,9 +115,6 @@ final parser = TextParser(
   ],
 );
 ```
-
-If the match patterns of multiple matchers have matched the same string at the same position
-in text, the first matcher is used for parsing the element.
 
 ### Using a custom pattern
 

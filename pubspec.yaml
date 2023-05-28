@@ -1,14 +1,14 @@
 name: text_parser
 description: A Dart package for flexibly parsing text into easy-to-handle format according to multiple regular expression patterns.
-version: 1.2.0-dev.2
+version: 2.0.0
 repository: https://github.com/kaboc/dart_text_parser
 
 environment:
-  sdk: '>=2.18.0 <3.0.0'
+  sdk: '>=2.18.0 <4.0.0'
 
 dependencies:
   meta: ^1.8.0
 
 dev_dependencies:
   lints: ^2.0.1
-  test: ^1.23.1
+  test: ^1.24.3

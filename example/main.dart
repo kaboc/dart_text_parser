@@ -44,7 +44,9 @@ Future<void> main() async {
 
   // A match pattern containing capturing of unnamed and named groups
   parser = TextParser(
-    matchers: const [PatternMatcher(r'(?<year>\d{4})-(\d{2})-(?<day>\d{2})')],
+    matchers: const [
+      PatternMatcher(r'(?<year>\d{4})-(\d{2})-(?<day>\d{2})'),
+    ],
   );
   elements = await parser.parse('2020-01-23', onlyMatches: true);
   elements.forEach(print);
