@@ -2,21 +2,16 @@ import 'src/element.dart';
 import 'src/exec_future.dart' if (dart.library.io) 'src/exec_isolate.dart';
 import 'src/matcher.dart';
 import 'src/parser.dart';
-import 'src/preset_matchers.dart';
 
 export 'src/element.dart';
 export 'src/matcher.dart';
 export 'src/preset_matchers.dart';
 
-const _kDefaultMatchers = [EmailMatcher(), UrlMatcher(), TelMatcher()];
-
 /// A class that parses text according to specified matchers.
 class TextParser {
   /// Creates a [TextParser] that parses text according to specified matchers.
   ///
-  /// [matchers] is a list of [TextMatcher]s to be used for parsing. If it
-  /// is omitted, the three preset matchers (`UrlMatcher`, `EmailMatcher`
-  /// and `TelMatcher`) are used.
+  /// [matchers] is a list of [TextMatcher]s to be used for parsing.
   ///
   /// If [multiLine] is enabled, then `^` and `$` will match the beginning
   /// and end of a _line_, in addition to matching beginning and end of
@@ -30,7 +25,7 @@ class TextParser {
   /// If [dotAll] is enabled, then the `.` pattern will match _all_
   /// characters, including line terminators.
   TextParser({
-    List<TextMatcher> matchers = _kDefaultMatchers,
+    required List<TextMatcher> matchers,
     bool multiLine = false,
     bool caseSensitive = true,
     bool unicode = false,

@@ -8,12 +8,14 @@ A Dart package for parsing text flexibly according to preset or custom regular e
 
 ### Using preset matchers (URL / email address / phone number)
 
-If [matchers][TextParser_matchers] is omitted in [TextParser], the three preset matchers
-([UrlMatcher], [EmailMatcher] and [TelMatcher]) are used as the default matchers.
+The package has the following preset matchers.
 
-The default regular expression pattern of each of them is not very strict.
-If it is unsuitable for your use case, overwrite the pattern by yourself, referring to the
-relevant section later in this document.
+- [EmailMatcher]
+- [UrlMatcher]
+- [UrlLikeMatcher]
+- [TelMatcher]
+
+Below is an example of using three of the preset matchers except for `UrlLikeMatcher`.
 
 ```dart
 import 'package:text_parser/text_parser.dart';
@@ -22,7 +24,13 @@ Future<void> main() async {
   const text = 'abc https://example.com/sample.jpg. def\n'
       'john.doe@example.com +1-012-3456-7890';
 
-  final parser = TextParser();
+  final parser = TextParser(
+    matchers: const [
+      EmailMatcher(),
+      UrlMatcher(),
+      TelMatcher(),
+    ],
+  );
   final elements = await parser.parse(text);
   elements.forEach(print);
 }
@@ -39,8 +47,14 @@ TextElement(matcherType: TextMatcher, offset: 60, text:  , groups: [])
 TextElement(matcherType: TelMatcher, offset: 61, text: +1-012-3456-7890, groups: [])
 ```
 
-If you want to parse URLs that don't start with "http" (e.g. `example.com`, `//example.com`,
-etc. as well as `https://example.com`), use [UrlLikeMatcher] instead of `UrlMatcher`.
+The regular expression pattern of each of them is not very strict. If it does not meet
+your use case, overwrite the pattern by yourself to make it stricter, referring to the
+relevant section later in this document.
+
+#### UrlMatcher vs UrlLikeMatcher
+
+[UrlMatcher] does not match URLs not starting with "http" (e.g. `example.com`, `//example.com`,
+etc). If you want them to be matched too, use [UrlLikeMatcher] instead.
 
 #### Extracting only matching text elements
 
