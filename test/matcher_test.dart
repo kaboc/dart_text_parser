@@ -5,7 +5,13 @@ import 'package:text_parser/text_parser.dart';
 void main() {
   late TextParser parser;
   setUp(() {
-    parser = TextParser();
+    parser = TextParser(
+      matchers: const [
+        EmailMatcher(),
+        UrlMatcher(),
+        TelMatcher(),
+      ],
+    );
   });
 
   group('matcher', () {

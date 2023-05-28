@@ -11,7 +11,13 @@ Future<void> main() async {
   ''';
 
   // Uses preset matchers
-  var parser = TextParser();
+  var parser = TextParser(
+    matchers: const [
+      EmailMatcher(),
+      UrlMatcher(),
+      TelMatcher(),
+    ],
+  );
   var elements = await parser.parse(text);
   elements.forEach(print);
 
