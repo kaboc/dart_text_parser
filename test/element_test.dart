@@ -54,57 +54,57 @@ void main() {
 
   group('extension methods', () {
     test('whereMatcherType()', () {
-      const elements = [
+      const elms = [
         TextElement('text1'),
-        TextElement('text2', matcherType: UrlMatcher),
-        TextElement('text3', matcherType: UrlMatcher),
-        TextElement('text4', matcherType: EmailMatcher),
-        TextElement('text5', matcherType: UrlMatcher),
+        TextElement('text2', matcherType: UrlMatcher, matcherIndex: 0),
+        TextElement('text3', matcherType: UrlMatcher, matcherIndex: 1),
+        TextElement('text4', matcherType: TelMatcher, matcherIndex: 2),
+        TextElement('text5', matcherType: UrlMatcher, matcherIndex: 1),
         TextElement('text6'),
       ];
-      expect(elements.whereMatcherType<TextMatcher>(), hasLength(2));
-      expect(elements.whereMatcherType<EmailMatcher>(), hasLength(1));
+      expect(elms.whereMatcherType<TextMatcher>(), hasLength(2));
+      expect(elms.whereMatcherType<TelMatcher>(), hasLength(1));
       expect(
-        elements.whereMatcherType<UrlMatcher>().map((e) => e.text),
+        elms.whereMatcherType<UrlMatcher>().map((e) => e.text),
         equals(['text2', 'text3', 'text5']),
       );
     });
 
     test('containsMatcherType()', () {
-      const elements = [
-        TextElement('text1', matcherType: UrlMatcher),
-        TextElement('text2', matcherType: EmailMatcher),
-        TextElement('text3', matcherType: UrlMatcher),
+      const elms = [
+        TextElement('text1', matcherType: UrlMatcher, matcherIndex: 0),
+        TextElement('text2', matcherType: TelMatcher, matcherIndex: 1),
+        TextElement('text3', matcherType: UrlMatcher, matcherIndex: 0),
       ];
-      expect(elements.containsMatcherType<EmailMatcher>(), isTrue);
-      expect(elements.containsMatcherType<TextMatcher>(), isFalse);
-      expect(elements.containsMatcherType<TelMatcher>(), isFalse);
+      expect(elms.containsMatcherType<EmailMatcher>(), isFalse);
+      expect(elms.containsMatcherType<TextMatcher>(), isFalse);
+      expect(elms.containsMatcherType<TelMatcher>(), isTrue);
     });
 
     test('reassignOffsets() without startingOffset', () {
-      const elements = [
+      const elms = [
         TextElement('01234'),
         TextElement('5'),
         TextElement('678'),
         TextElement('9012'),
       ];
-      final newElements = elements.reassignOffsets();
+      final newElms = elms.reassignOffsets();
 
-      expect(elements.map((e) => e.offset), [0, 0, 0, 0]);
-      expect(newElements.map((e) => e.offset), [0, 5, 6, 9]);
+      expect(elms.map((e) => e.offset), [0, 0, 0, 0]);
+      expect(newElms.map((e) => e.offset), [0, 5, 6, 9]);
     });
 
     test('reassignOffsets() with startingOffset', () {
-      const elements = [
+      const elms = [
         TextElement('01234'),
         TextElement('5'),
         TextElement('678'),
         TextElement('9012'),
       ];
-      final newElements = elements.reassignOffsets(startingOffset: 10);
+      final newElms = elms.reassignOffsets(startingOffset: 10);
 
-      expect(elements.map((e) => e.offset), [0, 0, 0, 0]);
-      expect(newElements.map((e) => e.offset), [10, 15, 16, 19]);
+      expect(elms.map((e) => e.offset), [0, 0, 0, 0]);
+      expect(newElms.map((e) => e.offset), [10, 15, 16, 19]);
     });
   });
 }
