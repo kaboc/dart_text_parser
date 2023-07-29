@@ -96,6 +96,7 @@ class Parser {
             substring,
             offset: match.start,
             matcherType: matchers[matcherIndex].runtimeType,
+            matcherIndex: matcherIndex,
             groups: match.groups(_matcherGroupRanges[matcherIndex]),
           ),
         );

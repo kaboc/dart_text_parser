@@ -39,12 +39,12 @@ Future<void> main() async {
 Output:
 
 ```
-TextElement(matcherType: TextMatcher, offset: 0, text: abc , groups: [])
-TextElement(matcherType: UrlMatcher, offset: 4, text: https://example.com/sample.jpg, groups: [])
-TextElement(matcherType: TextMatcher, offset: 34, text: . def\n, groups: [])
-TextElement(matcherType: EmailMatcher, offset: 40, text: john.doe@example.com, groups: [])
-TextElement(matcherType: TextMatcher, offset: 60, text:  , groups: [])
-TextElement(matcherType: TelMatcher, offset: 61, text: +1-012-3456-7890, groups: [])
+TextElement(matcherType: TextMatcher, matcherIndex null, offset: 0, text: abc , groups: [])
+TextElement(matcherType: UrlMatcher, matcherIndex 1, offset: 4, text: https://example.com/sample.jpg, groups: [])
+TextElement(matcherType: TextMatcher, matcherIndex null, offset: 34, text: . def\n, groups: [])
+TextElement(matcherType: EmailMatcher, matcherIndex 0, offset: 40, text: john.doe@example.com, groups: [])
+TextElement(matcherType: TextMatcher, matcherIndex null, offset: 60, text:  , groups: [])
+TextElement(matcherType: TelMatcher, matcherIndex 2, offset: 61, text: +1-012-3456-7890, groups: [])
 ```
 
 The regular expression pattern of each of them is not very strict. If it does not meet
@@ -55,6 +55,12 @@ relevant section later in this document.
 
 [UrlMatcher] does not match URLs not starting with "http" (e.g. `example.com`, `//example.com`,
 etc). If you want them to be matched too, use [UrlLikeMatcher] instead.
+
+#### matcherType and matcherIndex
+
+`matcherType` contained in a [TextElement] object is the type of the matcher used
+to parse the text into the element. `matcherIndex` is the index of the matcher in
+the matcher list passed to the `matchers` argument of [TextParser].
 
 #### Extracting only matching text elements
 
@@ -71,9 +77,9 @@ elements.forEach(print);
 Output:
 
 ```
-TextElement(matcherType: UrlMatcher, offset: 4, text: https://example.com/sample.jpg, groups: [])
-TextElement(matcherType: EmailMatcher, offset: 40, text: foo@example.com, groups: [])
-TextElement(matcherType: TelMatcher, offset: 56, text: +1-012-3456-7890, groups: [])
+TextElement(matcherType: UrlMatcher, matcherIndex 1, offset: 4, text: https://example.com/sample.jpg, groups: [])
+TextElement(matcherType: EmailMatcher, matcherIndex 0, offset: 40, text: foo@example.com, groups: [])
+TextElement(matcherType: TelMatcher, matcherIndex 2, offset: 56, text: +1-012-3456-7890, groups: [])
 ```
 
 #### Extracting text elements of a particular matcher type
@@ -201,7 +207,7 @@ print(elements.first);
 Output:
 
 ```
-TextElement(matcherType: PatternMatcher, offset: 0, text: 2020-01-23, groups: [2020, 01, 23])
+TextElement(matcherType: PatternMatcher, matcherIndex 0, offset: 0, text: 2020-01-23, groups: [2020, 01, 23])
 ```
 
 ### RegExp options

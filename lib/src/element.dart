@@ -10,6 +10,7 @@ class TextElement {
     this.text, {
     this.groups = const [],
     this.matcherType = TextMatcher,
+    this.matcherIndex,
     this.offset = 0,
   });
 
@@ -25,6 +26,13 @@ class TextElement {
   /// If the type is [TextMatcher], it means no patterns have matched it.
   final Type matcherType;
 
+  /// The index of the matcher in the matcher list passed to the
+  /// `matchers` argument of [TextParser].
+  ///
+  /// e.g. If the matcher index is 2 in an element, it means the matcher
+  /// at the third position was used to parse the [text] into the element.
+  final int? matcherIndex;
+
   /// The offset where the [text] starts in the source text.
   final int offset;
 
@@ -36,6 +44,7 @@ class TextElement {
           text == other.text &&
           groups.equals(other.groups) &&
           matcherType == other.matcherType &&
+          matcherIndex == other.matcherIndex &&
           offset == other.offset;
 
   @override
@@ -44,6 +53,7 @@ class TextElement {
         text,
         groups,
         matcherType,
+        matcherIndex,
         offset,
       ]);
 
@@ -53,6 +63,7 @@ class TextElement {
 
     return 'TextElement('
         'matcherType: $matcherType, '
+        'matcherIndex: $matcherIndex, '
         'offset: $offset, '
         'text: ${_convert(text)}, '
         'groups: [$g]'
@@ -70,12 +81,14 @@ class TextElement {
     String? text,
     List<String?>? groups,
     Type? matcherType,
+    int? matcherIndex,
     int? offset,
   }) {
     return TextElement(
       text ?? this.text,
       groups: groups ?? this.groups,
       matcherType: matcherType ?? this.matcherType,
+      matcherIndex: matcherIndex ?? this.matcherIndex,
       offset: offset ?? this.offset,
     );
   }
