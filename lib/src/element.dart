@@ -121,14 +121,28 @@ extension on List<String?> {
 extension TextElementsExtension on Iterable<TextElement> {
   /// Returns a new lazy [Iterable] with all [TextElement]s
   /// that have type [T] as `matcherType`.
-  Iterable<TextElement> whereMatcherType<T extends TextMatcher>() {
-    return where((element) => element.matcherType == T);
+  ///
+  /// Pass an index number to the [matcherIndex] argument if the source
+  /// list contains elements resulting from different matchers of the
+  /// same type and therefore specifying only the type is not enough.
+  Iterable<TextElement> whereMatcherType<T extends TextMatcher>({
+    int? matcherIndex,
+  }) {
+    return matcherIndex == null
+        ? where((e) => e.matcherType == T)
+        : where((e) => e.matcherType == T && e.matcherIndex == matcherIndex);
   }
 
   /// Whether the iterable contains one or more [TextElement]s
   /// that have type [T] as `matcherType`.
-  bool containsMatcherType<T extends TextMatcher>() {
-    return any((element) => element.matcherType == T);
+  ///
+  /// Pass an index number to the [matcherIndex] argument if the source
+  /// list contains elements resulting from different matchers of the
+  /// same type and therefore specifying only the type is not enough.
+  bool containsMatcherType<T extends TextMatcher>({int? matcherIndex}) {
+    return matcherIndex == null
+        ? any((e) => e.matcherType == T)
+        : any((e) => e.matcherType == T && e.matcherIndex == matcherIndex);
   }
 
   /// Corrects the offsets of [TextElement]s and returns a new
