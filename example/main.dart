@@ -42,6 +42,24 @@ Future<void> main() async {
 
   print('-' * 20);
 
+  // Multiple matchers of the same type
+  parser = TextParser(
+    matchers: const [
+      PatternMatcher('Pattern A'),
+      PatternMatcher('Pattern B'),
+    ],
+  );
+  elements = await parser.parse('Pattern A & Pattern B');
+  elements.forEach(print);
+
+  print('-' * 20);
+
+  // Extracting only elements resulting from the matcher at a particular index
+  final bElements = elements.whereMatcherType<PatternMatcher>(matcherIndex: 1);
+  bElements.forEach(print);
+
+  print('-' * 20);
+
   // A match pattern containing capturing of unnamed and named groups
   parser = TextParser(
     matchers: const [

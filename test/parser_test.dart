@@ -61,6 +61,26 @@ void main() {
       expect(elements[0].matcherType, equals(TextMatcher));
     });
 
+    test('elements have correct matcherIndex', () async {
+      final elements = await TextParser(
+        matchers: const [
+          PatternMatcher('pattern1'),
+          PatternMatcher('pattern2'),
+          PatternMatcher('pattern3'),
+        ],
+      ).parse('pattern3pattern1');
+
+      expect(elements, hasLength(2));
+      expect(elements[0].text, equals('pattern3'));
+      expect(elements[0].offset, equals(0));
+      expect(elements[0].matcherType, equals(PatternMatcher));
+      expect(elements[0].matcherIndex, equals(2));
+      expect(elements[1].text, equals('pattern1'));
+      expect(elements[1].offset, equals(8));
+      expect(elements[1].matcherType, equals(PatternMatcher));
+      expect(elements[1].matcherIndex, equals(0));
+    });
+
     test('groups are caught correctly', () async {
       parser.matchers = const [_GroupingTelMatcher()];
       final elements = await parser.parse('abc012(3456)7890def');
