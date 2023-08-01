@@ -10,7 +10,7 @@ Future<void> main() async {
     </a>
   ''';
 
-  // Uses preset matchers
+  // Using preset matchers
   var parser = TextParser(
     matchers: const [
       EmailMatcher(),
@@ -23,20 +23,20 @@ Future<void> main() async {
 
   print('-' * 20);
 
-  // Extracts only phone number elements as an Iterable
+  // Extracting only phone number elements as an Iterable
   final telElements = elements.whereMatcherType<TelMatcher>();
   telElements.forEach(print);
 
   print('-' * 20);
 
-  // Replaces already set matchers with new ones
+  // Replacing matchers with new ones
   parser.matchers = const [TelMatcher(r'(?<=tel:)\d{11}')];
   elements = await parser.parse(text);
   elements.forEach(print);
 
   print('-' * 20);
 
-  // Obtains only matching elements
+  // Obtaining only matching elements
   elements = await parser.parse(text, onlyMatches: true);
   elements.forEach(print);
 
@@ -60,7 +60,7 @@ Future<void> main() async {
 
   print('-' * 20);
 
-  // A match pattern containing capturing of unnamed and named groups
+  // Capturing unnamed and named groups
   parser = TextParser(
     matchers: const [
       PatternMatcher(r'(?<year>\d{4})-(\d{2})-(?<day>\d{2})'),
@@ -71,7 +71,7 @@ Future<void> main() async {
 
   print('-' * 20);
 
-  // Uses a custom matcher for <a> tags
+  // Custom matcher for <a> tags
   // (`dotAll` is enabled to make '.' match line endings too)
   parser = TextParser(matchers: const [ATagMatcher()], dotAll: true);
   elements = await parser.parse(text, onlyMatches: true);
