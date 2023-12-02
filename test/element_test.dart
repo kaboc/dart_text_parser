@@ -12,10 +12,10 @@ void main() {
         offset: 10,
       );
       final newElement = element.copyWith(text: 'text2', groups: ['te', 'xt2']);
-      expect(newElement.text, equals('text2'));
-      expect(newElement.groups, equals(['te', 'xt2']));
-      expect(newElement.matcherType, equals(UrlMatcher));
-      expect(newElement.offset, equals(10));
+      expect(newElement.text, 'text2');
+      expect(newElement.groups, ['te', 'xt2']);
+      expect(newElement.matcherType, UrlMatcher);
+      expect(newElement.offset, 10);
     });
 
     test('copies with new matcherType and offset', () {
@@ -26,10 +26,10 @@ void main() {
         offset: 10,
       );
       final newElement = element.copyWith(matcherType: TelMatcher, offset: 20);
-      expect(newElement.text, equals('text'));
-      expect(newElement.groups, equals(['te', 'xt']));
-      expect(newElement.matcherType, equals(TelMatcher));
-      expect(newElement.offset, equals(20));
+      expect(newElement.text, 'text');
+      expect(newElement.groups, ['te', 'xt']);
+      expect(newElement.matcherType, TelMatcher);
+      expect(newElement.offset, 20);
     });
   });
 
@@ -48,7 +48,7 @@ void main() {
           r'text: te\r\n\txt, '
           'groups: [te, xt]'
           ')';
-      expect(element.toString(), equals(expected));
+      expect(element.toString(), expected);
     });
   });
 
@@ -66,7 +66,7 @@ void main() {
       expect(elms.whereMatcherType<TelMatcher>(), hasLength(1));
       expect(
         elms.whereMatcherType<UrlMatcher>().map((e) => e.text),
-        equals(['text2', 'text3', 'text5']),
+        ['text2', 'text3', 'text5'],
       );
     });
 
@@ -82,7 +82,7 @@ void main() {
 
       final res = elms.whereMatcherType<UrlMatcher>(matcherIndex: 1);
       expect(res, hasLength(2));
-      expect(res.map((e) => e.text), equals(['text3', 'text5']));
+      expect(res.map((e) => e.text), ['text3', 'text5']);
       expect(elms.whereMatcherType<TelMatcher>(matcherIndex: 0), isEmpty);
       expect(elms.whereMatcherType<TelMatcher>(matcherIndex: 2), hasLength(1));
     });

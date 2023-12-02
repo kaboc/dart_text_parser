@@ -18,7 +18,7 @@ void main() {
 
     for (var i = 0; i < urls.length; i++) {
       final found = input.substring(matches[i].start, matches[i].end);
-      expect(found, equals(urls[i]));
+      expect(found, urls[i]);
     }
   });
 
@@ -27,7 +27,7 @@ void main() {
     const input = '111 $url 222';
     final matches = regExp.allMatches(input).toList();
     final found = input.substring(matches[0].start, matches[0].end);
-    expect(found, equals(url));
+    expect(found, url);
   });
 
   test('scheme is excluded if it is misspelled', () {
@@ -35,7 +35,7 @@ void main() {
     const input = 'ttps:$url';
     final matches = regExp.allMatches(input).toList();
     final found = input.substring(matches[0].start, matches[0].end);
-    expect(found, equals(url));
+    expect(found, url);
   });
 
   test('matches URL with localhost or an IP address and without scheme', () {
@@ -49,7 +49,7 @@ void main() {
 
     for (var i = 0; i < urls.length; i++) {
       final found = input.substring(matches[i].start, matches[i].end);
-      expect(found, equals(urls[i]));
+      expect(found, urls[i]);
     }
   });
 }

@@ -7,35 +7,35 @@ void main() {
     test('default pattern can be overwritten', () {
       const pattern = 'pattern';
       const matcher = UrlMatcher(pattern);
-      expect(matcher.pattern, equals(pattern));
+      expect(matcher.pattern, pattern);
     });
 
     test('PatternMatcher', () {
       const matcher = PatternMatcher('abc');
       expect(matcher, isA<TextMatcher>());
-      expect(matcher.toString(), equals('PatternMatcher(pattern: abc)'));
+      expect(matcher.toString(), 'PatternMatcher(pattern: abc)');
     });
 
     test('matchers with same type and pattern are equal', () {
       const matcher1 = UrlMatcher();
       const matcher2 = UrlMatcher();
-      expect(matcher1, equals(matcher2));
-      expect(matcher1.hashCode, equals(matcher2.hashCode));
+      expect(matcher1, matcher2);
+      expect(matcher1.hashCode, matcher2.hashCode);
     });
 
     test('matchers with different patterns are not equal', () {
       const matcher1 = UrlMatcher();
       const matcher2 = UrlMatcher('pattern');
-      expect(matcher1, isNot(equals(matcher2)));
-      expect(matcher1.hashCode, isNot(equals(matcher2.hashCode)));
+      expect(matcher1, isNot(matcher2));
+      expect(matcher1.hashCode, isNot(matcher2.hashCode));
     });
 
     test('matchers with same pattern but different types are not equal', () {
       const pattern = 'pattern';
       const matcher1 = UrlMatcher(pattern);
       const matcher2 = EmailMatcher(pattern);
-      expect(matcher1, isNot(equals(matcher2)));
-      expect(matcher1.hashCode, isNot(equals(matcher2.hashCode)));
+      expect(matcher1, isNot(matcher2));
+      expect(matcher1.hashCode, isNot(matcher2.hashCode));
     });
   });
 
@@ -53,8 +53,8 @@ void main() {
         matcherType: UrlMatcher,
         offset: 10,
       );
-      expect(element1, equals(element2));
-      expect(element1.hashCode, equals(element2.hashCode));
+      expect(element1, element2);
+      expect(element1.hashCode, element2.hashCode);
     });
 
     test('elements with different value in any property are not equal', () {
@@ -94,23 +94,23 @@ void main() {
         matcherType: UrlMatcher,
         offset: 11,
       );
-      expect(element1, isNot(equals(element2)));
-      expect(element1, isNot(equals(element3)));
-      expect(element1, isNot(equals(element4)));
-      expect(element1, isNot(equals(element5)));
-      expect(element1, isNot(equals(element6)));
-      expect(element1.hashCode, isNot(equals(element2.hashCode)));
-      expect(element1.hashCode, isNot(equals(element3.hashCode)));
-      expect(element1.hashCode, isNot(equals(element4.hashCode)));
-      expect(element1.hashCode, isNot(equals(element5.hashCode)));
-      expect(element1.hashCode, isNot(equals(element6.hashCode)));
+      expect(element1, isNot(element2));
+      expect(element1, isNot(element3));
+      expect(element1, isNot(element4));
+      expect(element1, isNot(element5));
+      expect(element1, isNot(element6));
+      expect(element1.hashCode, isNot(element2.hashCode));
+      expect(element1.hashCode, isNot(element3.hashCode));
+      expect(element1.hashCode, isNot(element4.hashCode));
+      expect(element1.hashCode, isNot(element5.hashCode));
+      expect(element1.hashCode, isNot(element6.hashCode));
     });
 
     test('elements with same value but different types are not equal', () {
       const element1 = TextElement('text');
       const element2 = TextElementWithDifferentName('text');
-      expect(element1, isNot(equals(element2)));
-      expect(element1.hashCode, isNot(equals(element2.hashCode)));
+      expect(element1, isNot(element2));
+      expect(element1.hashCode, isNot(element2.hashCode));
     });
   });
 }

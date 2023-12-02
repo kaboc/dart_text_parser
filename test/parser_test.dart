@@ -25,40 +25,40 @@ void main() {
       );
 
       expect(elements, hasLength(6));
-      expect(elements[0].text, equals('abc '));
-      expect(elements[0].offset, equals(0));
+      expect(elements[0].text, 'abc ');
+      expect(elements[0].offset, 0);
       expect(elements[0].groups, isEmpty);
-      expect(elements[0].matcherType, equals(TextMatcher));
-      expect(elements[1].text, equals('https://example.com/sample.jpg'));
-      expect(elements[1].offset, equals(4));
+      expect(elements[0].matcherType, TextMatcher);
+      expect(elements[1].text, 'https://example.com/sample.jpg');
+      expect(elements[1].offset, 4);
       expect(elements[1].groups, isEmpty);
-      expect(elements[1].matcherType, equals(UrlMatcher));
-      expect(elements[2].text, equals('. def\n'));
-      expect(elements[2].offset, equals(34));
+      expect(elements[1].matcherType, UrlMatcher);
+      expect(elements[2].text, '. def\n');
+      expect(elements[2].offset, 34);
       expect(elements[2].groups, isEmpty);
-      expect(elements[2].matcherType, equals(TextMatcher));
-      expect(elements[3].text, equals('john.doe@example.com'));
-      expect(elements[3].offset, equals(40));
+      expect(elements[2].matcherType, TextMatcher);
+      expect(elements[3].text, 'john.doe@example.com');
+      expect(elements[3].offset, 40);
       expect(elements[3].groups, isEmpty);
-      expect(elements[3].matcherType, equals(EmailMatcher));
-      expect(elements[4].text, equals(' '));
-      expect(elements[4].offset, equals(60));
+      expect(elements[3].matcherType, EmailMatcher);
+      expect(elements[4].text, ' ');
+      expect(elements[4].offset, 60);
       expect(elements[4].groups, isEmpty);
-      expect(elements[4].matcherType, equals(TextMatcher));
-      expect(elements[5].text, equals('911'));
-      expect(elements[5].offset, equals(61));
+      expect(elements[4].matcherType, TextMatcher);
+      expect(elements[5].text, '911');
+      expect(elements[5].offset, 61);
       expect(elements[5].groups, isEmpty);
-      expect(elements[5].matcherType, equals(TelMatcher));
+      expect(elements[5].matcherType, TelMatcher);
     });
 
     test('parsed into a single element if there is no match', () async {
       final elements = await parser.parse('abcde');
 
       expect(elements, hasLength(1));
-      expect(elements[0].text, equals('abcde'));
-      expect(elements[0].offset, equals(0));
+      expect(elements[0].text, 'abcde');
+      expect(elements[0].offset, 0);
       expect(elements[0].groups, isEmpty);
-      expect(elements[0].matcherType, equals(TextMatcher));
+      expect(elements[0].matcherType, TextMatcher);
     });
 
     test('elements have correct matcherIndex', () async {
@@ -71,24 +71,24 @@ void main() {
       ).parse('pattern3pattern1');
 
       expect(elements, hasLength(2));
-      expect(elements[0].text, equals('pattern3'));
-      expect(elements[0].offset, equals(0));
-      expect(elements[0].matcherType, equals(PatternMatcher));
-      expect(elements[0].matcherIndex, equals(2));
-      expect(elements[1].text, equals('pattern1'));
-      expect(elements[1].offset, equals(8));
-      expect(elements[1].matcherType, equals(PatternMatcher));
-      expect(elements[1].matcherIndex, equals(0));
+      expect(elements[0].text, 'pattern3');
+      expect(elements[0].offset, 0);
+      expect(elements[0].matcherType, PatternMatcher);
+      expect(elements[0].matcherIndex, 2);
+      expect(elements[1].text, 'pattern1');
+      expect(elements[1].offset, 8);
+      expect(elements[1].matcherType, PatternMatcher);
+      expect(elements[1].matcherIndex, 0);
     });
 
     test('groups are caught correctly', () async {
       parser.matchers = const [_GroupingTelMatcher()];
       final elements = await parser.parse('abc012(3456)7890def');
-      expect(elements[0].text, equals('abc'));
+      expect(elements[0].text, 'abc');
       expect(elements[0].groups, isEmpty);
-      expect(elements[1].text, equals('012(3456)7890'));
-      expect(elements[1].groups, equals(['012', '3456', '7890']));
-      expect(elements[2].text, equals('def'));
+      expect(elements[1].text, '012(3456)7890');
+      expect(elements[1].groups, ['012', '3456', '7890']);
+      expect(elements[2].text, 'def');
       expect(elements[2].groups, isEmpty);
     });
 
@@ -97,11 +97,11 @@ void main() {
         PatternMatcher(r'(?<year>\d{4})-(?<month>\d{1,2})-(?<day>\d{1,2})'),
       ];
       final elements = await parser.parse('abc2022-01-23def');
-      expect(elements[0].text, equals('abc'));
+      expect(elements[0].text, 'abc');
       expect(elements[0].groups, isEmpty);
-      expect(elements[1].text, equals('2022-01-23'));
-      expect(elements[1].groups, equals(['2022', '01', '23']));
-      expect(elements[2].text, equals('def'));
+      expect(elements[1].text, '2022-01-23');
+      expect(elements[1].groups, ['2022', '01', '23']);
+      expect(elements[2].text, 'def');
       expect(elements[2].groups, isEmpty);
     });
 
@@ -117,18 +117,18 @@ void main() {
         final elements = await parser.parse(
           'abc012(3456)7890def https://example.com/ 2022-01-23',
         );
-        expect(elements[0].text, equals('abc'));
+        expect(elements[0].text, 'abc');
         expect(elements[0].groups, isEmpty);
-        expect(elements[1].text, equals('012(3456)7890'));
-        expect(elements[1].groups, equals(['012', '3456', '7890']));
-        expect(elements[2].text, equals('def '));
+        expect(elements[1].text, '012(3456)7890');
+        expect(elements[1].groups, ['012', '3456', '7890']);
+        expect(elements[2].text, 'def ');
         expect(elements[2].groups, isEmpty);
-        expect(elements[3].text, equals('https://example.com/'));
-        expect(elements[3].groups, equals(['https', 'example.com']));
-        expect(elements[4].text, equals(' '));
+        expect(elements[3].text, 'https://example.com/');
+        expect(elements[3].groups, ['https', 'example.com']);
+        expect(elements[4].text, ' ');
         expect(elements[4].groups, isEmpty);
-        expect(elements[5].text, equals('2022-01-23'));
-        expect(elements[5].groups, equals(['2022', '01', '23']));
+        expect(elements[5].text, '2022-01-23');
+        expect(elements[5].groups, ['2022', '01', '23']);
       },
     );
 
@@ -143,7 +143,7 @@ void main() {
         // ignore: use_string_buffers
         result += text.substring(elm.offset, elm.offset + elm.text.length);
       }
-      expect(result, equals(text));
+      expect(result, text);
     });
 
     test('offsets are set correctly when onlyMatches is true', () async {
@@ -153,7 +153,7 @@ void main() {
       expect(elements, hasLength(3));
 
       for (final elm in elements) {
-        expect(elm.offset, equals(text.indexOf(elm.text)));
+        expect(elm.offset, text.indexOf(elm.text));
       }
     });
 
@@ -169,38 +169,42 @@ void main() {
           ],
         ).parse(text);
 
-        expect(elements[0].text, equals('abc'));
-        expect(elements[0].matcherType, equals(_AlphabetsMatcher));
-        expect(elements[0].offset, equals(0));
-        expect(elements[1].text, equals('123'));
-        expect(elements[1].matcherType, equals(PatternMatcher));
-        expect(elements[1].offset, equals(3));
-        expect(elements[2].text, equals('def'));
-        expect(elements[2].matcherType, equals(_AlphabetsMatcher));
-        expect(elements[2].offset, equals(6));
+        expect(elements[0].text, 'abc');
+        expect(elements[0].matcherType, _AlphabetsMatcher);
+        expect(elements[0].offset, 0);
+        expect(elements[1].text, '123');
+        expect(elements[1].matcherType, PatternMatcher);
+        expect(elements[1].offset, 3);
+        expect(elements[2].text, 'def');
+        expect(elements[2].matcherType, _AlphabetsMatcher);
+        expect(elements[2].offset, 6);
       },
     );
 
     test('parsing in main thread and in isolate give same result', () async {
       const text = 'https://example.com/ foo@example.com012-3456-7890';
 
-      // ignore: avoid_redundant_argument_values
-      final elements1 = await parser.parse(text, useIsolate: true);
-      final elements2 = await parser.parse(text, useIsolate: false);
+      final results = await Future.wait([
+        // ignore: avoid_redundant_argument_values
+        parser.parse(text, useIsolate: true),
+        parser.parse(text, useIsolate: false),
+      ]);
+      final elements1 = results[0];
+      final elements2 = results[1];
 
-      expect(elements1[0].text, equals('https://example.com/'));
-      expect(elements1[0].matcherType, equals(UrlMatcher));
-      expect(elements1[1].text, equals(' '));
-      expect(elements1[1].matcherType, equals(TextMatcher));
-      expect(elements1[2].text, equals('foo@example.com'));
-      expect(elements1[2].matcherType, equals(EmailMatcher));
-      expect(elements1[3].text, equals('012-3456-7890'));
-      expect(elements1[3].matcherType, equals(TelMatcher));
+      expect(elements1[0].text, 'https://example.com/');
+      expect(elements1[0].matcherType, UrlMatcher);
+      expect(elements1[1].text, ' ');
+      expect(elements1[1].matcherType, TextMatcher);
+      expect(elements1[2].text, 'foo@example.com');
+      expect(elements1[2].matcherType, EmailMatcher);
+      expect(elements1[3].text, '012-3456-7890');
+      expect(elements1[3].matcherType, TelMatcher);
 
       expect(elements1, hasLength(elements2.length));
 
       for (var i = 0; i < elements1.length; i++) {
-        expect(elements1[i], equals(elements2[i]));
+        expect(elements1[i], elements2[i]);
       }
     });
   });
@@ -212,13 +216,13 @@ void main() {
       var elements = await TextParser(
         matchers: [const _LineCommentMatcher1()],
       ).parse(text, onlyMatches: true);
-      expect(elements[0].text, equals('// bbb'));
+      expect(elements[0].text, '// bbb');
 
       elements = await TextParser(
         matchers: [const _LineCommentMatcher1()],
         dotAll: true,
       ).parse(text, onlyMatches: true);
-      expect(elements[0].text, equals('// bbb\nccc'));
+      expect(elements[0].text, '// bbb\nccc');
     });
 
     test('multiline', () async {
@@ -229,20 +233,20 @@ void main() {
         dotAll: true,
         multiLine: true,
       ).parse(text, onlyMatches: true);
-      expect(elements[0].text, equals('// bbb\nccc'));
+      expect(elements[0].text, '// bbb\nccc');
 
       elements = await TextParser(
         matchers: [const _LineCommentMatcher2()],
         dotAll: true,
       ).parse(text, onlyMatches: true);
-      expect(elements[0].text, equals('// bbb\nccc'));
+      expect(elements[0].text, '// bbb\nccc');
 
       elements = await TextParser(
         matchers: [const _LineCommentMatcher2()],
         dotAll: true,
         multiLine: true,
       ).parse(text, onlyMatches: true);
-      expect(elements[0].text, equals('// bbb'));
+      expect(elements[0].text, '// bbb');
     });
 
     test('caseSensitive', () async {
@@ -250,7 +254,7 @@ void main() {
 
       var elements = await TextParser(matchers: [const _AlphabetsMatcher()])
           .parse(text, onlyMatches: true);
-      expect(elements.map((v) => v.text).toList(), equals(['aaa', 'c', 'c']));
+      expect(elements.map((v) => v.text).toList(), ['aaa', 'c', 'c']);
 
       elements = await TextParser(
         matchers: [const _AlphabetsMatcher()],
@@ -258,7 +262,7 @@ void main() {
       ).parse(text, onlyMatches: true);
       expect(
         elements.map((v) => v.text).toList(),
-        equals(['aaa', 'BBB', 'cCc']),
+        ['aaa', 'BBB', 'cCc'],
       );
     });
 
@@ -272,7 +276,7 @@ void main() {
       elements =
           await TextParser(matchers: [const _UnicodeMatcher()], unicode: true)
               .parse(text, onlyMatches: true);
-      expect(elements[0].text, equals('123'));
+      expect(elements[0].text, '123');
     });
   });
 }

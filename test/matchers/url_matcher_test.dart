@@ -12,7 +12,7 @@ void main() {
     expect(matches, hasLength(1));
 
     final found = url.substring(matches[0].start, matches[0].end);
-    expect(found, equals(url));
+    expect(found, url);
   });
 
   test('supports both http and https', () {
@@ -26,7 +26,7 @@ void main() {
 
     for (var i = 0; i < urls.length; i++) {
       final found = input.substring(matches[i].start, matches[i].end);
-      expect(found, equals(urls[i]));
+      expect(found, urls[i]);
     }
   });
 
@@ -35,7 +35,7 @@ void main() {
     const input = 'abc$url';
     final matches = regExp.allMatches(input).toList();
     final found = input.substring(matches[0].start, matches[0].end);
-    expect(found, equals(url));
+    expect(found, url);
   });
 
   test('dot at the end is excluded', () {
@@ -56,7 +56,7 @@ void main() {
     const input = '111 $url 222';
     final matches = regExp.allMatches(input).toList();
     final found = input.substring(matches[0].start, matches[0].end);
-    expect(found, equals(url));
+    expect(found, url);
   });
 
   test('backslashes are excluded', () {
@@ -64,7 +64,7 @@ void main() {
     final matches = regExp.allMatches(url).toList();
     expect(matches, hasLength(1));
     final found = url.substring(matches[0].start, matches[0].end);
-    expect(found, equals('https://example.com/foo'));
+    expect(found, 'https://example.com/foo');
   });
 
   test('does not match URL without http:// or https://', () {
@@ -98,7 +98,7 @@ void main() {
 
     for (var i = 0; i < urls.length; i++) {
       final found = input.substring(matches[i].start, matches[i].end);
-      expect(found, equals(urls[i]));
+      expect(found, urls[i]);
     }
   });
 
@@ -121,7 +121,7 @@ void main() {
 
     for (var i = 0; i < urls.length; i++) {
       final found = input.substring(matches[i].start, matches[i].end);
-      expect(found, equals(urls[i]));
+      expect(found, urls[i]);
     }
   });
 
@@ -130,7 +130,7 @@ void main() {
     const url2 = 'https://example.c:8080';
     const input = '$url1 $url2';
     final matches = regExp.allMatches(input);
-    expect(matches.isEmpty, true);
+    expect(matches, isEmpty);
   });
 
   test('does not match if TLD contains non-alphabets', () {
@@ -142,7 +142,7 @@ void main() {
     ];
     final input = urls.join(' ');
     final matches = regExp.allMatches(input);
-    expect(matches.isEmpty, true);
+    expect(matches, isEmpty);
   });
 
   test('excludes non-alphabets (other than /#?) at the end of TLD', () {
@@ -151,7 +151,7 @@ void main() {
     final input = urls.join(' ');
     final matches = regExp.allMatches(input).toList();
     final found = input.substring(matches[0].start, matches[0].end);
-    expect(found, equals(url));
+    expect(found, url);
   });
 
   test('does not match if host ends with a dot', () {
@@ -159,13 +159,13 @@ void main() {
     const url2 = 'https://example.:8080';
     const input = '$url1 $url2';
     final matches = regExp.allMatches(input);
-    expect(matches.isEmpty, true);
+    expect(matches, isEmpty);
   });
 
   test('no group', () {
     const url = 'https://example.com/';
     final matches = regExp.allMatches(url).toList();
     expect(matches, hasLength(1));
-    expect(matches[0].groupCount, equals(0));
+    expect(matches[0].groupCount, 0);
   });
 }

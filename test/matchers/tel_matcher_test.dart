@@ -23,7 +23,7 @@ void main() {
     const input = 'abc123def';
     final matches = regExp.allMatches(input).toList();
     final found = input.substring(matches[0].start, matches[0].end);
-    expect(found, equals(number));
+    expect(found, number);
   });
 
   test('country code is not caught if no space after it', () {
@@ -31,7 +31,7 @@ void main() {
     const input = '+$number';
     final matches = regExp.allMatches(input).toList();
     final found = input.substring(matches[0].start, matches[0].end);
-    expect(found, equals(number));
+    expect(found, number);
   });
 
   test('+0 is not regarded as part of country code', () {
@@ -41,13 +41,13 @@ void main() {
     const input1 = '+$code-$number1';
     final matches1 = regExp.allMatches(input1).toList();
     final found1 = input1.substring(matches1[0].start, matches1[0].end);
-    expect(found1, equals(code));
+    expect(found1, code);
 
     const number2 = '01234567';
     const input2 = '+$code-$number2';
     final matches2 = regExp.allMatches(input2).toList();
     final found2 = input2.substring(matches2[0].start, matches2[0].end);
-    expect(found2, equals('$code-$number2'));
+    expect(found2, '$code-$number2');
   });
 
   test('matches commonly used formats', () {
@@ -93,7 +93,7 @@ void main() {
     final matches = regExp.allMatches(input).toList();
     for (var i = 0; i < numbers.length; i++) {
       final found = input.substring(matches[i].start, matches[i].end);
-      expect(found, equals(numbers[i]));
+      expect(found, numbers[i]);
     }
   });
 
@@ -101,6 +101,6 @@ void main() {
     const address = '012-3456-7890';
     final matches = regExp.allMatches(address).toList();
     expect(matches, hasLength(1));
-    expect(matches[0].groupCount, equals(0));
+    expect(matches[0].groupCount, 0);
   });
 }

@@ -46,7 +46,7 @@ void main() {
     final matches = regExp.allMatches(input).toList();
     for (var i = 0; i < addresses.length; i++) {
       final found = input.substring(matches[i].start, matches[i].end);
-      expect(found, equals('bar@example.com'));
+      expect(found, 'bar@example.com');
     }
   });
 
@@ -55,20 +55,20 @@ void main() {
     const input = '##$address##';
     final matches = regExp.allMatches(input).toList();
     final found = input.substring(matches[0].start, matches[0].end);
-    expect(found, equals(address));
+    expect(found, address);
   });
 
   test('matches email address with longer host name', () {
     const address = 'user@mail.aaa.bbb.example.com';
     final matches = regExp.allMatches(address).toList();
-    expect(matches[0].start, equals(0));
-    expect(matches[0].end, equals(address.length));
+    expect(matches[0].start, 0);
+    expect(matches[0].end, address.length);
   });
 
   test('does not match if TLD is only a single letter', () {
     const address = 'user@example.c';
     final matches = regExp.allMatches(address);
-    expect(matches.isEmpty, true);
+    expect(matches, isEmpty);
   });
 
   test('does not match if TLD contains non-alphabets', () {
@@ -80,7 +80,7 @@ void main() {
     ];
     final input = addresses.join(' ');
     final matches = regExp.allMatches(input);
-    expect(matches.isEmpty, true);
+    expect(matches, isEmpty);
   });
 
   test('excludes non-alphabets (other than /#?) at the end of TLD', () {
@@ -90,20 +90,20 @@ void main() {
     final matches = regExp.allMatches(input).toList();
     for (final m in matches) {
       final found = input.substring(m.start, m.end);
-      expect(found, equals(address));
+      expect(found, address);
     }
   });
 
   test('does not match if host ends with a dot', () {
     const address = 'user@example.';
     final matches = regExp.allMatches(address);
-    expect(matches.isEmpty, true);
+    expect(matches, isEmpty);
   });
 
   test('no group', () {
     const address = 'user@example.com';
     final matches = regExp.allMatches(address).toList();
     expect(matches, hasLength(1));
-    expect(matches[0].groupCount, equals(0));
+    expect(matches[0].groupCount, 0);
   });
 }

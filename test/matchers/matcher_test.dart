@@ -20,7 +20,7 @@ void main() {
 
       parser.matchers = const [EmailMatcher()];
       expect(parser.matchers, hasLength(1));
-      expect(parser.matchers[0], equals(const EmailMatcher()));
+      expect(parser.matchers[0], const EmailMatcher());
     });
 
     test('Creating TextParser with no matcher throws AssertionError', () {
