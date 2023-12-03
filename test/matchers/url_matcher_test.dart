@@ -75,17 +75,52 @@ void main() {
     expect(matches, isEmpty);
   });
 
-  test('dot at the end is excluded', () {
-    const url = 'https://example.com/';
-    const input1 = '$url.';
-    final matches1 = regExp.allMatches(input1).toList();
-    final found1 = input1.substring(matches1[0].start, matches1[0].end);
-    expect(found1, equals(url));
+  test('only very limited characters are allowed at the end of path', () {
+    const urls1 = {
+      'https://example.com/111',
+      'https://example.com/aaa',
+      'https://example.com/AAA',
+      r'https://example.com/111_',
+      r'https://example.com/111-',
+      'https://example.com/111~',
+    };
 
-    const input2 = '$url.\n';
-    final matches2 = regExp.allMatches(input2).toList();
-    final found2 = input2.substring(matches2[0].start, matches2[0].end);
-    expect(found2, equals(url));
+    for (final input in urls1) {
+      final match = regExp.firstMatch(input)!;
+      final found = input.substring(match.start, match.end);
+      expect(found, input);
+    }
+
+    const urls2 = {
+      'https://example.com/aaa ',
+      r'https://example.com/aaa.',
+      r'https://example.com/aaa\',
+      'https://example.com/aaa!',
+      'https://example.com/aaa#',
+      r'https://example.com/aaa$',
+      'https://example.com/aaa&',
+      "https://example.com/aaa'",
+      'https://example.com/aaa(',
+      'https://example.com/aaa)',
+      'https://example.com/aaa*',
+      'https://example.com/aaa+',
+      'https://example.com/aaa,',
+      'https://example.com/aaa:',
+      'https://example.com/aaa;',
+      'https://example.com/aaa=',
+      'https://example.com/aaa?',
+      'https://example.com/aaa@',
+      'https://example.com/aaa[',
+      'https://example.com/aaa]',
+      'https://example.com/aaa）',
+      'https://example.com/aaaあ',
+    };
+
+    for (final input in urls2) {
+      final match = regExp.firstMatch(input)!;
+      final found = input.substring(match.start, match.end);
+      expect(found, 'https://example.com/aaa');
+    }
   });
 
   test('path can contain dots', () {

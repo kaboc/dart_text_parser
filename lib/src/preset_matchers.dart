@@ -5,8 +5,17 @@ const _kUrlPattern = r'(?:'
     r'|\d{1,3}(?:\.\d{1,3}){3}'
     r'|localhost'
     r')'
+    // Port number
     r'(?::\d{1,5})?'
-    r"(?:[/?#](?:(?:[\w\-.~%!#$&'()*+,/:;=?@\[\]]+/?)*[^\s.\\])?)?";
+    // Delimiter in front of the path
+    r'(?:[/?#]'
+    r'(?:'
+    // Characters that the path can contain
+    r"(?:[\w\-.~%!#$&'()*+,/:;=?@\[\]]+/?)*"
+    // Characters allowed at the end of the path
+    r'[\w\-~/]'
+    r')?'
+    r')?';
 
 /// A variant of [TextMatcher] for parsing URLs that start with http(s).
 class UrlMatcher extends TextMatcher {
