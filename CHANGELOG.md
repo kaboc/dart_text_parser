@@ -1,3 +1,8 @@
+## 2.1.1
+
+- Fix `UrlMatcher` and `UrlLikeMatcher` to allow a character from a very limited
+  set of types at the end of a URL.
+
 ## 2.1.0
 
 - Add `matcherIndex` to `TextElement`. ([#14])
@@ -134,3 +139,4 @@
 [#10]: https://github.com/kaboc/dart_text_parser/pull/10
 [#12]: https://github.com/kaboc/dart_text_parser/pull/12
 [#14]: https://github.com/kaboc/dart_text_parser/pull/14
+[fb56445]: https://github.com/kaboc/dart_text_parser/commit/fb5644553f7e271e2f7fa73747d9451a86419373

@@ -176,12 +176,18 @@ Output:
 ### Groups
 
 Each [TextElement][TextElement] in a parse result has the property of
-[groups][TextElement_groups]. It is an array of strings that have matched the smaller pattern
+[groups][TextElement_groups]. It is a list of strings that have matched the smaller pattern
 inside every set of parentheses `( )`.
 
-To give the above code as an example, there are two sets of parentheses; `(.+?)` in `\[(.+?)\]`
-and `\((.+?)\)`. They match "foo" and "bar" respectively, so they are added to the array in
-that order.
+Below is an example of a pattern that matches a Markdown style link.
+
+```dart
+r'\[(.+?)\]\((.*?)\)'
+```
+
+This pattern has two sets of parentheses; `(.+?)` in `\[(.+?)\]` and `(/*?)` in `\((.*?)\)`.
+When this matches `[foo](bar)`, the first set of parentheses captures "foo" and the second
+set captures "bar", so `groups` results in `['foo', 'bar']`.
 
 Tip:
 
@@ -191,8 +197,6 @@ parenthesis, like `(?:pattern)` instead of `(pattern)`.
 #### Named groups
 
 Named groups are captured too, but their names are lost in the resulting `groups` list.
-Therefore, it does not affect the result which of unnamed or named groups are used.
-
 Below is an example where a single match pattern contains capturing of both unnamed and
 named groups. 
 
