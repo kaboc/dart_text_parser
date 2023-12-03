@@ -1,7 +1,7 @@
 ## 2.1.1
 
 - Fix `UrlMatcher` and `UrlLikeMatcher` to allow a character from a very limited
-  set of types at the end of a URL.
+  set of types at the end of a URL. ([fb56445])
 
 ## 2.1.0
 
