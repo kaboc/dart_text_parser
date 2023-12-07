@@ -15,6 +15,19 @@ void main() {
   });
 
   group('parse', () {
+    test('parsing is skipped if text is empty', () async {
+      final stopwatch = Stopwatch()..start();
+
+      // ignore: avoid_redundant_argument_values
+      final elements = await parser.parse('', useIsolate: true);
+
+      stopwatch.stop();
+      expect(elements, isEmpty);
+
+      // Parsing in isolate usually takes longer than 10000 microseconds.
+      expect(stopwatch.elapsedMicroseconds, lessThan(1000));
+    });
+
     test('parsed correctly with default matchers', () async {
       final elements = await parser.parse(
         // "john.doe" in the email address is parsed as URL

@@ -62,6 +62,10 @@ class TextParser {
     bool onlyMatches = false,
     bool useIsolate = true,
   }) async {
+    if (text.isEmpty) {
+      return [];
+    }
+
     return useIsolate
         ? exec(parser: _parser, text: text, onlyMatches: onlyMatches)
         : execFuture(parser: _parser, text: text, onlyMatches: onlyMatches);
