@@ -1,6 +1,11 @@
+## 2.2.0
+
+- Improve `parse()` to skip parsing if text is empty.
+- Allow empty RegExp patterns.
+
 ## 2.1.1
 
-- Fix `UrlMatcher` and `UrlLikeMatcher` to allow a character from a very limited
+- Fix `UrlMatcher` and `UrlLikeMatcher` to only allow a character from a very limited
   set of types at the end of a URL. ([fb56445])
 
 ## 2.1.0
