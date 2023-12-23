@@ -6,7 +6,7 @@ void main() {
   final pattern = const EmailMatcher().pattern;
   final regExp = RegExp(pattern);
 
-  test('matches email address despite no letters around it', () {
+  test('matches email address when there are no letters around it', () {
     const address = 'foo@example.com';
     final matches = regExp.allMatches(address);
     expect(matches, hasLength(1));

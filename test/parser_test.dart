@@ -28,11 +28,8 @@ void main() {
       expect(stopwatch.elapsedMicroseconds, lessThan(1000));
     });
 
-    test('parsed correctly with default matchers', () async {
+    test('parsed correctly with preset matchers', () async {
       final elements = await parser.parse(
-        // "john.doe" in the email address is parsed as URL
-        // mistakenly if UrlMatcher is specified before
-        // EmailMatcher in the list of default matchers.
         'abc https://example.com/sample.jpg. def\n'
         'john.doe@example.com 911',
       );
@@ -62,6 +59,27 @@ void main() {
       expect(elements[5].offset, 61);
       expect(elements[5].groups, isEmpty);
       expect(elements[5].matcherType, TelMatcher);
+    });
+
+    test('earlier matcher is used if multiple ones match a string', () async {
+      final elements1 = await TextParser(
+        matchers: const [EmailMatcher(), UrlLikeMatcher()],
+      ).parse('abc john.doe@example.com');
+
+      expect(elements1, hasLength(2));
+      expect(elements1[1].matcherType, EmailMatcher);
+
+      final elements2 = await TextParser(
+        matchers: const [UrlLikeMatcher(), EmailMatcher()],
+      ).parse('abc john.doe@example.com');
+
+      expect(elements2, hasLength(4));
+      expect(elements2[1].text, 'john.doe');
+      expect(elements2[1].matcherType, UrlLikeMatcher);
+      expect(elements2[2].text, '@');
+      expect(elements2[2].matcherType, TextMatcher);
+      expect(elements2[3].text, 'example.com');
+      expect(elements2[3].matcherType, UrlLikeMatcher);
     });
 
     test('parsed into a single element if there is no match', () async {

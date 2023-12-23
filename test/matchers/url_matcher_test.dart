@@ -6,7 +6,7 @@ void main() {
   final pattern = const UrlMatcher().pattern;
   final regExp = RegExp(pattern);
 
-  test('matches URL with no letters around it', () {
+  test('matches URL when there are no letters around it', () {
     const url = 'https://example.com/';
     final matches = regExp.allMatches(url).toList();
     expect(matches, hasLength(1));
