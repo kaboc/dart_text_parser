@@ -49,17 +49,34 @@ void main() {
       );
     });
 
-    test('Having matcher containing empty pattern throws AssertionError', () {
-      expect(
-        () => TextParser(matchers: const [EmailMatcher(), PatternMatcher('')]),
-        throwsA(
-          isA<AssertionError>().having(
-            (e) => e.message,
-            'message',
-            contains('must have a non-empty pattern'),
-          ),
-        ),
+    test('correctly parsed with matchers containing empty pattern', () async {
+      final parser = TextParser(
+        matchers: const [
+          PatternMatcher('(bbb)'),
+          PatternMatcher(''),
+          PatternMatcher('(ddd)'),
+        ],
       );
+      final elements = await parser.parse('aaabbbcccdddeee');
+
+      expect(elements, hasLength(5));
+      expect(elements[0], const TextElement('aaa'));
+      expect(elements[0].matcherType, TextMatcher);
+      expect(elements[0].matcherIndex, null);
+      expect(elements[1].text, 'bbb');
+      expect(elements[1].matcherType, PatternMatcher);
+      expect(elements[1].matcherIndex, 0);
+      expect(elements[1].groups, ['bbb']);
+      expect(elements[2].text, 'ccc');
+      expect(elements[2].matcherType, TextMatcher);
+      expect(elements[2].matcherIndex, null);
+      expect(elements[3].text, 'ddd');
+      expect(elements[3].matcherType, PatternMatcher);
+      expect(elements[3].matcherIndex, 2);
+      expect(elements[3].groups, ['ddd']);
+      expect(elements[4].text, 'eee');
+      expect(elements[4].matcherType, TextMatcher);
+      expect(elements[4].matcherIndex, null);
     });
   });
 }

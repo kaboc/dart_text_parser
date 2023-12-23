@@ -37,16 +37,21 @@ class Parser {
     _matcherGroupRanges.clear();
 
     var groupIndexStart = 2;
-    for (var i = 0; i < matchers.length; i++) {
-      assert(
-        matchers[i].pattern.isNotEmpty,
-        'All matchers must have a non-empty pattern.',
-      );
+    final patterns = <String>[];
 
-      _matcherGroupNames.add('$_kMatcherGroupPrefix$i');
+    for (var i = 0; i < matchers.length; i++) {
+      final groupName = '$_kMatcherGroupPrefix$i';
+      _matcherGroupNames.add(groupName);
+
+      var pattern = matchers[i].pattern;
+      if (pattern.isEmpty) {
+        // Expression that does not match anything.
+        pattern = '(?!)';
+      }
+      patterns.add('(?<$groupName>$pattern)');
 
       final regExp = RegExp(
-        '${matchers[i].pattern}|.*',
+        '$pattern|.*',
         multiLine: multiLine,
         caseSensitive: caseSensitive,
         unicode: unicode,
@@ -57,14 +62,10 @@ class Parser {
       _matcherGroupRanges.add([
         for (var i = 0; i < groupCount; i++) groupIndexStart + i,
       ]);
-
       groupIndexStart += groupCount + 1;
     }
 
-    _pattern = {
-      for (var i = 0; i < matchers.length; i++)
-        '(?<${_matcherGroupNames[i]}>${matchers[i].pattern})',
-    }.join('|');
+    _pattern = patterns.join('|');
   }
 
   List<TextElement> parse(String text, {required bool onlyMatches}) {
