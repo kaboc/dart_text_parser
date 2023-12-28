@@ -25,7 +25,7 @@ class TextParser {
   /// If [dotAll] is enabled, then the `.` pattern will match _all_
   /// characters, including line terminators.
   TextParser({
-    required List<TextMatcher> matchers,
+    required Iterable<TextMatcher> matchers,
     bool multiLine = false,
     bool caseSensitive = true,
     bool unicode = false,

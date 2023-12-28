@@ -5,7 +5,7 @@ const _kMatcherGroupPrefix = '__mg__';
 
 class Parser {
   Parser({
-    required List<TextMatcher> matchers,
+    required Iterable<TextMatcher> matchers,
     required this.multiLine,
     required this.caseSensitive,
     required this.unicode,
@@ -19,14 +19,14 @@ class Parser {
   final bool unicode;
   final bool dotAll;
 
-  late List<TextMatcher> _matchers;
+  late Iterable<TextMatcher> _matchers;
   final List<String> _matcherGroupNames = [];
   final List<List<int>> _matcherGroupRanges = [];
   late String _pattern;
 
   List<TextMatcher> get matchers => List.unmodifiable(_matchers);
 
-  void update(List<TextMatcher> matchers) {
+  void update(Iterable<TextMatcher> matchers) {
     assert(
       matchers.isNotEmpty,
       'At least one matcher must not specified.',
@@ -43,7 +43,7 @@ class Parser {
       final groupName = '$_kMatcherGroupPrefix$i';
       _matcherGroupNames.add(groupName);
 
-      var pattern = matchers[i].pattern;
+      var pattern = matchers.elementAt(i).pattern;
       if (pattern.isEmpty) {
         // Expression that does not match anything.
         pattern = '(?!)';
