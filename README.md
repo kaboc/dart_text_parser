@@ -173,6 +173,21 @@ Output:
 [https://example.com/, Content inside tags]
 ```
 
+### ExactMatcher
+
+`ExactMatcher` escapes reserved characters of RegExp so that those are used
+as ordinary characters. The parser extracts the substrings that exactly match
+any of the strings in the passed list.
+
+```dart
+TextParser(
+  matchers: [
+    // 'e.g.' matches only 'e.g.', not 'edge' nor 'eggs'.
+    ExactMatcher(['e.g.', 'i.e.']),
+  ],
+)
+```
+
 ### Groups
 
 Each [TextElement][TextElement] in a parse result has the property of
@@ -241,6 +256,7 @@ These options are passed to [RegExp][RegExp] internally, so refer to its
 [UrlLikeMatcher]: https://pub.dev/documentation/text_parser/latest/text_parser/UrlLikeMatcher-class.html
 [EmailMatcher]: https://pub.dev/documentation/text_parser/latest/text_parser/EmailMatcher-class.html
 [TelMatcher]: https://pub.dev/documentation/text_parser/latest/text_parser/TelMatcher-class.html
+[ExactMatcher]: https://pub.dev/documentation/text_parser/latest/text_parser/ExactMatcher-class.html
 [PatternMatcher]: https://pub.dev/documentation/text_parser/latest/text_parser/PatternMatcher-class.html
 [parse]: https://pub.dev/documentation/text_parser/latest/text_parser/TextParser/parse.html
 [TextElement]: https://pub.dev/documentation/text_parser/latest/text_parser/TextElement-class.html

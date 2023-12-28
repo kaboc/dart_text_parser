@@ -62,3 +62,24 @@ class TelMatcher extends TextMatcher {
         r')(?!\d)',
   ]);
 }
+
+/// A variant of [TextMatcher] for parsing strings that exactly match
+/// any of the strings in the passed list.
+///
+/// {@template textParser.ExactMatcher}
+/// ```dart
+/// TextParser(
+///   matchers: [
+///     ExactMatcher(['e.g.', 'C++']),
+///   ],
+/// )
+/// ```
+/// {@endtemplate}
+class ExactMatcher extends TextMatcher {
+  /// Creates an [ExactMatcher] for parsing strings that exactly match
+  /// any of the strings in the passed list.
+  ///
+  /// {@macro textParser.ExactMatcher}
+  ExactMatcher(Iterable<String> strings)
+      : super(strings.map(RegExp.escape).join('|'));
+}
