@@ -1,3 +1,8 @@
+## 2.3.0
+
+- Change `matchers` of TextParser from `List` to `Iterable`.
+- Add `ExactMatcher`.
+
 ## 2.2.0
 
 - Improve `parse()` to skip parsing if text is empty.
