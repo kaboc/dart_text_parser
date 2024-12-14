@@ -1,6 +1,7 @@
-import 'package:meta/meta.dart';
+import 'package:meta/meta.dart' show immutable;
 
-import '../text_parser.dart';
+import 'matcher.dart';
+import 'text_parser.dart';
 
 /// A class that holds the information of a parsed element.
 @immutable
