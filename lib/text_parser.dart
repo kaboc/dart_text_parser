@@ -1,7 +1,6 @@
 import 'src/element.dart';
-import 'src/exec_future.dart' if (dart.library.io) 'src/exec_isolate.dart';
 import 'src/matcher.dart';
-import 'src/parser.dart';
+import 'src/parser_web.dart' if (dart.library.io) 'src/parser_io.dart';
 
 export 'src/element.dart';
 export 'src/matcher.dart';
@@ -67,7 +66,7 @@ class TextParser {
     }
 
     return useIsolate
-        ? exec(parser: _parser, text: text, onlyMatches: onlyMatches)
-        : execFuture(parser: _parser, text: text, onlyMatches: onlyMatches);
+        ? _parser.parseInIsolate(text, onlyMatches: onlyMatches)
+        : _parser.parseAsync(text, onlyMatches: onlyMatches);
   }
 }

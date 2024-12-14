@@ -3,8 +3,8 @@ import 'matcher.dart';
 
 const _kMatcherGroupPrefix = '__mg__';
 
-class Parser {
-  Parser({
+class ParserBody {
+  ParserBody({
     required Iterable<TextMatcher> matchers,
     required this.multiLine,
     required this.caseSensitive,
@@ -112,5 +112,15 @@ class Parser {
     }
 
     return list;
+  }
+
+  Future<List<TextElement>> parseAsync(
+    String text, {
+    required bool onlyMatches,
+  }) async {
+    // Avoids blocking the UI.
+    // https://github.com/flutter/flutter/blob/978a2e7bf6a2ed287130af8dbd94cef019fb7bef/packages/flutter/lib/src/foundation/_isolates_web.dart#L9-L12
+    await null;
+    return parse(text, onlyMatches: onlyMatches);
   }
 }
