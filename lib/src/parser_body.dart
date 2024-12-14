@@ -39,11 +39,11 @@ class ParserBody {
     var groupIndexStart = 2;
     final patterns = <String>[];
 
-    for (var i = 0; i < matchers.length; i++) {
+    for (final (i, element) in matchers.indexed) {
       final groupName = '$_kMatcherGroupPrefix$i';
       _matcherGroupNames.add(groupName);
 
-      var pattern = matchers.elementAt(i).pattern;
+      var pattern = element.pattern;
       if (pattern.isEmpty) {
         // Expression that does not match anything.
         pattern = '(?!)';

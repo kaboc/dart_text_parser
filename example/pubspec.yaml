@@ -2,11 +2,11 @@ name: text_parser_example
 description: An example of text_parser.
 
 environment:
-  sdk: '>=2.18.0 <4.0.0'
+  sdk: '>=3.2.0 <4.0.0'
 
 dependencies:
   text_parser:
     path: ../
 
 dev_dependencies:
-  lints: ^2.0.1
+  lints: ^4.0.0
