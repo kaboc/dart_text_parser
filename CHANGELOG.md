@@ -1,3 +1,13 @@
+## 2.4.0
+
+- Bump minimum Dart SDK version to 3.2.0.
+- Add `parseSync()` to TextParser.
+- Update tests to use `parseSync()` instead of `parse()`.
+- Refactorings:
+    - Rename internal `Parser` to `ParserBody`.
+    - Add new `Parser` extending `ParserBody` to each of the files for web and non-web.
+    - Move TextParser from the root to `src/`.
+
 ## 2.3.0
 
 - Change `matchers` of TextParser from `List` to `Iterable`.

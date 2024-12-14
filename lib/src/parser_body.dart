@@ -20,9 +20,9 @@ class ParserBody {
   final bool dotAll;
 
   late Iterable<TextMatcher> _matchers;
+  late String _pattern;
   final List<String> _matcherGroupNames = [];
   final List<List<int>> _matcherGroupRanges = [];
-  late String _pattern;
 
   List<TextMatcher> get matchers => List.unmodifiable(_matchers);
 

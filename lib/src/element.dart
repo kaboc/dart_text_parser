@@ -113,7 +113,6 @@ extension on List<String?> {
         return false;
       }
     }
-
     return true;
   }
 }

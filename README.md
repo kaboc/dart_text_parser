@@ -48,8 +48,7 @@ TextElement(matcherType: TelMatcher, matcherIndex 2, offset: 61, text: +1-012-34
 ```
 
 The regular expression pattern of each of them is not very strict. If it does not meet
-your use case, overwrite the pattern by yourself to make it stricter, referring to the
-relevant section later in this document.
+your use case, overwrite the pattern by yourself to make it stricter.
 
 #### parse() vs parseSync()
 
@@ -71,8 +70,8 @@ etc). If you want them to be matched too, use [UrlLikeMatcher] instead.
 
 #### matcherType and matcherIndex
 
-`matcherType` contained in a [TextElement] object is the type of the matcher used
-to parse the text into the element. `matcherIndex` is the index of the matcher in
+`matcherType` contained in a [TextElement] object is the type of the matcher that
+was used to extract the element. `matcherIndex` is the index of the matcher in
 the matcher list passed to the `matchers` argument of [TextParser].
 
 #### Extracting only matching text elements
@@ -109,7 +108,7 @@ final telElements = elements.map((elm) => elm.matcherType == TelMatcher).toList(
 
 #### Conflict between matchers
 
-If multiple matchers have matched the string at the same position in text, the first one
+If multiple matchers match the string at the same position in text, the first one
 in those matchers takes precedence.
 
 ```dart
@@ -121,18 +120,12 @@ In this example, `UrlLikeMatcher` matches `foo.bar` and `EmailMatcher` matches
 `foo.bar@example.com`, but `UrlLikeMatcher` is used because it is written before
 `EmailMatcher` in the matchers list.
 
-### Overwriting the pattern of an existing matcher
+### Overwriting the pattern of a preset matcher
 
-If you want to parse only URLs and phone numbers, but treat only a sequence of eleven numbers
-after "tel:" as a phone number:
+If you want to parse a sequence of eleven numbers after "tel:" as a phone number:
 
 ```dart
-final parser = TextParser(
-  matchers: const [
-    UrlMatcher(),
-    TelMatcher(r'(?<=tel:)\d{11}'),
-  ],
-);
+TelMatcher(r'(?<=tel:)\d{11}')
 ```
 
 ### Using a custom pattern
@@ -189,8 +182,8 @@ Output:
 ### ExactMatcher
 
 `ExactMatcher` escapes reserved characters of RegExp so that those are used
-as ordinary characters. The parser extracts the substrings that exactly match
-any of the strings in the passed list.
+as regular characters. The parser extracts the substrings that exactly match
+any of the strings in the list passed as the argument.
 
 ```dart
 TextParser(
@@ -251,16 +244,8 @@ How a regular expression is treated can be configured in the `TextParser` constr
 - unicode
 - dotAll
 
-These options are passed to [RegExp][RegExp] internally, so refer to its
-[document][RegExp_constructor] for information.
-
-## Limitations
-
-- This package uses regular expressions. The speed of parsing is subject to the
-  performance of `RegExp` in Dart. It will take more time to parse longer text with
-  multiple complex match patterns.
-- On the web, parsing is always executed in the main thread because Flutter Web does
-  not support [dart:isolate][isolate].
+These options are passed to the constructor of [RegExp][RegExp] internally, so
+refer to its [document][RegExp_constructor] for information.
 
 [TextParser]: https://pub.dev/documentation/text_parser/latest/text_parser/TextParser-class.html
 [TextParser_matchers]: https://pub.dev/documentation/text_parser/latest/text_parser/TextParser/matchers.html
