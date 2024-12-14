@@ -40,12 +40,7 @@ class TextParser {
 
   set matchers(List<TextMatcher> matchers) => _parser.update(matchers);
 
-  /// Parses the provided [text] according to the matchers specified in
-  /// the constructor.
-  ///
-  /// The result contains all the elements in text including the ones
-  /// not matching any pattern provided by matchers unless [onlyMatches]
-  /// is set to `true` explicitly.
+  /// {@macro TextParser.parse}
   ///
   /// Parsing is executed in an isolate by default except on the web,
   /// which dart:isolate does not support. It is for preventing the
@@ -64,5 +59,17 @@ class TextParser {
     return useIsolate
         ? _parser.parseInIsolate(text, onlyMatches: onlyMatches)
         : _parser.parseAsync(text, onlyMatches: onlyMatches);
+  }
+
+  /// {@template TextParser.parse}
+  /// Parses the provided [text] according to the matchers specified in
+  /// the constructor.
+  ///
+  /// The result contains all the elements in text including the ones
+  /// not matching any pattern provided by matchers unless [onlyMatches]
+  /// is set to `true` explicitly.
+  /// {@endtemplate}
+  List<TextElement> parseSync(String text, {bool onlyMatches = false}) {
+    return text.isEmpty ? [] : _parser.parse(text, onlyMatches: onlyMatches);
   }
 }

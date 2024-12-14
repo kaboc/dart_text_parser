@@ -20,7 +20,7 @@ Below is an example of using three of the preset matchers except for `UrlLikeMat
 ```dart
 import 'package:text_parser/text_parser.dart';
 
-Future<void> main() async {
+void main() {
   const text = 'abc https://example.com/sample.jpg. def\n'
       'john.doe@example.com +1-012-3456-7890';
 
@@ -31,7 +31,7 @@ Future<void> main() async {
       TelMatcher(),
     ],
   );
-  final elements = await parser.parse(text);
+  final elements = parser.parseSync(text);
   elements.forEach(print);
 }
 ```
@@ -51,6 +51,19 @@ The regular expression pattern of each of them is not very strict. If it does no
 your use case, overwrite the pattern by yourself to make it stricter, referring to the
 relevant section later in this document.
 
+#### parse() vs parseSync()
+
+[parseSync()][parseSync] literally executes parsing synchronously. If you want
+to prevent an execution from blocking the UI in Flutter or pauses other tasks
+in pure Dart, use [parse()][parse] instead.
+
+- `useIsolate: false`
+    - Parsing is scheduled as a microtask.
+- `useIsolate: true` (default)
+    - Parsing is executed in an [isolate][isolate].
+    - On Flutter Web, this is treated the same as `useIsolate: false` since
+      dart:isolate is not supported on the platform.
+
 #### UrlMatcher vs UrlLikeMatcher
 
 [UrlMatcher] does not match URLs not starting with "http" (e.g. `example.com`, `//example.com`,
@@ -64,13 +77,13 @@ the matcher list passed to the `matchers` argument of [TextParser].
 
 #### Extracting only matching text elements
 
-By default, the result of [parse()][parse] contains all elements including the ones that
-have [TextMatcher][TextMatcher] as `matcherType`, which are elements of a string that
-did not match any match pattern. If you want to exclude them, set `onlyMatches` to `true`
-when calling `parse()`.
+By default, the result of [parse()][parse] or [parseSync()][parseSync] contains
+all elements including the ones that have [TextMatcher][TextMatcher] as `matcherType`,
+which are elements of a string that did not match any match pattern. If you want
+to exclude them, pass `onlyMatches: true` when calling `parse()` or `parseSync()`.
 
 ```dart
-final elements = await parser.parse(text, onlyMatches: true);
+final elements = parser.parseSync(text, onlyMatches: true);
 elements.forEach(print);
 ```
 
@@ -101,7 +114,7 @@ in those matchers takes precedence.
 
 ```dart
 final parser = TextParser(matchers: const[UrlLikeMatcher(), EmailMatcher()]);
-final elements = await parser.parse('foo.bar@example.com');
+final elements = parser.parseSync('foo.bar@example.com');
 ```
 
 In this example, `UrlLikeMatcher` matches `foo.bar` and `EmailMatcher` matches
@@ -163,7 +176,7 @@ final parser = TextParser(
   matchers: const [ATagMatcher()],
   dotAll: true,
 );
-final elements = await parser.parse(text, onlyMatches: true);
+final elements = parser.parseSync(text, onlyMatches: true);
 print(elements.first.groups);
 ```
 
@@ -219,7 +232,7 @@ named groups.
 final parser = TextParser(
   matchers: const [PatternMatcher(r'(?<year>\d{4})-(\d{2})-(?<day>\d{2})')],
 );
-final elements = await parser.parse('2020-01-23');
+final elements = parser.parseSync('2020-01-23');
 print(elements.first);
 ```
 
@@ -259,6 +272,7 @@ These options are passed to [RegExp][RegExp] internally, so refer to its
 [ExactMatcher]: https://pub.dev/documentation/text_parser/latest/text_parser/ExactMatcher-class.html
 [PatternMatcher]: https://pub.dev/documentation/text_parser/latest/text_parser/PatternMatcher-class.html
 [parse]: https://pub.dev/documentation/text_parser/latest/text_parser/TextParser/parse.html
+[parseSync]: https://pub.dev/documentation/text_parser/latest/text_parser/TextParser/parseSync.html
 [TextElement]: https://pub.dev/documentation/text_parser/latest/text_parser/TextElement-class.html
 [TextElement_groups]: https://pub.dev/documentation/text_parser/latest/text_parser/TextElement/groups.html
 [isolate]: https://api.dartlang.org/stable/dart-isolate/dart-isolate-library.html

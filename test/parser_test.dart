@@ -28,8 +28,8 @@ void main() {
       expect(stopwatch.elapsedMicroseconds, lessThan(1000));
     });
 
-    test('parsed correctly with preset matchers', () async {
-      final elements = await parser.parse(
+    test('parsed correctly with preset matchers', () {
+      final elements = parser.parseSync(
         'abc https://example.com/sample.jpg. def\n'
         'john.doe@example.com 911',
       );
@@ -61,17 +61,17 @@ void main() {
       expect(elements[5].matcherType, TelMatcher);
     });
 
-    test('earlier matcher is used if multiple ones match a string', () async {
-      final elements1 = await TextParser(
+    test('earlier matcher is used if multiple ones match a string', () {
+      final elements1 = TextParser(
         matchers: const [EmailMatcher(), UrlLikeMatcher()],
-      ).parse('abc john.doe@example.com');
+      ).parseSync('abc john.doe@example.com');
 
       expect(elements1, hasLength(2));
       expect(elements1[1].matcherType, EmailMatcher);
 
-      final elements2 = await TextParser(
+      final elements2 = TextParser(
         matchers: const [UrlLikeMatcher(), EmailMatcher()],
-      ).parse('abc john.doe@example.com');
+      ).parseSync('abc john.doe@example.com');
 
       expect(elements2, hasLength(4));
       expect(elements2[1].text, 'john.doe');
@@ -82,8 +82,8 @@ void main() {
       expect(elements2[3].matcherType, UrlLikeMatcher);
     });
 
-    test('parsed into a single element if there is no match', () async {
-      final elements = await parser.parse('abcde');
+    test('parsed into a single element if there is no match', () {
+      final elements = parser.parseSync('abcde');
 
       expect(elements, hasLength(1));
       expect(elements[0].text, 'abcde');
@@ -92,14 +92,14 @@ void main() {
       expect(elements[0].matcherType, TextMatcher);
     });
 
-    test('elements have correct matcherIndex', () async {
-      final elements = await TextParser(
+    test('elements have correct matcherIndex', () {
+      final elements = TextParser(
         matchers: const [
           PatternMatcher('pattern1'),
           PatternMatcher('pattern2'),
           PatternMatcher('pattern3'),
         ],
-      ).parse('pattern3pattern1');
+      ).parseSync('pattern3pattern1');
 
       expect(elements, hasLength(2));
       expect(elements[0].text, 'pattern3');
@@ -112,9 +112,9 @@ void main() {
       expect(elements[1].matcherIndex, 0);
     });
 
-    test('groups are caught correctly', () async {
+    test('groups are caught correctly', () {
       parser.matchers = const [_GroupingTelMatcher()];
-      final elements = await parser.parse('abc012(3456)7890def');
+      final elements = parser.parseSync('abc012(3456)7890def');
       expect(elements[0].text, 'abc');
       expect(elements[0].groups, isEmpty);
       expect(elements[1].text, '012(3456)7890');
@@ -123,11 +123,11 @@ void main() {
       expect(elements[2].groups, isEmpty);
     });
 
-    test('named groups are caught correctly', () async {
+    test('named groups are caught correctly', () {
       parser.matchers = const [
         PatternMatcher(r'(?<year>\d{4})-(?<month>\d{1,2})-(?<day>\d{1,2})'),
       ];
-      final elements = await parser.parse('abc2022-01-23def');
+      final elements = parser.parseSync('abc2022-01-23def');
       expect(elements[0].text, 'abc');
       expect(elements[0].groups, isEmpty);
       expect(elements[1].text, '2022-01-23');
@@ -138,14 +138,14 @@ void main() {
 
     test(
       'complex patterns with no group, unnamed and named groups work correctly',
-      () async {
+      () {
         parser.matchers = const [
           _GroupingTelMatcher(),
           UrlMatcher('(https?)://([a-z]+.[a-z]+)/'),
           // This matcher uses both unnamed and named groups.
           PatternMatcher(r'(?<year>\d{4})-(\d{1,2})-(?<day>\d{1,2})'),
         ];
-        final elements = await parser.parse(
+        final elements = parser.parseSync(
           'abc012(3456)7890def https://example.com/ 2022-01-23',
         );
         expect(elements[0].text, 'abc');
@@ -163,10 +163,10 @@ void main() {
       },
     );
 
-    test('offsets are set correctly when onlyMatches is false', () async {
+    test('offsets are set correctly when onlyMatches is false', () {
       const text =
           'abc https://example.com/sample.jpg. def\nfoo@example.com 911';
-      final elements = await parser.parse(text);
+      final elements = parser.parseSync(text);
       expect(elements, hasLength(6));
 
       var result = '';
@@ -177,10 +177,10 @@ void main() {
       expect(result, text);
     });
 
-    test('offsets are set correctly when onlyMatches is true', () async {
+    test('offsets are set correctly when onlyMatches is true', () {
       const text =
           'abc https://example.com/sample.jpg. def\nfoo@example.com 911';
-      final elements = await parser.parse(text, onlyMatches: true);
+      final elements = parser.parseSync(text, onlyMatches: true);
       expect(elements, hasLength(3));
 
       for (final elm in elements) {
@@ -191,14 +191,14 @@ void main() {
     // https://github.com/kaboc/dart_text_parser/pull/8
     test(
       'lookbehind assertion matches string right next to previous match.',
-      () async {
+      () {
         const text = 'abc123def';
-        final elements = await TextParser(
+        final elements = TextParser(
           matchers: const [
             _AlphabetsMatcher(),
             PatternMatcher(r'(?<=[a-z])\d+'),
           ],
-        ).parse(text);
+        ).parseSync(text);
 
         expect(elements[0].text, 'abc');
         expect(elements[0].matcherType, _AlphabetsMatcher);
@@ -241,72 +241,82 @@ void main() {
   });
 
   group('options', () {
-    test('dotAll', () async {
+    test('dotAll', () {
       const text = 'aaa // bbb\nccc';
 
-      var elements = await TextParser(
+      var elements = TextParser(
         matchers: [const _LineCommentMatcher1()],
-      ).parse(text, onlyMatches: true);
+      ).parseSync(text, onlyMatches: true);
+
       expect(elements[0].text, '// bbb');
 
-      elements = await TextParser(
+      elements = TextParser(
         matchers: [const _LineCommentMatcher1()],
         dotAll: true,
-      ).parse(text, onlyMatches: true);
+      ).parseSync(text, onlyMatches: true);
+
       expect(elements[0].text, '// bbb\nccc');
     });
 
-    test('multiline', () async {
+    test('multiline', () {
       const text = 'aaa // bbb\nccc';
 
-      var elements = await TextParser(
+      var elements = TextParser(
         matchers: [const _LineCommentMatcher1()],
         dotAll: true,
         multiLine: true,
-      ).parse(text, onlyMatches: true);
+      ).parseSync(text, onlyMatches: true);
+
       expect(elements[0].text, '// bbb\nccc');
 
-      elements = await TextParser(
+      elements = TextParser(
         matchers: [const _LineCommentMatcher2()],
         dotAll: true,
-      ).parse(text, onlyMatches: true);
+      ).parseSync(text, onlyMatches: true);
+
       expect(elements[0].text, '// bbb\nccc');
 
-      elements = await TextParser(
+      elements = TextParser(
         matchers: [const _LineCommentMatcher2()],
         dotAll: true,
         multiLine: true,
-      ).parse(text, onlyMatches: true);
+      ).parseSync(text, onlyMatches: true);
+
       expect(elements[0].text, '// bbb');
     });
 
-    test('caseSensitive', () async {
+    test('caseSensitive', () {
       const text = 'aaa // BBB\ncCc';
 
-      var elements = await TextParser(matchers: [const _AlphabetsMatcher()])
-          .parse(text, onlyMatches: true);
+      var elements = TextParser(matchers: [const _AlphabetsMatcher()])
+          .parseSync(text, onlyMatches: true);
       expect(elements.map((v) => v.text).toList(), ['aaa', 'c', 'c']);
 
-      elements = await TextParser(
+      elements = TextParser(
         matchers: [const _AlphabetsMatcher()],
         caseSensitive: false,
-      ).parse(text, onlyMatches: true);
+      ).parseSync(text, onlyMatches: true);
+
       expect(
         elements.map((v) => v.text).toList(),
         ['aaa', 'BBB', 'cCc'],
       );
     });
 
-    test('unicode', () async {
+    test('unicode', () {
       const text = 'abc123def';
 
-      var elements = await TextParser(matchers: [const _UnicodeMatcher()])
-          .parse(text, onlyMatches: true);
+      var elements = TextParser(
+        matchers: [const _UnicodeMatcher()],
+      ).parseSync(text, onlyMatches: true);
+
       expect(elements, isEmpty);
 
-      elements =
-          await TextParser(matchers: [const _UnicodeMatcher()], unicode: true)
-              .parse(text, onlyMatches: true);
+      elements = TextParser(
+        matchers: [const _UnicodeMatcher()],
+        unicode: true,
+      ).parseSync(text, onlyMatches: true);
+
       expect(elements[0].text, '123');
     });
   });

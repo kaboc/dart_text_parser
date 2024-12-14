@@ -1,6 +1,6 @@
 import 'package:text_parser/text_parser.dart';
 
-Future<void> main() async {
+void main() {
   const text = '''
     abc https://example.com/sample.jpg. def
     john.doe@example.com 911 +1-012-3456-7890
@@ -18,7 +18,7 @@ Future<void> main() async {
       TelMatcher(),
     ],
   );
-  var elements = await parser.parse(text);
+  var elements = parser.parseSync(text);
   elements.forEach(print);
 
   print('-' * 20);
@@ -31,13 +31,13 @@ Future<void> main() async {
 
   // Replacing matchers with new ones
   parser.matchers = const [TelMatcher(r'(?<=tel:)\d{11}')];
-  elements = await parser.parse(text);
+  elements = parser.parseSync(text);
   elements.forEach(print);
 
   print('-' * 20);
 
   // Obtaining only matching elements
-  elements = await parser.parse(text, onlyMatches: true);
+  elements = parser.parseSync(text, onlyMatches: true);
   elements.forEach(print);
 
   print('-' * 20);
@@ -49,7 +49,7 @@ Future<void> main() async {
       PatternMatcher('Pattern B'),
     ],
   );
-  elements = await parser.parse('Pattern A & Pattern B');
+  elements = parser.parseSync('Pattern A & Pattern B');
   elements.forEach(print);
 
   print('-' * 20);
@@ -66,7 +66,7 @@ Future<void> main() async {
       PatternMatcher(r'(?<year>\d{4})-(\d{2})-(?<day>\d{2})'),
     ],
   );
-  elements = await parser.parse('2020-01-23', onlyMatches: true);
+  elements = parser.parseSync('2020-01-23', onlyMatches: true);
   elements.forEach(print);
 
   print('-' * 20);
@@ -74,7 +74,7 @@ Future<void> main() async {
   // Custom matcher for <a> tags
   // (`dotAll` is enabled to make '.' match line endings too)
   parser = TextParser(matchers: const [ATagMatcher()], dotAll: true);
-  elements = await parser.parse(text, onlyMatches: true);
+  elements = parser.parseSync(text, onlyMatches: true);
   elements.forEach(print);
 }
 

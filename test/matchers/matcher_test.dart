@@ -49,7 +49,7 @@ void main() {
       );
     });
 
-    test('correctly parsed with matchers containing empty pattern', () async {
+    test('correctly parsed with matchers containing empty pattern', () {
       final parser = TextParser(
         matchers: const [
           PatternMatcher('(bbb)'),
@@ -57,7 +57,7 @@ void main() {
           PatternMatcher('(ddd)'),
         ],
       );
-      final elements = await parser.parse('aaabbbcccdddeee');
+      final elements = parser.parseSync('aaabbbcccdddeee');
 
       expect(elements, hasLength(5));
       expect(elements[0], const TextElement('aaa'));
