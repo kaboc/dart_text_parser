@@ -14,10 +14,8 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: dart-lang/setup-dart@v1
-        with:
-          sdk: stable
       - name: Install dependencies
         run: dart pub get
       - name: Check format
@@ -30,4 +28,6 @@ jobs:
           dart pub global activate coverage
           dart run coverage:format_coverage --report-on=lib --lcov -i coverage/test -o coverage/lcov.info
       - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v3
+        uses: codecov/codecov-action@v5
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
